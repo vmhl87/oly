@@ -1,31 +1,22 @@
 #include <iostream>
-
-//#include <unordered_set>
 #include <bitset>
 #define N_BITS 2000
-
 using namespace std;
 
 int main(){
     int n_cows,moves,tmp,c1,c2;
     cin >> n_cows >> moves;
     int cows[n_cows], m_iter[n_cows];
-    
-    //unordered_set<int> visits[n_cows];
     bitset<N_BITS> visits[n_cows];
-    //for(int i=0;i<n_cows;i++) visits[i].insert(i);
-    for(int i=0;i<n_cows;i++) visits[i].set(i);
-    
-    for(int i=0;i<n_cows;i++) cows[i]=i;
-    for(int i=0;i<n_cows;i++) m_iter[i]=0;
+    for(int i=0;i<n_cows;i++){
+        visits[i].set(i);
+        cows[i]=i;
+        m_iter[i]=0;
+    }
     for(int i=0;i<moves;i++){
         cin >> c1 >> c2;
-        
-        //visits[cows[c1-1]].insert(c2-1);
-        //visits[cows[c2-1]].insert(c1-1);
         visits[cows[c1-1]].set(c2-1);
         visits[cows[c2-1]].set(c1-1);
-        
         tmp = cows[c1-1];
         cows[c1-1] = cows[c2-1];
         cows[c2-1] = tmp;
@@ -61,16 +52,10 @@ int main(){
     }
     //for(int i=0;i<n_cows;i++)cout<<m_iter[i]<<'\n';return 1;
     for(int i=0;i<n_cows;i++){
-        
-        //unordered_set<int> visited;
         bitset<N_BITS> visited;
-        
         int idx=i;
         for(int j=0;j<m_iter[i];j++){
-            
-            //for(int k:visits[idx])visited.insert(k);
             visited |= visits[idx];
-            
             idx=cows[idx];
         }
         cout << visited.count() << '\n';
