@@ -16,7 +16,7 @@ void test_case(){
 			if not, decrement all cows before index in a
 			deterministic pattern
 	*/
-	int count=0; //bags of corn used
+	long long count=0; //bags of corn used
 	for(int index=0;index<n_cows-1;index++){
 		if(cows[index]==cows[index+1]) continue;
 		if(cows[index]<cows[index+1]){
@@ -55,7 +55,7 @@ void test_case(){
 int main(){
 	int cases;
 	cin >> cases;
-	for(int i=0;i<cases;i++){
+	for(int j=0;j<cases;j++){
 		test_case();
 	}
 	return 1;
