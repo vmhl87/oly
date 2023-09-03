@@ -1,63 +1,48 @@
 #include <iostream>
-#include <unordered_set>
-#define X *n_cows+
+#include <set>
 using namespace std;
 
 int main(){
-    long long n_cows,moves,tmp,c1,c2;
+    int n_cows,moves,tmp,c1,c2;
     cin >> n_cows >> moves;
-    long long* cows = new long long[n_cows];
-    long long* move_map = new long long[moves*2];
-    bool* pos = new bool[n_cows*n_cows];
-    // unordered_set<long long>* pos = new unordered_set<long long>[n_cows];
-    bool* fin = new bool[n_cows];
-    for(long long i=0;i<n_cows;i++){
-    	fin[i]=false;
+    int cows[n_cows], ret[n_cows];
+    set<int> visits[n_cows];
+    for(int i=0;i<n_cows;i++){
+        visits[i].insert(i);
         cows[i]=i;
-        // pos[i].insert(i);
-        for(int j=0;j<n_cows;j++)pos[i X j]=false;
-        pos[i X i]=true;
+        ret[i]=0;
     }
-    for(long long i=0;i<moves;i++){
+    for(int i=0;i<moves;i++){
         cin >> c1 >> c2;
-        fin[c1-1]=true;
-        fin[c2-1]=true;
-        move_map[i*2]=c1-1;
-        move_map[i*2+1]=c2-1;
+        visits[cows[c1-1]].insert(c2-1);
+        visits[cows[c2-1]].insert(c1-1);
+        swap(cows[c1-1], cows[c2-1]);
     }
-    bool a=true;
-    while(a){
-    	a=false;
-    	for(long long i=0;i<moves;i++){
-    		// pos[cows[move_map[i*2]]].insert(move_map[i*2+1]);
-    		// pos[cows[move_map[i*2+1]]].insert(move_map[i*2]);
-    		pos[cows[move_map[i*2]] X move_map[i*2+1]]=true;
-    		pos[cows[move_map[i*2+1]] X move_map[i*2]]=true;
-    		tmp=cows[move_map[i*2]];
-    		cows[move_map[i*2]]=cows[move_map[i*2+1]];
-    		cows[move_map[i*2+1]]=tmp;
-    	}
-    	for(long long i=0;i<n_cows;i++){
-    		if(cows[i]==i)fin[cows[i]]=false;
-    	}
-    	tmp=0;
-    	while(tmp<n_cows){
-    		tmp++;
-    		if(fin[tmp]){
-    			a=true;
-    			tmp=n_cows;
-    		}
-    	}
+    int bound=0;
+    bool chosen[n_cows];
+    while(bound<n_cows){
+        for(int i=bound;i<=n_cows;i++){
+            bound=i;
+            if(ret[i]==0)break;
+        }
+        if(bound==n_cows)break;
+        //cout<<"checking "<<bound<<'\n';
+        //for(int i=0;i<n_cows;i++)cout<<m_iter[i]<<'\n';
+        int cur=bound,ct=0;
+        for(int i=0;i<n_cows;i++)chosen[i]=false;
+        chosen[cur]=true;
+        while(!chosen[cows[cur]]){
+            chosen[cows[cur]]=true;
+            cur=cows[cur];
+        }
+        set<int> all_pos;
+        for(int i=0;i<n_cows;i++)
+        	if(chosen[i])
+        		for(int c:visits[i])all_pos.insert(c);
+		ct=all_pos.size();
+        for(int i=0;i<n_cows;i++)
+            if(chosen[i])ret[i]=ct;
     }
-    delete[] fin;
-    delete[] cows;
-    delete[] move_map;
-    for(long long i=0;i<n_cows;i++){
-		tmp=0;
-		for(int j=0;j<n_cows;j++)if(pos[i X j])tmp++;
-		cout << tmp << '\n';
-		// cout << pos[i].size() << '\n';
-    }
-    delete[] pos;
+    for(int i=0;i<n_cows;i++)cout<<ret[i]<<'\n';
     return 1;
 }
