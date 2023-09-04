@@ -19,7 +19,6 @@ int main(){
 	}
 	int r[n],loops[n];
 	for(int i=0;i<n;i++)r[cows[i]]=i;
-	//for(int i=0;i<n;i++)cout<<r[i];cout<<'\n';
 	for(int i=0;i<n;i++)loops[i]=0;
 	int bound=0;
 	while(bound<n){
@@ -32,7 +31,6 @@ int main(){
 			cur=r[cur];
 		}
 		cur=visited.size();
-		//cout<<bound<<':';for(int cow:visited)cout<<cow;cout<<' ';
 		for(int cow:visited)loops[cow]=cur;
 		bound++;
 		for(int i=bound;i<n;i++){
