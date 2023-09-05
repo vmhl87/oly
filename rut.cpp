@@ -44,12 +44,6 @@ int main(){
 		if(c=='E')e_cows.push_back(tmp);
 		else n_cows.push_back(tmp);
 	}
-	sort(e_cows.begin(),e_cows.end(),comp_e_cows);
-	sort(n_cows.begin(),n_cows.end(),comp_n_cows);
-	//for(struct cow c:e_cows)
-	//	cout<<c.id<<' '<<c.x<<' '<<c.y<<'\n';cout<<'\n';
-	//for(struct cow c:n_cows)
-	//	cout<<c.id<<' '<<c.x<<' '<<c.y<<'\n';cout<<'\n';
 	vector<struct event> events;
 	for(struct cow e_cow:e_cows)
 		for(struct cow n_cow:n_cows)
@@ -69,8 +63,6 @@ int main(){
 				events.push_back(tmp);
 			}
 	sort(events.begin(),events.end(),comp_events);
-	//for(struct event e:events)
-	//	cout<<e.time<<' '<<e.upper<<' '<<e.lower<<'\n';
 	int ret[n];
 	for(int i=0;i<n;i++)ret[i]=-1;
 	for(struct event e:events){
