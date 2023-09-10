@@ -67,7 +67,7 @@ int main(){
 	for(int i=0;i<n;i++)ret[i]=-1;
 	for(struct event e:events){
 		if(ret[e.lower]>-1)continue;
-		if(ret[e.upper]==-1||ret[e.upper]>=e.bound)
+		if(ret[e.upper]<0||ret[e.upper]>=e.bound)
 			ret[e.lower]=e.time;
 	}
 	for(int i=0;i<n;i++){
