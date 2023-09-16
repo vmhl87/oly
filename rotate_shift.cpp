@@ -16,10 +16,8 @@ int main(){
 		map[tmp]=A;tmp=A;
 	}
 	map[tmp]=B;
-//for(int m:map)cout<<m;cout<<'\n';
 	for(int i=0;i<n;i++){if(map[i]==0)map[i]=n-1;else map[i]--;}
 	int g_offset=t%n;
-//for(int m:map)cout<<m;cout<<'\n'<<g_offset<<'\n';
 	for(int i=0;i<n;i++){
 		if(set[i])continue;
 		int cur=map[i],len=1,ct=1;
@@ -28,7 +26,6 @@ int main(){
 			reached[ct]=cur;ct++;
 			cur=map[cur];len++;
 		}
-//cout<<"cyc ";for(int i=0;i<ct;i++)cout<<reached[i];cout<<'\n';
 		for(int i=0;i<ct;i++){
 			cow_pos[(reached[(i+t)%len]+g_offset)%n]=reached[i];
 			set[reached[i]]=true;

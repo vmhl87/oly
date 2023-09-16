@@ -1,6 +1,12 @@
 #include <iostream>
-#include <vector>
 using namespace std;
+
+typedef struct ll* llptr;
+
+struct ll{
+	long long v;
+	llptr next;
+};
 
 int main(){
 	int N,n=0;
@@ -10,30 +16,40 @@ int main(){
 		cin>>val[i];
 		if(val[i]>n)n=val[i];
 	}
-	n+=3;
-	vector<int> values;
-	values.push_back(1);
-	int i=0;
-	while(i<n){
-		int f[3]={2,3,5};
-		for(int v:f){
-			bool a=true;
-			for(int j=i+1;j<values.size();j++){
-				if(values[j]==values[i]*v||j>n){
-					a=false;break;
-				}
-				if(values[j]>values[i]*v){
+	llptr head=new ll,s;
+	head->v=1;
+	llptr* cur=&head;
+	for(int i=0;i<n;i++){
+		long long f[3]={(*cur)->v*2,(*cur)->v*3,(*cur)->v*5};
+		for(long long x:f){
+			s=*cur;bool a=true;int in=i;
+			while(s->next){
+				if(++in>n){a=false;break;}
+				if(x<=(s->next)->v){
 					a=false;
-					values.insert(values.begin()+j,values[i]*v);
+					if(x==(s->next)->v)break;
+					llptr tmp=s->next;
+					s->next=new ll;
+					(s->next)->v=x;
+					(s->next)->next=tmp;
 					break;
 				}
+				s=s->next;
 			}
-			if(a)values.push_back(values[i]*v);
+			if(a){
+				s->next=new ll;
+				(s->next)->v=x;
+			}
 		}
-		i++;
+		cur=&(*cur)->next;
 	}
-	int s=0;
-	for(int i=0;i<N;i++)s+=values[val[i]];
-	cout<<s<<'\n';
+	llptr p=head,vals[n];
+	long long sum=0;int ct=0;
+	while(p&&ct<n){
+		vals[ct++]=p;
+		p=p->next;	
+	}
+	for(int j=0;j<N;j++)sum+=vals[val[j]-1]->v;
+	cout<<sum<<'\n';
 	return 0;
 }
