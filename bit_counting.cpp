@@ -2,7 +2,7 @@
 using namespace std;
 
 int main(){
-	long long n,k,ret=0;
+	long long n,k,ret=0,MOD=1000000007;
 	cin>>n>>k;
 	for(long long i=1;i<=n;i*=k){ // loop thru place values
 	
@@ -40,6 +40,6 @@ int main(){
 		ret+=i*((((n+1)/i)+k-2)/k);
 		if(((n+1)/i)%k==1)ret+=(n+1)%i;
 	}
-	cout<<ret<<'\n';
+	cout<<ret%MOD<<'\n';
 	return 0;
 }
