@@ -5,32 +5,6 @@
 using namespace std;
 #define DEBUG 0
 
-/*
-5 1 15
-NS 0
-NS 3
-S 7
-S 12
-S 17
-
-0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
--     -       +           +              +
-- - --- - - --- --- -------- ----- --------
-
-*/
-
-/*
-3 1 10
-S 10
-NS 3
-S 1
-
-1 2 3 4 5 6 7 8 9 10
-+   -             +
-- - - ----- - ------
-
-*/
-
 struct cow{
 	int w;
 	bool s;
@@ -93,16 +67,19 @@ int main(){
 	}
 if(DEBUG)for(struct event e:events)
 cout<<' '<<e.start<<'-'<<e.end<<'\n';
+	if(events[0].start>A)count+=events[0].start-A;
+	int t=events.size()-1;
+	if(events[t].end<B)count+=B-events[t].end;
 	for(struct event e:events){
 		if(e.start<A&&e.end<A)continue;
-		if(e.start<A&&e.end>=A){
+		if(e.start>B&&e.end>B)break;
+		if(e.start<A&&e.end>=A){	
 			count+=(e.end-A+1);
 		}else if(e.start<=B&&e.end>B){
 			count+=(B-e.start+1);
 		}else{
 			count+=(e.end-e.start+1);
 		}
-		if(e.start>B&&e.end>B)break;
 	}
 	printf("%d\n",count);
 	return 0;
