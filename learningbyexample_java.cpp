@@ -1,7 +1,8 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <stdio.h>
 using namespace std;
+#define DEBUG 0
 
 struct cow{
 	int i;
@@ -13,17 +14,25 @@ bool compCows(struct cow a, struct cow b){
 }
 
 int main(){
+	if(!DEBUG){
+		freopen("learning.in","r",stdin);
+		freopen("learning.out","w",stdout);
+	}
 	int n,a,b;
-	cin>>n>>a>>b;
+	scanf("%d %d %d",&n,&a,&b);
 	struct cow cows[n];
 	for(int i=0;i<n;i++){
-		char c;int t;cin>>c;
-		if(c=='S'){
-			cin>>t;cows[i].spots=true;
+		char s='\n';int w;
+		while(s=='\n')scanf("%c",&s);
+		if(s=='S'){
+			cows[i].spots=true;
+			scanf(" %d",&w);
 		}else{
-			cin>>c;cin>>t;cows[i].spots=false;
+			cows[i].spots=false;
+			scanf("%c",&s);
+			scanf(" %d",&w);
 		}
-		cows[i].i=t;
+		cows[i].i=w;
 	}
 	sort(cows,cows+n,compCows);
 	
@@ -85,7 +94,7 @@ int main(){
 		if(cows[i].spots)ret++;
 	}
 	if(cows[end-1].spots)ret++;
-	cout<<ret<<'\n';
+	printf("%d\n",ret);
 	
 	return 0;
 }
