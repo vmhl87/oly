@@ -27,11 +27,11 @@ ex:
 using namespace std;
 
 int main(){
-	int x0,y0,r,x1,y1,x2,y2;
+	long long x0,y0,r,x1,y1,x2,y2;
 	cin>>x0>>y0>>r>>x1>>y1>>x2>>y2;
-	int total=0,rsq=r*r;
-	for(int i=0;i<=r;i++){
-		int h=floor(sqrt(rsq-i*i)),r=h*2+1;
+	long long total=0,rsq=r*r;
+	for(long long i=0;i<=r;i++){
+		long long h=floor(sqrt(rsq-i*i)),r=h*2+1;
 		if(i>0){
 			r*=2;
 			if(x0-i>x1&&x0-i<x2)r-=min(y0+h+1,max(y0-h,y2))-min(y0+h+1,max(y0-h,y1+1));
