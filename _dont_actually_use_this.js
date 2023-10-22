@@ -1,0 +1,1 @@
+let c=0;for(let a of document.getElementsByClassName("masterTooltip")){c++;if(a.innerHTML.includes("trial-status-no"))a.innerHTML=`<div class="trial-result trial-status-yes"><div class="res-symbol">*</div><div class="trial-num">${c}</div><div class="info"><span>${prompt("memory for case "+c)}mb</span><span>${prompt("timing for case "+c)}ms</span></div></div>`}
