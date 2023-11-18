@@ -27,8 +27,8 @@ int main(){
 		for(int i=0;i<n;i++)metals[i]-=can*r[i];
 		for(int i=0;i<n;i++)if(r[i]>metals[i]){
 			if(rec[i].size()>0){
-				for(int h:rec[i])r[h]=r[i];
-				r[i]=0;
+				for(int h:rec[i])r[h]+=r[i]-metals[i];
+				r[i]=metals[i];
 			}else goto done;
 		}
 	}
