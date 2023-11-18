@@ -10,26 +10,26 @@ bool trap_at(int x,int y){
 }
 
 int main(){
-	int n,m;
-	cin>>n>>m;
-	for(int i=0;i<m;i++){
-		int t,r;cin>>t>>r;
-		traps.insert(to_string(t-1)+','+to_string(r-1));
+	int n;
+	cin>>n;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			char c;cin>>c;
+			if(c=='*')traps.insert(to_string(i)+','+to_string(j));
+		}
 	}
-	int p[n],iter=0;
+	int p[n];
 	bool a=true;
 	for(int i=0;i<n;i++){
 		if(a&&trap_at(0,i))a=false;
 		if(a)p[i]=1;
 		else p[i]=0;
 	}
-	while(n>++iter){
+	for(int iter=1;iter<n;iter++){
 		int t;
 		for(int i=0;i<n;i++){
-			if(i)t=p[i-1];
-			else t=0;
-			p[i]+=t;
-			if(p[i]>1000000006)p[i]%=1000000007;
+			if(i)p[i]+=p[i-1];
+			p[i]%=1000000007;
 			if(trap_at(iter,i))p[i]=0;
 		}
 	}
