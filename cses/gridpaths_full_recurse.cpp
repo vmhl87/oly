@@ -1,39 +1,49 @@
 #include <iostream>
-#include <set>
-#include <string>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
-int count=0,n,m;
-set<string> traps;
+#define M 1000000007
 
-bool trap_at(int x,int y){
-	return traps.count(to_string(x)+','+to_string(y));
-}
+int n,m,ret;
 
-void recurse(int i,int left,int x,int y){
-	if(x==n-1&&y==n-1){
-		cout<<"boop\n";
-		count++;
-		if(count>=1000000007)count=0;
-		return;
+typedef struct tr{
+	int x;
+	int y;
+	int id;
+} tr;
+
+vector<tr> traps;
+
+void rec(vector<int> ts){
+	int x=-1,y=-1,e=ts.size()-1,c=0;
+	if(e>-1){
+		x=traps[ts[e]].x;y=traps[ts[e]].y;
 	}
-	if(y<n-1&&left>0)if(!trap_at(x,y+1)){
-		cout<<x<<','<<y<<"->"<<x<<','<<y+1<<'\n';
-		recurse(i+1,left-1,x,y+1);
-	}else cout<<x<<','<<y<<"->"<<x<<','<<y+1<<"uh oh!\n";
-	if(x<n-1)if(!trap_at(x+1,y)){
-		cout<<x<<','<<y<<"->"<<x+1<<','<<y<<'\n';
-		recurse(i+1,left,x+1,y);
-	}else cout<<x<<','<<y<<"->"<<x+1<<','<<y<<"uh oh!\n";
+	for(tr t:traps){
+		c++;
+		if(t.x==x&&t.y==y)continue;
+		if(t.x>=x&&t.y>=y){
+			ts.push_back(c-1);
+			rec(ts);
+			ts.pop_back();
+		}
+	}
+	cout<<'-';for(int i:ts)cout<<i<<' ';
+	cout<<'\n';
 }
 
 int main(){
 	cin>>n>>m;
 	for(int i=0;i<m;i++){
-		int t,r;cin>>t>>r;
-		traps.insert(to_string(t-1)+','+to_string(r-1));
+		int x,y;tr t;cin>>x>>y;
+		t.x=x-1;t.y=y-1;t.id=i;
+		traps.push_back(t);
 	}
-	recurse(0,n,0,0);
-	cout<<count<<'\n';
-	return 0;
+	ret=1;
+	//for(int i=n*2-2;i>n-1;i--)ret*=i;
+	//for(int i=n-1;i>1;i--)ret/=i;
+	vector<int> v;
+	rec(v);
+	cout<<ret<<'\n';
 }
