@@ -17,7 +17,8 @@ bool diag(tr a,tr b){
 	return a.x+a.y>b.x+b.y;
 }
 
-vector<tr> traps;
+//vector<tr> traps;
+tr *traps;
 
 int inv(long long a,long long p){
 	int p2=1,iter=0,pn=(int)p-2;
@@ -31,15 +32,19 @@ int inv(long long a,long long p){
 	return (int)ret;
 }
 
-int choose(int n,int k){
+int nck(int n,int k){
 	long long num=1,den=1;
 	for(long long i=0;i<k;i++){
 		den=(den*(i+1))%M;
 		num=(num*(n-i))%M;
 	}
-	int invden=inv(den,(long long)M);
-	long long ret=(num*(long long)invden)%M;
+	den=inv(den,(long long)M);
+	long long ret=(num*den)%M;
 	return (int)ret;
+}
+
+int choose(int n,int k){
+	return nck(n,min(k,n-k));
 }
 
 int trav(int xoff,int yoff){
@@ -51,21 +56,21 @@ int trav(int x1,int y1,int x2,int y2){
 }
 
 int main(){
-	cout<<choose(335433,6324)<<'\n';return 0;
+	//for(int i=0;i<=10000;i++)cout<<choose(335433,i)<<'\n';return 0;
 	cin>>n>>m;
+	traps=new tr[m];
+	//traps.reserve(m);
 	for(int i=0;i<m;i++){
-		int x,y;tr t;cin>>x>>y;
-		t.x=x;t.y=y;
-		traps.push_back(t);
+		cin>>traps[i].x>>traps[i].y;
+		//int x,y;tr t;cin>>x>>y;
+		//t.x=x;t.y=y;
+		//traps.push_back(t);
 	}
-	sort(traps.begin(),traps.end(),diag);
-	if(m-1<traps.size()&&traps[m-1].x==1&&traps[m-1].y==1){
-		cout<<0<<'\n';
-		return 0;
-	}
+	sort(traps,traps+m,diag);
 	for(int i=0;i<m;i++){
 		
 	}
 	ret=trav(1,1,n,n);
+	delete[] traps;
 	cout<<ret<<'\n';
 }
