@@ -1,47 +1,31 @@
 #include <iostream>
-#include <algorithm>
 using namespace std;
-
-typedef struct {
-	long long v;
-	int i;
-} p;
-
-bool comp_p(p a,p b){
-	return a.v<b.v;
-}
 
 int main(){
 	int n;cin>>n;
-	p reg[n+1];reg[0].v=0;reg[0].i=-1;
+	long long rsum[n+1];
+	rsum[0]=0;
 	long long sum=0,t;
 	for(int i=0;i<n;i++){
 		cin>>t;
 		sum+=t;
-		reg[i+1].v=sum;
-		reg[i+1].i=i;
+		rsum[i+1]=sum;
 	}
-	sort(reg,reg+n+1,comp_p);
-for(p p:reg)cout<<p.v<<' ';cout<<'\n';
-for(p p:reg)cout<<p.i<<' ';cout<<'\n';
-	int s=0,e=n;
-	long long max=0;bool set=1;
-	for(int i=0;i<=n;i++){
-		for(int j=n;j>=0;j--){
-			long long t=reg[j].v-reg[i].v;
-			if(reg[j].i<reg[i].i)t*=-1;
-			if(i!=j&&(t>max||set)){
-				max=t;set=0;break;
-			}
-		}
+	long long max=0,diff;
+	bool nset=1;
+	int p1=0,p2=0;
+	while(p1<n+1){
+		if(rsum[p1]>rsum[p1+1])p2++;
+		p1++;
+		if(p1==p2)continue;
+		diff=rsum[p1]-rsum[p2];
+		if(diff>max||nset){max=diff;nset=0;}
+	}
+	while(p2<n+1){
+		p2++;
+		if(p1==p2)continue;
+		diff=sum-rsum[p2];
+		if(diff>max)max=diff;
 	}
 	cout<<max<<'\n';
 }
-
-/*
-ns
--1 3 -2 5 3 -5 2 2
-reg
--1 2 0 5 8 3 5 7
--1 -> 8 = 9
-*/
