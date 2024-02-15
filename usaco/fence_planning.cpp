@@ -43,6 +43,5 @@ int main(){
 		if(max<ret||ret<0)ret=max;
 		while(vis[ptr]&&ptr<n)ptr++;
 	}
-	end:
 	cout<<ret<<'\n';
 }
