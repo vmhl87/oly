@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 using namespace std;
 
 #define MOD 1000000007
@@ -40,7 +41,8 @@ long long towerways(int h){
 }
 
 void test_case(){
-	int n;cin>>n;
+	int n;//cin>>n;
+	scanf("%d",&n);
 	cout<<towerways(n)<<'\n';
 }
 

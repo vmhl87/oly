@@ -2,30 +2,17 @@
 using namespace std;
 
 int main(){
+	ios::sync_with_stdio(false);cin.tie(0);
 	int n;cin>>n;
-	long long rsum[n+1];
-	rsum[0]=0;
-	long long sum=0,t;
-	for(int i=0;i<n;i++){
-		cin>>t;
-		sum+=t;
-		rsum[i+1]=sum;
-	}
-	long long max=0,diff;
+	long long max=0,best=0;
 	bool nset=1;
-	int p1=0,p2=0;
-	while(p1<n+1){
-		if(rsum[p1]>rsum[p1+1])p2++;
-		p1++;
-		if(p1==p2)continue;
-		diff=rsum[p1]-rsum[p2];
-		if(diff>max||nset){max=diff;nset=0;}
+	for(int i=0;i<n;i++){
+		long long t;cin>>t;
+		if(max<0)max=0;
+		max+=t;
+		if(max>best||nset){
+			best=max;nset=0;
+		}
 	}
-	while(p2<n+1){
-		p2++;
-		if(p1==p2)continue;
-		diff=sum-rsum[p2];
-		if(diff>max)max=diff;
-	}
-	cout<<max<<'\n';
+	cout<<best<<'\n';
 }
