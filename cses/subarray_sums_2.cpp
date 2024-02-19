@@ -36,18 +36,13 @@ int main(){
 		a.push_back(mp(a[i].v+t,i+1));
 	}
 	sort(a.begin(),a.end());
-//	for(p i:a)cout<<i.v<<','<<i.i<<' ';cout<<'\n';
-	int ret=0;
+	long long ret=0;
 	for(int i=0;i<n;i++){
 		p xp=mp(a[i].v+x,-1);
-		int lbound=lower_bound(a.begin(),a.end(),xp)-a.begin(),
-			ubound=upper_bound(a.begin(),a.end(),xp)-a.begin();
-//		cout<<a[i].v<<','<<a[i].i<<' '<<lbound<<','<<ubound<<':';
-		for(int j=lbound;j<ubound;j++){
-//			cout<<' '<<a[j].v<<','<<a[j].i;
-			if(a[j].i>a[i].i)ret++;
-		}
-//		cout<<'\n';
+		auto lbound=lower_bound(a.begin(),a.end(),xp),
+			ubound=upper_bound(a.begin(),a.end(),xp);
+		long long b2=ubound-upper_bound(lbound,ubound,mp(a[i].v+x,a[i].i));
+		ret+=b2;
 	}
 	cout<<ret<<'\n';
 }
