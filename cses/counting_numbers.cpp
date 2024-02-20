@@ -18,7 +18,7 @@ long long seq(int end,int n){
 
 // n: number to fracture, z: hidden zeroes
 long long fract(long long n,int z){
-//cout<<"  recieved "<<n<<','<<z<<'\n';
+//cout<<"  received "<<n<<','<<z<<'\n';
 	// edge case: n < 10
 	if(n<10){
 		// normally we don't count n
