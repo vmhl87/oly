@@ -1,127 +1,207 @@
+/*  Counting Numbers
+
+	This problem is quite complex! We can break it down into
+	several sub-problems.
+	
+	First, we need to count the number of good numbers between
+	a and b, but we can break this down into:
+		# of good numbers <= b - # of good numbers <= a
+	
+	Next, we need a good way to compute the number of good #s.
+	We can use a form of induction for this: rather than checking
+	every single number less than b, we can try to construct the
+	number one digit at a time.
+	
+	This is actually quite easy to do:
+	
+		# of good numbers with length n ending in x =
+			sum of (good #s with length n-1 ending in {0..9 but not x})
+	
+	This recursion works because there will never at any point be
+	two adjacent digits with equal value.
+	
+	Our base case is where the length of the number is 1, in which
+	there is only 1 possible number.
+	
+	However, this isn't useable yet. This will give us the number of
+	good numbers with a certain length, but we want a specific bound.
+	To do this I broke down the problem once again.
+	
+	Let's say our upper bound is 3125. My algorithm broke this down
+	into a series of ranges:
+	
+		3120 - 3125
+		3100 - 3120
+		3000 - 3100
+		0000 - 3000
+	
+	These might seem odd, but these ranges are actually approximately
+	similar to the following:
+		0 - 5
+		0 - 20
+		0 - 100
+		0 - 3000
+	
+	These are actually ranges we can compute with what we have so far.
+	Our sequence generation function (let's call it seq(end, length))
+	can find the numbers from 0 to 3000 like so:
+	
+		  seq(2, 4)   good numbers between 2000 and 2999
+		+ seq(1, 4)   good numbers between 1000 and 1999
+		
+		+ seq(0, 4)   good numbers between 0100 and 0999
+		+ seq(0, 3)   good numbers between 010 and 099
+		+ seq(0, 2)   good numbers between 01 and 09
+	
+	Note that we are actually using seq() such that the "end" digit
+	is the biggest one; this gives us more control.
+	
+	We are missing a few edge cases, such as 0, but these ranges
+	are a good enough approximation for our algorithm to work with them.
+	
+	In my implementation, I defined a fract() function to (fract)ure a
+	number n into its component ranges.
+	
+	fract() accepted a number n and a zeroes count, like so:
+	
+		3125 ->
+		
+			3120 - 3125   n=3125 z=0
+			3100 - 3120   n=312  z=1
+			3000 - 3100   n=31   z=2
+			0000 - 3000   n=3    z=3
+	
+	The reason why we need this is because the range 3100-3120 is not
+	as simple as just the range 00-20, because we do have to account
+	for the rest of the number. For example, in the range 00-20, the
+	number 12 is valid, but in the range 3100-3120, this corresponds
+	to 3112, which is not valid. Additionally, in the range 3000-3100,
+	we can't have the number 001, because that would map to 3001.
+*/
+
 #include <iostream>
 using namespace std;
 
+// we store already calculated sequence counts to improve speed
 long long dp[19][10];
 bool f[19][10];
 
-// # of sequences ending (biggest digit) in end with length n
+// method that calculates the # of good sequences ending in end and
+// with length n (end means biggest digit, so 3125 -> 3)
 long long seq(int end,int n){
-//cout<<"   seq called on "<<end<<','<<n<<'\n';
+	// base case: when length is 1, only 1 possibility
 	if(n==1)return 1;
+	// if already calculated, return that
 	if(f[n][end])return dp[n][end];
 	long long ret=0;
+	// loop through possible preceding digits; if it is not
+	// the same as our current ending digit, it is a possible match
 	for(int i=0;i<10;i++)
 		if(i!=end)ret+=seq(i,n-1);
+	// store calculation
 	f[n][end]=1;dp[n][end]=ret;
 	return ret;
 }
 
-// n: number to fracture, z: hidden zeroes
+// process fracture n with zeroes z
 long long fract(long long n,int z){
-//cout<<"  received "<<n<<','<<z<<'\n';
-	// edge case: n < 10
+	// when n is less than 10, this is the last range,
+	// and we can and should count all possibilities (this includes
+	// sequences with multiple leading zeroes)
 	if(n<10){
-		// normally we don't count n
 		long long ret=0;
-		// we only count n when z=0, no preceding
+		// if there are no zeroes, this is the only fracture,
+		// so we need to include n in our final count. Normal
+		// fractures account for the count themselves, but this
+		// case isn't processed normally.
 		if(!z)ret=1;
-		//  in our example, this would be 0000 - 2999 so
-		//	we have to divide into sections: first
-		//		2000 - 2999
-		//		1000 - 1999
-		//	then
-		//		100 - 999
-		//		10 - 99
-		//		1 - 9
-		// clip down n
-		n=n%10;
-		// stage 1
+		// stage 1 - count sequences of same length
+		// in our example of 3125, this would be the range 0-3000,
+		// and in this stage we calculate the ranges 1000-1999 and
+		// 2000-2999.
 		for(int i=1;i<n;i++)
-			//  everything from i000 to i999
-			//	starts i, zeroes z -> length z+1
+			// all ends from 1 up to (and not including) n are
+			// valid. The length of the sequence is the number
+			// of trailing zeroes plus one; remember that the
+			// range 0-3000 would be represented as n=3 z=3
 			ret+=seq(i,z+1);
-		// stage 2
-		for(int i=0;i<z;i++)
-			// essentially a sequence of length i+1 starting in 0
-			ret+=seq(0,i+2);
-//cout<<"  return "<<ret<<'\n';
+		// stage 2 - count sequences with leading zeroes
+		// in our example, this would be 100-999, 10-99, 1-9
+		// here, i represents the length of the sequence
+		for(int i=1;i<=z;i++)
+			// to avoid extra leading zeroes that we aren't accounting
+			// for, we actually count these sequences with 1 more length
+			// and an endpoint of 0 (so 100-999 would be 0100 - 0999)
+			ret+=seq(0,i+1);
 		return ret;
 	}
-	// split units digit from n
+	// otherwise, this isn't the ending fracture
+	// we find the units digit (u) of n and remove it from n
 	int u=n%10;n/=10;
-	// check for adjacent identical digits
+	// now we need to check if this range is even possible
+	// for example, when fracturing 31125, the range 31120-31125
+	// is invalid because it contains two adjacent identical digits
+	// to do this, we clone n
 	long long t=n;
+	// we also store the last digit we saw to compare
 	int last=-1;
+	// while t is nonzero
 	while(t){
-		// if there is overlap, just return 0
-//if(t%10==last)cout<<"  overlap\n";
+		// if the last digit of t is identical to the previously
+		// seen one, we know this range isn't possible
 		if(t%10==last)return 0;
+		// update last digit
 		last=t%10;
+		// cut last digit off of t
 		t/=10;
 	}
-	// we can assume no adj - discard rest of n
+	// at this point we know the range is ok, so we can cut off
+	// the rest of n
 	n=n%10;
-	// we don't count n unless special case
 	long long ret=0;
-	// z=0, n!=u
+	// we only count n itself in the count if we are processing
+	// the topmost range, which happens when there are 0 trailing
+	// zeroes. Also, we need to check if the units digit is identical
+	// to the last digit of n, because if it does, then n is not valid.
 	if(!z&&n!=u)ret=1;
-	//  in example: from 3125: the range 3100-3120 represented as
-	//	312; we slice this down to n=1 u=2, so we iterate through all
-	//	numbers starting 0 to u-1 ending in z zeroes - this would be
-	//	from 3100 to 3119 (doesn't count n)
+	// we iterate through all possible units digits and count the ones
+	// that don't conflict with n
 	for(int i=0;i<u;i++)if(i!=n)
-		//  sequence in question has z zeroes so therefore z+1 length
-		//	and starts with i (when z = 0, this is consistent)
+		// the sequence will have length one more than the zeroes count:
+		// in our example the range 3100 - 3140 (1 zero) would form
+		// numbers such as 3123, which is represented as 23, and has
+		// 2 digits
 		ret+=seq(i,z+1);
-//cout<<"  return "<<ret<<'\n';
 	return ret;
 }
 
-// find all from 0 to n, inclusive
+// method to fracture n into its component ranges
 long long all(long long n){
-	// weird edge case
-	if(!n)return 1;
-//cout<<"process "<<n<<'\n';
-	// account for 0
+	// 0 never gets counted in any of our ranges
 	long long ret=1;
+	// z = current zero count
 	int z=0;
-	int pow=1;
+	// while n is nonzero
 	while(n){
-		// process last digit
-//cout<<" fracture "<<(n-n%10)*pow<<" - "<<n*pow<<'\n';
+		// fracture n with the zero count
 		ret+=fract(n,z);
-		n/=10;z++;pow*=10;
-	}
-	return ret;
-}
-
-// simple brute force
-long long bforce(long long n){
-	long long ret=0;
-	for(long long i=0;i<=n;i++){
-		int last=-1;
-		long long s=i;
-		bool w=1;
-		while(s){
-			if(s%10==last)w=0;
-			last=s%10;
-			s/=10;
-		}
-//cout<<i<<" does ";if(!w)cout<<"not ";cout<<"work\n";
-		if(w)ret++;
+		// cut the last digit off of n, and advance zero count
+		n/=10;z++;
 	}
 	return ret;
 }
 
 int main(){
+	// set computational storage
 	for(int i=0;i<19;i++)
 		for(int j=0;j<10;j++)
 			f[i][j]=0;
 	long long a,b;cin>>a>>b;
-//cout<<all(a)<<'\n'<<all(b)<<'\n';
+	// handling the range a-b instead of 0-a or 0-b is a bit
+	// complex and to actually include a we need to subtract off
+	// the number of good numbers less than or equal to a-1; this
+	// obviously causes issues when a is 0
 	long long ret=all(b);
 	if(a>0)ret-=all(a-1);
 	cout<<ret<<'\n';
-//	ret=bforce(b)-bforce(a-1);
-//	cout<<ret<<'\n';
 }
