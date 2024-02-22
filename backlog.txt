@@ -2,6 +2,9 @@ grid paths (CSES, hard one)
 	rewrite recursive section so it only iterates
 	over the array once; should be fast
 
+sum of 4 values (CSES)
+	algorithm theoretically fast enough, runtime err
+
 book shop (CSES)
 	debug knapsack dp
 
