@@ -3,7 +3,8 @@ grid paths (CSES, hard one)
 	over the array once; should be fast
 
 sum of 4 values (CSES)
-	algorithm theoretically fast enough, runtime err
+	think of a new algorithm that does not take
+	up prohibitively high amounts of memory
 
 book shop (CSES)
 	debug knapsack dp
