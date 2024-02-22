@@ -25,6 +25,7 @@ int main(){
 	}
 	while(n>++iter){
 		int t;
+cout<<iter<<'\n';
 		for(int i=0;i<n;i++){
 			if(i)t=p[i-1];
 			else t=0;
