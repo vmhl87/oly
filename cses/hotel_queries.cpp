@@ -1,4 +1,4 @@
-/*  Hotel Queries
+/*  Hotel Queries  -  https://cses.fi/problemset/task/1143
 
 	We need an efficient way to find the first value
 	of an array greater than or equal to a target
