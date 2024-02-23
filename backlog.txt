@@ -1,3 +1,7 @@
+distinct value queries (CSES)
+	find alternate way to represent data or
+	make segtree faster
+
 forest queries (CSES)
 	fix 2d range summable segtree
 
