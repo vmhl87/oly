@@ -1,3 +1,9 @@
+reading books (CSES)
+	need to find a way to compute the closest
+	sum of books that is at least half the
+	total amount of time necessary - dp is
+	likely not an option
+
 distinct value queries (CSES)
 	find alternate way to represent data or
 	make segtree faster
