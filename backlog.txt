@@ -1,3 +1,7 @@
+exponentiation II (CSES)
+	figure out how to properly binary
+	exponentiate with two levels of exponents
+
 reading books (CSES)
 	need to find a way to compute the closest
 	sum of books that is at least half the
