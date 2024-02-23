@@ -1,3 +1,7 @@
+segment trees + fenwick trees
+	try to roll your own trees with
+	more efficient memory management
+
 divisor analysis (CSES)
 	finish exponentiation and stuff
 
