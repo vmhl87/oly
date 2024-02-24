@@ -1,3 +1,7 @@
+slimes (CF)
+	add another indexing array to check for
+	constant-value ranges
+
 segment trees + fenwick trees
 	try to roll your own trees with
 	more efficient memory management
