@@ -1,5 +1,5 @@
 slimes (CF)
-	fix other indexing array
+	fix other edge case with indexing arr
 
 segment trees + fenwick trees
 	try to roll your own trees with
