@@ -1,6 +1,5 @@
-segment trees + fenwick trees
-	try to roll your own trees with
-	more efficient memory management
+following directions (USACO)
+	redo with a sort of proper tree
 
 divisor analysis (CSES)
 	finish exponentiation and stuff
@@ -35,6 +34,3 @@ towers (CSES)
 grid paths (CSES, weird one)
 	figure out why it's failing on case 3, also why
 	it doesn't offer speed improvements
-
-cowlibi (2023 february silver 1)
-	partially done; right idea but imp fail
