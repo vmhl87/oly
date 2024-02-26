@@ -1,3 +1,6 @@
+line segment intersection (CSES)
+	find edge case and fix it
+
 following directions (USACO)
 	redo with a sort of proper tree
 
