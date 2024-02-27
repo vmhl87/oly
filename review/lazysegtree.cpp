@@ -29,6 +29,7 @@ typedef struct segtree{
 		}
 	}
 	void push(int i){
+		if(i>=n)return;
 		lazy[i<<1]+=lazy[i];
 		lazy[i<<1|1]+=lazy[i];
 		lazy[i]=0;
