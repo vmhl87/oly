@@ -1,3 +1,6 @@
+lazy segtree
+	debug get() and lazy prop
+
 line segment intersection (CSES)
 	find edge case and fix it
 
