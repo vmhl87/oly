@@ -29,17 +29,16 @@ typedef struct segtree{
 		}
 	}
 	void push(int i){
-		if(i>=n)return;
+		if(!i||i>=n)return;
 		lazy[i<<1]+=lazy[i];
 		lazy[i<<1|1]+=lazy[i];
 		lazy[i]=0;
 	}
 	int get(int i){
-		i+=n;int node=0,p=1<<31;
-		while(node<i){
-			node<<=1;
-			if(i&p)node++;
-			p>>=1;
+		i+=n;int node=0,p=31;
+		while(node<n){
+			node=i>>p;
+			p--;
 			push(node);
 		}
 		return tree[i]+lazy[i];
