@@ -1,10 +1,7 @@
 barn tree (USACO)
-	for each road, calculate the amount
-	of hay that needs to be moved across the road,
-	this needs to be somehow done in better than n^2
-	time - perhaps root the tree and then dfs?
-	also, must print out a valid sequence of updates
-	such that each barn always has nonzero hay
+	figured out traversal, need to order
+	edge relaxations so that each barn always
+	has non-negative hay
 
 line segment intersection (CSES)
 	find edge case and fix it
