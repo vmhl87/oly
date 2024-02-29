@@ -45,7 +45,6 @@ int main(){
 			// relax along edge and proc
 			dfs.pop();
 			if(!dfs.empty()){
-// cout<<"relaxing node "<<t<<" to "<<dfs.top()<<'\n';
 				// compare under to w*avg
 				op nx;nx.a=t;nx.b=dfs.top();
 				nx.m=barns[t].under-barns[t].w*avg;
@@ -68,7 +67,6 @@ int main(){
 		}else{
 			int x=barns[t].adj.top();
 			if(vis[x]){
-// cout<<"appending node "<<x<<" from "<<t<<'\n';
 				vis[x]=0;
 				dfs.push(x);
 			}
@@ -77,6 +75,8 @@ int main(){
 	}
 	cout<<ops<<'\n';
 	for(int i=0;i<n;++i)vis[i]=1;
+	// propagate from root, try to ensure
+	// no barns are pushed when not ready
 	while(!root.empty()){
 		int r=root.top();root.pop();
 		if(!vis[r])continue;
@@ -98,6 +98,7 @@ int main(){
 			}
 		}
 	}
+	// print untraversed
 	for(int i=0;i<n;++i)if(!vis[i]){
 		while(!dep[i].empty()){
 			op x=dep[i].top();

@@ -1,3 +1,6 @@
+fenwick tree
+	make it actually work
+
 barn tree (USACO)
 	fix traversal ordering logic
 
