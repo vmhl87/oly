@@ -27,6 +27,9 @@ typedef struct fenwicktree{
 	int range(int l,int r){
 		return sum(r)-sum(l-1);
 	}
+	void update(int i,int v){
+		// somehow update all ranges with i?
+	}
 }fenwicktree;
 
 int main(){
@@ -40,7 +43,12 @@ int main(){
 	for(;;){
 		int t;cin>>t;
 		if(!t)break;
-		int b;cin>>b;
-		cout<<m.range(t-1,b-1)<<'\n';
+		if(t==1){
+			int a,b;cin>>a>>b;
+			cout<<m.range(a-1,b-1)<<'\n';
+		}else if(t==2){
+			int i,v;cin>>i>>v;
+			m.update(i-1,v);
+		}
 	}
 }

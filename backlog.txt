@@ -1,5 +1,5 @@
 fenwick tree
-	make it actually work
+	add update method
 
 barn tree (USACO)
 	fix traversal ordering logic
