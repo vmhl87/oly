@@ -1,7 +1,5 @@
 barn tree (USACO)
-	figured out traversal, need to order
-	edge relaxations so that each barn always
-	has non-negative hay
+	fix traversal ordering logic
 
 line segment intersection (CSES)
 	find edge case and fix it
