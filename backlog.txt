@@ -1,3 +1,7 @@
+lazy segment tree
+	fix propagation so that it
+	goes back up as well as down
+
 fenwick tree
 	add update method
 
