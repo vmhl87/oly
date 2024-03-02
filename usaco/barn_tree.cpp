@@ -4,15 +4,10 @@
 using namespace std;
 
 typedef struct{
-	int h; // amount of hay in node
-	int sum=0; // sum of subtree
+	long long h; // amount of hay in node
+	long long sum=0; // sum of subtree
 	vector<int> adj;
 }barn;
-
-barn nb(int i){
-	barn t;t.h=i;
-	return t;
-}
 
 vector<barn> barns;
 vector<bool> vis;
@@ -21,14 +16,14 @@ vector<bool> vis;
 int calcsum(int i){
 	if(vis[i])return 0;
 	vis[i]=1;
-	int ret=0;
+	long long ret=barns[i].h;
 	for(int x:barns[i].adj)
 		ret+=calcsum(x);
 	barns[i].sum=ret;
 	return ret;
 }
 
-vector<tuple<int,int,int>> orders;
+vector<tuple<int,int,long long>> orders;
 
 //:distrib
 void distribute(int i,int pre){
@@ -51,15 +46,14 @@ void distribute(int i,int pre){
 //:main
 int main(){
 	int n;cin>>n;
-	barns.reserve(n);
+	barns.resize(n);
 	orders.reserve(n-1);
-	vis.assign(n,0);
-	int avg=0;
+	vis.resize(n);
+	long long avg=0;
 	// input hay amts
 	for(int i=0;i<n;++i){
-		int t;cin>>t;
-		barns.push_back(nb(t));
-		avg+=t;
+		cin>>barns[i].h;
+		avg+=barns[i].h;
 	}
 	avg/=n;
 	// normalize hay counts
