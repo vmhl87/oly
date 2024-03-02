@@ -34,9 +34,10 @@ typedef struct segtree{
 		lazy[i].add=lazy[i].add*o.mult+o.add;
 		lazy[i].mult*=o.mult;
 	}
-	void split(int i){
+	void split(int i,int c){
 		push(i<<1,lazy[i]);
 		push(i<<1|1,lazy[i]);
+		tree[i]=tree[i]*lazy[i].mult+lazy[i].add*c;
 		lazy[i].add=0;lazy[i].mult=1;
 	}
 	// shouldn't be done recursively but wtv
@@ -47,10 +48,11 @@ typedef struct segtree{
 			push(i,o);
 			return;
 		}
-		split(i);
+		split(i,(rr-ll+1));
 		int sp=(ll+rr)>>1;
 		if(l<=sp)update(i<<1,l,min(sp,r),ll,sp,o);
 		if(r>=sp+1)update(i<<1|1,max(sp+1,l),r,sp+1,rr,o);
+		// prop(i);
 	}
 	void setrange(int l,int r,int v){
 		op o;o.add=v;o.mult=0;
@@ -66,10 +68,11 @@ typedef struct segtree{
 		if(l==ll&&r==rr){
 			return tree[i]*lazy[i].mult+lazy[i].add*(rr-ll+1);
 		}
-		split(i);
+		split(i,(rr-ll+1));
 		int sp=(ll+rr)>>1,ret=0;
 		if(l<=sp)ret+=range(i<<1,l,min(r,sp),ll,sp);
 		if(r>=sp+1)ret+=range(i<<1|1,max(l,sp+1),r,sp+1,rr);
+		// prop(i);
 		return ret;
 	}
 	int sum(int l,int r){
