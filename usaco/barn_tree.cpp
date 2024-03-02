@@ -52,6 +52,7 @@ void distribute(int i,int pre){
 int main(){
 	int n;cin>>n;
 	barns.reserve(n);
+	orders.reserve(n-1);
 	vis.assign(n,0);
 	int avg=0;
 	// input hay amts
@@ -73,7 +74,7 @@ int main(){
 	}
 	calcsum(0);
 	distribute(0,-1);
-	cout<<orders.size()<<'\n';
+	cout<<size(orders)<<'\n';
 	for(auto [a,b,v]:orders)
 		cout<<a+1<<' '<<b+1<<' '<<v<<'\n';
 }
