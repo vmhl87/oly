@@ -1,110 +1,79 @@
 #include <iostream>
 #include <vector>
-#include <stack>
+#include <tuple>
 using namespace std;
 
 typedef struct{
 	int h; // amount of hay in node
-	int under; // hay in nodes under
-	int w=1; // number of nodes under
-	stack<int> adj;
+	int sum=0; // sum of subtree
+	vector<int> adj;
 }barn;
 
-typedef struct{
-	int a;
-	int b;
-	int m; // how much hay to transfer
-}op;
+barn nb(int i){
+	barn t;t.h=i;
+	return t;
+}
 
+vector<barn> barns;
+vector<bool> vis;
+
+//:calcsum
+int calcsum(int i){
+	if(vis[i])return 0;
+	vis[i]=1;
+	int ret=0;
+	for(int x:barns[i].adj)
+		ret+=calcsum(x);
+	barns[i].sum=ret;
+	return ret;
+}
+
+vector<tuple<int,int,int>> orders;
+
+//:distrib
+void distribute(int i,int pre){
+	// if(!vis[i])return;
+	// vis[i]=0;
+	for(int x:barns[i].adj)if(x!=pre){
+		if(barns[x].sum>=0)
+			distribute(x,i);
+		if(barns[x].sum>0)
+			orders.emplace_back(x,i,barns[x].sum);
+	}
+	for(int x:barns[i].adj)if(x!=pre){
+		if(barns[x].sum<0)
+			orders.emplace_back(i,x,-barns[x].sum);
+		if(barns[x].sum<0)
+			distribute(x,i);
+	}
+}
+
+//:main
 int main(){
 	int n;cin>>n;
-	barn barns[n];
+	barns.reserve(n);
+	vis.assign(n,0);
 	int avg=0;
+	// input hay amts
 	for(int i=0;i<n;++i){
-		cin>>barns[i].h;
-		avg+=barns[i].h;
-		barns[i].under=barns[i].h;
+		int t;cin>>t;
+		barns.push_back(nb(t));
+		avg+=t;
 	}
 	avg/=n;
+	// normalize hay counts
+	for(int i=0;i<n;++i)
+		barns[i].h-=avg;
+	// calculate adjacencies
 	for(int i=1;i<n;++i){
 		int a,b;cin>>a>>b;
 		a--;b--;
-		barns[a].adj.push(b);
-		barns[b].adj.push(a);
+		barns[a].adj.push_back(b);
+		barns[b].adj.push_back(a);
 	}
-	// save operations
-	int ops=0;
-	stack<op> dep[n];
-	stack<int> root;
-	// root the tree arbitrarily - at 0?
-	bool vis[n];for(int i=0;i<n;++i)vis[i]=1;
-	stack<int> dfs;dfs.push(0);vis[0]=0;
-	while(!dfs.empty()){
-		int t=dfs.top();
-		if(barns[t].adj.empty()){
-			// relax along edge and proc
-			dfs.pop();
-			if(!dfs.empty()){
-				// compare under to w*avg
-				op nx;nx.a=t;nx.b=dfs.top();
-				nx.m=barns[t].under-barns[t].w*avg;
-				if(nx.m<0){
-					nx.m=-nx.m;nx.a=dfs.top();nx.b=t;
-				}
-				if(nx.m>0){
-					ops++;
-					// depends barn t have >= m hay
-					dep[t].push(nx);
-					if(barns[t].h>=nx.m)
-						root.push(t);
-				}
-				// add weight + hay of previous
-				// node onto current one
-				int x=dfs.top();
-				barns[x].w+=barns[t].w;
-				barns[x].under+=barns[t].under;
-			}
-		}else{
-			int x=barns[t].adj.top();
-			if(vis[x]){
-				vis[x]=0;
-				dfs.push(x);
-			}
-			barns[t].adj.pop();
-		}
-	}
-	cout<<ops<<'\n';
-	for(int i=0;i<n;++i)vis[i]=1;
-	// propagate from root, try to ensure
-	// no barns are pushed when not ready
-	while(!root.empty()){
-		int r=root.top();root.pop();
-		if(!vis[r])continue;
-		vis[r]=0;dfs.push(r);
-		while(!dfs.empty()){
-			int t=dfs.top();
-			if(dep[t].empty()){
-				dfs.pop();
-			}else{
-				op nx=dep[t].top();
-				dep[t].pop();
-				// print edge
-				cout<<nx.a+1<<' '<<nx.b+1
-					<<' '<<nx.m<<'\n';
-				if(vis[nx.b]){
-					vis[nx.b]=0;
-					dfs.push(nx.b);
-				}
-			}
-		}
-	}
-	// print untraversed
-	for(int i=0;i<n;++i)if(!vis[i]){
-		while(!dep[i].empty()){
-			op x=dep[i].top();
-			cout<<x.a+1<<' '<<x.b+1
-				<<' '<<x.m<<'\n';
-			dep[i].pop();
-		}
-	}
+	calcsum(0);
+	distribute(0,-1);
+	cout<<orders.size()<<'\n';
+	for(auto [a,b,v]:orders)
+		cout<<a+1<<' '<<b+1<<' '<<v<<'\n';
 }
