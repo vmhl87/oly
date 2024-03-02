@@ -1,7 +1,9 @@
+#include <algorithm>
 #include <iostream>
 #include <vector>
 using namespace std;
 
+//:str
 typedef struct segtree{
 	vector<int> tree;
 	vector<int> lazy;
@@ -9,71 +11,87 @@ typedef struct segtree{
 	void prop(int i){
 		tree[i]=tree[i<<1]+tree[i<<1|1];
 	}
-	segtree(vector<int> v):tree(v.size()*2),lazy(v.size()*2),n(v.size()){
-		for(int i=0;i<n;++i)tree[i+n]=v[i];
-		for(int i=n-1;i>0;--i)prop(i);
-	}
-	void set(int i,int v){
-		i+=n;tree[i]+=v;i>>=1;
-		while(i){
-			prop(i);
-			i>>=1;
+	//:build
+	void build(int i,int l,int r,vector<int> v){
+		if(l==r){
+			tree[i]=v[l-1];
+			return;
 		}
+		int sp=(l+r)>>1;
+		build(i<<1,l,sp,v);
+		build(i<<1|1,sp+1,r,v);
+		prop(i);
 	}
-	void rangeup(int l,int r,int v){
-		l+=n;r+=n-1;
-		while(l<=r){
-			if(l&1)lazy[l++]+=v;
-			if(~r&1)lazy[r--]+=v;
-			l>>=1;r>>=1;
-		}
+	//:ctor
+	segtree(vector<int> v):tree(v.size()*2),
+	lazy(v.size()*2),n(v.size()){
+		build(1,1,n,v);
 	}
-	void push(int i){
-		if(!i||i>=n)return;
+	//:spli
+	void split(int i,int l,int r){
 		lazy[i<<1]+=lazy[i];
 		lazy[i<<1|1]+=lazy[i];
+		// important: when an update gets split down,
+		// it is removed from the "active lazy tree"
+		// and propagated directly to node (this is
+		// scuffed and may not work on double query)
+		tree[i]+=lazy[i]*(r-l+1);
 		lazy[i]=0;
 	}
-	int get(int i){
-		i+=n;int node=0,p=31;
-		while(node<n){
-			node=i>>p;
-			p--;
-			push(node);
+	//:upda
+	// l,r are search range, ll,rr are node range
+	void update(int i,int l,int r,int ll,int rr,int v){
+		if(l==ll&&r==rr){
+			lazy[i]+=v;
+			return;
 		}
-		return tree[i]+lazy[i];
+		split(i,ll,rr);
+		int sp=(ll+rr)>>1;
+		if(l<=sp)update(i<<1,l,min(r,sp),ll,sp,v);
+		if(r>sp)update(i<<1|1,max(l,sp+1),r,sp+1,rr,v);
+	}
+	void add(int l,int r,int v){
+		update(1,l,r,1,n,v);
+	}
+	//:sum
+	int trav(int i,int l,int r,int ll,int rr){
+		if(l==ll&&r==rr)
+			return tree[i]+lazy[i]*(r-l+1);
+		int sp=(ll+rr)>>1,ret=0;
+		split(i,ll,rr);
+		if(l<=sp)ret+=trav(i<<1,l,min(r,sp),ll,sp);
+		if(r>sp)ret+=trav(i<<1|1,max(l,sp+1),r,sp+1,rr);
+		return ret;
+	}
+	int sum(int l,int r){
+		return trav(1,l,r,1,n);
 	}
 }segtree;
 
-string f(int i){
-	string ret;
-	if(i>9)ret+=('0'+i/10);
-	else ret+=' ';
-	ret+=('0'+i%10);
-	return ret;
-}
-
+//:main
 int main(){
 	int n;cin>>n;
 	vector<int> v(n);
 	for(int i=0;i<n;++i)
 		cin>>v[i];
 	segtree m(v);
+	//:quer
 	for(;;){
 		int t;cin>>t;
+		if(!t)break;
 		if(t==1){
-			int a;cin>>a;
-			cout<<m.get(a-1)<<'\n';
-		}else if(t==2){
-			int a,b,v;cin>>a>>b>>v;
-			m.rangeup(a-1,b,v);
-		}else{
-			for(int i=1;i<n+n;++i)cout<<f(i)<<' ';cout<<'\n';
-			for(int i=1;i<n+n;++i)cout<<f(i%n+1)<<' ';cout<<'\n';
 			for(int i=1;i<n+n;++i)
-				cout<<f(m.lazy[i])<<' ';cout<<'\n';
-			for(int i=1;i<n+n;++i)
-				cout<<f(m.tree[i])<<' ';cout<<'\n';
+				cout<<i<<" +"<<m.lazy[i]<<' '
+					<<m.tree[i]<<'\n';
+		}
+		if(t==2){
+			int l,r,v;cin>>l>>r>>v;
+			m.add(l,r,v);
+		}
+		if(t==3){
+			int l,r;cin>>l>>r;
+			cout<<m.sum(l,r)<<'\n';
 		}
 	}
 }
+//:end
