@@ -22,8 +22,8 @@
 using namespace std;
 
 typedef struct{
-	int h; // amount of hay in node
-	int under; // hay in nodes under
+	long long h; // amount of hay in node
+	long long under; // hay in nodes under
 	int w=1; // number of nodes under
 	stack<int> adj;
 }barn;
@@ -31,19 +31,20 @@ typedef struct{
 typedef struct{
 	int a;
 	int b;
-	int m; // how much hay to transfer
+	long long m; // how much hay to transfer
 }op;
 
 int main(){
 	int n;cin>>n;
+	long long nn=n;
 	barn barns[n];
-	int avg=0;
+	long long avg=0;
 	for(int i=0;i<n;++i){
 		cin>>barns[i].h;
 		avg+=barns[i].h;
 		barns[i].under=barns[i].h;
 	}
-	avg/=n;
+	avg/=nn;
 	for(int i=1;i<n;++i){
 		int a,b;cin>>a>>b;
 		a--;b--;

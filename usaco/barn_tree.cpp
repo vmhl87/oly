@@ -13,7 +13,7 @@ vector<barn> barns;
 vector<bool> vis;
 
 //:calcsum
-int calcsum(int i){
+long long calcsum(int i){
 	if(vis[i])return 0;
 	vis[i]=1;
 	long long ret=barns[i].h;
