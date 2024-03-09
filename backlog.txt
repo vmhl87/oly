@@ -7,6 +7,8 @@ fenwick tree
 
 barn tree (USACO)
 	fix traversal ordering logic
+	potentially use a segtree to greedily
+	select best barn at each turn? not sure
 
 line segment intersection (CSES)
 	find edge case and fix it
