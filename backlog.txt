@@ -1,3 +1,7 @@
+milk sum (USACO)
+	figure out why bs and psum isn't working
+	correctly when they theoretically should
+
 lazy segment tree
 	fix propagation so that it
 	goes back up as well as down
