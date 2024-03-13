@@ -1,3 +1,6 @@
+make many triangles (atcoder)
+	debug this sometime
+
 milk sum (USACO)
 	figure out why bs and psum isn't working
 	correctly when they theoretically should

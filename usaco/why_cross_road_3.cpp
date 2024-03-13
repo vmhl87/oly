@@ -4,12 +4,12 @@
 #include <map>
 using namespace std;
 
-typedef struct field{
+struct field{
 	int comp=-1;
 	// up, down, left, right
 	bool road[4]={0,0,0,0};
 	stack<pair<int,int>> adj;
-}field;
+};
 
 int main(){
 	ifstream cin("countcross.in");
