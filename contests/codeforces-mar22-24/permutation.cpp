@@ -25,8 +25,8 @@
 //             3
 //            / \
 //           1   6
-//           |  / \
-//           2  4 5
+//          /   / \
+//         2   4   5
 //
 // Next, we make another observation: The edges on this tree are
 // *the only* constraints applied upon the members of the permutation.
@@ -34,6 +34,8 @@
 // must be smaller than the parent, and if an element is neither
 // a child nor a parent of another element, then there may not be
 // any constraint applied to that element.
+// For example, there is no correlation between a1 and a5. This makes
+// sense intuitively, when we look at the inputs.
 //
 // To find the number of possible permutations that fit our
 // constraints, we simply must find a way to distribute the
@@ -93,7 +95,6 @@
 // distribute the "ending branches" among themselves, multiply by
 // the factorial of the number of them, which in this case is 2.
 
-#include <algorithm>
 #include <iostream>
 using namespace std;
 
@@ -111,27 +112,26 @@ long long fact(long long n){
 }
 
 // To calculate binomial coefficients, we use the formula
-//                   (n!)/(k!)(n-k)!
+//                   (n!)/(k!(n-k)!)
 // However, we cannot directly compute these numbers, as
 // they will far exceed the integer limit. Instead, we use
 // a number theory trick, and compute the modular inverse
 // of the denominator, and then multiply it to the numerator.
 //
 // This implementation of modular inverse utilizes Fermat's
-// little theorem, which states that a^(p-1) will be 1 mod p
+// Little Theorem, which states that a^(p-1) will be 1 mod p
 // for any prime number p. By the definition of a modular
 // inverse, a^(p-2) therefore must be the modular inverse
-// of a.
+// of a.  (^ is in this context exponentiation, not XOR)
 //
 // Implementation utilizes binary exponentiation in order
 // to be reasonably performant.
 long long inv(long long a,long long p){
-	long long p2=1,iter=0,pn=p-2;
-	long long pa=a,ret=1;
-	while(p2<pn){
-		if(pn&(1<<iter))ret=(ret*pa)%p;
-		pa=(pa*pa)%p;
-		p2<<=1;iter++;
+	long long p2=1,ret=1; // p2 = power of 2
+	while(p2<(p-2)){
+		if((p-2)&p2)ret=(ret*a)%p;
+		a=(a*a)%p;
+		p2<<=1;
 	}
 	return ret;
 }
@@ -140,17 +140,8 @@ long long inv(long long a,long long p){
 // multiply out the (num)erator and (den)ominator and take
 // the modular inverse.
 long long nck(long long n,long long k){
-	long long num=fact(n),den=fact(k);
-	den=(den*fact(n-k))%M;
-	den=inv(den,M);
-	return (num*den)%M;
-}
-
-// wrap it so we don't need to worry about ordering
-// of the parameters
-long long choose(long long n,long long k){
-	if(k>n)return choose(k,n);
-	return nck(n,min(k,n-k));
+	long long num=fact(n),den=(fact(k)*fact(n-k))%M;
+	return (num*inv(den,M))%M;
 }
 
 // compute a single test case
@@ -171,30 +162,32 @@ void test_case(){
 	// compute the first distribution - out of the remaining
 	// n-1 elements, select a section of (max-1) elements
 	long long ret=1;
-	if(ss[0]<n)ret=choose(n-1,ss[0]-1);
+	// If there aren't any, we can skip this step - computing
+	// n choose k still has a rather large time penalty
+	if(ss[0]<n)ret=nck(n-1,ss[0]-1);
 	// iterate through prefix maximums, and compute "ending branches"
 	for(long long i=p-1;i>0;--i){
 		// Compute the distance between this prefix maximum and the
 		// next one - if this is more than 1, there are intermediate
 		// elements, which will be "ending branches"
-		long long diff=ps[i]-ps[i-1];
-		if(diff>1){
+		long long diff=ps[i]-ps[i-1]-1;
+		if(diff){
 			// The number of total elements to distribute is the
 			// number of elements underneath the bigger prefix max
 			// minus 1 (the smaller prefix max is guaranteed to be
 			// the biggest out of them), and we select the number
 			// of "ending branches"
-			ret=(ret*choose(ps[i]-2,diff-1))%M;
+			ret=(ret*nck(ps[i]-2,diff))%M;
 			// then multiply by factorial
-			ret=(ret*fact(diff-1))%M;
+			ret=(ret*fact(diff))%M;
 		}
 	}
-	// Similar, but for suffix maxmums
+	// Similar, but for suffix maximums
 	for(long long i=1;i<s;++i){
-		long long diff=ss[i]-ss[i-1];
-		if(diff>1){
-			ret=(ret*choose(n-ss[i-1]-1,diff-1))%M;
-			ret=(ret*fact(diff-1))%M;
+		long long diff=ss[i]-ss[i-1]-1;
+		if(diff){
+			ret=(ret*nck(n-ss[i-1]-1,diff))%M;
+			ret=(ret*fact(diff))%M;
 		}
 	}
 	cout<<ret<<'\n';
