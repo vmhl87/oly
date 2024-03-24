@@ -14,10 +14,8 @@ stoi str
 
 -- math - factorial & binomial coef
 
-m = 1000000007
-
 mmul :: Int -> Int -> Int
-mmul a b = a * b `mod` m
+mmul a b = a * b `mod` 1000000007
 
 fact :: Int -> Int
 fact 0 = 1
@@ -28,7 +26,7 @@ bexp a 0 = 1
 bexp a p = bexp (a `mmul` a) (p `div` 2) `mmul` if even p then 1 else a
 
 inv :: Int -> Int
-inv x = bexp x (m-2)
+inv x = bexp x 1000000005
 
 nck :: Int -> Int -> Int
 nck n k = num `mmul` inv den
