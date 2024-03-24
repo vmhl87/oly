@@ -12,19 +12,8 @@ lazy segment tree
 fenwick tree
 	add update method
 
-barn tree (USACO)
-	fix traversal ordering logic
-	potentially use a segtree to greedily
-	select best barn at each turn? not sure
-
 line segment intersection (CSES)
 	find edge case and fix it
-
-following directions (USACO)
-	redo with a sort of proper tree
-
-divisor analysis (CSES)
-	finish exponentiation and stuff
 
 exponentiation II (CSES)
 	figure out how to properly binary
@@ -52,7 +41,3 @@ book shop (CSES)
 
 towers (CSES)
 	figure out how to sort and organize better
-
-grid paths (CSES, weird one)
-	figure out why it's failing on case 3, also why
-	it doesn't offer speed improvements
