@@ -25,7 +25,7 @@ fact x = x `mmul` fact (x-1)
 
 bexp :: Int -> Int -> Int
 bexp a 0 = 1
-bexp a p = bexp (a*a `mod` m) (p `div` 2) `mmul` if even p then 1 else a
+bexp a p = bexp (a `mmul` a) (p `div` 2) `mmul` if even p then 1 else a
 
 inv :: Int -> Int
 inv x = bexp x (m-2)
