@@ -39,7 +39,7 @@ nck n k = num `mmul` inv den
 
 reduce :: Int -> [Int] -> Int
 reduce n s =
-  if length s < 3 then 1
+  if length s < 2 then 1
   else
     (reduce n (init s)) `mmul` (fact diff) `mmul` (nck (last s-2) diff)
     where
