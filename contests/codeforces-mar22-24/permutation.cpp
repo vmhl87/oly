@@ -168,7 +168,7 @@ int main(){
 			// next one - if this is more than 1, there are intermediate
 			// elements, which will be "ending branches"
 			long long diff=ps[i]-ps[i-1]-1;
-			if(diff){
+			if(diff){ [[likely]]
 				// The number of total elements to distribute is the
 				// number of elements underneath the bigger prefix max
 				// minus 1 (the smaller prefix max is guaranteed to be
@@ -182,7 +182,7 @@ int main(){
 		// Similar, but for suffix maximums
 		for(size_t i=1;i<s;++i){
 			long long diff=ss[i]-ss[i-1]-1;
-			if(diff){
+			if(diff){ [[likely]]
 				ret=(ret*nck(n-ss[i-1]-1,diff))%M;
 				ret=(ret*fact(diff))%M;
 			}
