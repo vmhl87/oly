@@ -1,0 +1,309 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="https://www.w3.org/1999/xhtml">
+
+<head>
+
+
+ <title>USACO</title>
+ <link rel="stylesheet" type="text/css" href="current/usaco.css">
+ <script src="current/js/jquery.min.js"></script>
+ <script src="current/js/d3.v3.min.js"></script>
+
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+ <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+ <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    "HTML-CSS": {
+	scale: 85,
+	preferredFont: "STIX"
+    },
+  tex2jax: {
+    inlineMath: [['$','$'],['\\(','\\)']],
+    processEscapes: true,
+    skipTags: ['pre'],
+    processClass: "mathjax",
+    ignoreClass: "no-mathjax"
+  }
+});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</head>
+
+<body class="no-mathjax">
+ <div align="center">
+  <div class="shadow1">
+
+   <div class="content">
+
+  
+ <a href="index.php"><img src="current/images/usaco_logo.png" height="130px" border="0px" /></a> 
+
+    <div class="navbar" align="left" border="10px">
+     <ul>
+      <li><a href="index.php">Overview</a></li> 
+      <li><a href="index.php?page=training">Training</a></li>
+      <li><a href="index.php?page=contests">Contests</a></li>
+      <li><a href="index.php?page=history">History</a></li>
+      <li><a href="index.php?page=staff">Staff</a></li>
+      <li><a href="index.php?page=resources">Resources</a></li>
+     </ul>
+    </div><br/>
+
+   
+    
+
+
+<div style="position:relative; float:left; left:10px; top:-50px; width:550px;"> 
+<div class="panel">
+
+<h2> USACO 2024 January Contest, Gold </h2>
+<h2> Problem 3. Nap Sort </h2>
+ 
+</div>
+</div>
+
+<div align="right" style="position:relative; float:right; right:30px; top:-40px; width:350px;">
+
+<button style="margin-bottom:6px;" type="button" onClick="window.location='index.php?page=jan24results';">Return to Problem List</button><br style="padding-top:6px"/>
+Contest has ended.
+
+</div>
+
+<br style="clear:both" />
+
+
+<div id="last-status" style="padding:10px; position:relative; float:left; left:30px; top:-45px; width:820px; border:1px solid black; background-color:#FFF; " 
+	data-response-code="-1" data-sid="-1"> 
+   <img src="current/images/ajax.gif"/> <p style="display:inline;"> <b>Log in to allow submissions in analysis mode</b></p>
+<div id="trial-information"></div>
+<p style="text-align:left;" class="mono prewrap output-data"></p>
+</div>
+
+<br style="clear:both" />
+
+<div align="right" style="position:relative; float:right; right:40px; top:-93px; width:350px; z-index:2; padding:0px;">
+
+<form style="padding-top:60px;" action=""> 
+<select name="lang" style="background-color:#eee;" id="choose-language">
+<option value='en' selected='yes'>English (en)</option>
+<option value='fr'>French (fr)</option>
+<option value='ru'>Russian (ru)</option>
+<option value='es'>Spanish (es)</option>
+<option value='zh'>Chinese (zh)</option>
+</select>
+</form>
+
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-100px; width:840px; z-index:1;"> 
+<div align="left" class="problem-text" style='width:800px; padding-top:10px;'>
+<span id="probtext-text" class="mathjax">
+<p>Bessie is trying to sort an array of integers using her own sorting algorithm.
+She has a pile of $N$ $(1 \leq N \leq 2\cdot 10^5)$ integers $a_1,a_2,\dots,a_N$
+$(1 \leq a_i \leq 10^{11})$ that she will put in a separate array in sorted
+order. She repeatedly finds the minimum integer in her pile, removes it, and
+adds it to the end of the array. It takes Bessie $p$ seconds to find the minimum
+integer in a pile of $p$ integers.
+
+<p>Farmer John instructed some of the other cows in the farm to help Bessie with
+her task, but they are quite lazy, so Bessie uses that to her advantage. She
+divides the integers into two piles: Bessie pile and Helper pile. For every
+integer in Bessie's pile, she performs her algorithm as normal. For every
+integer in the helper pile, she assigns it to a different helper cow. Farmer
+John has a large farm, so Bessie can get as many helper cows as she wants. If a
+helper receives the integer $a_i$, Bessie instructs that cow to nap for $a_i$
+seconds, and add their integer to the end of the array immediately when they
+wake up. If Bessie and a helper add an integer to the array at the same time,
+Bessie's integer will get added first since she is the leader. If more than one
+helper gets assigned the same integer, they will add copies of that integer to
+the array at the same time.
+
+<p>Help Bessie divide her integers so that the final array is sorted and the time
+it takes to sort the array is minimized.
+
+<p><div class='prob-in-spec'><h4>INPUT FORMAT (input arrives from the terminal / stdin):</h4>
+The first line contains $T$, the number of independent test cases
+($1\le T\le 10$). 
+
+<p>Each test case is formatted as follows:
+
+<p>The first line of each test case contains the number of integers $N$ in Bessie's
+array.
+
+<p>The next line of each test case contains $a_1, a_2, \dots, a_N$, the integers
+that Bessie is sorting. The same integer may appear multiple times.
+
+<p>It is guaranteed that the sum of $N$ over all tests does not exceed
+$2\cdot 10^5$.
+</div>
+
+<p><div class='prob-out-spec'><h4>OUTPUT FORMAT (print output to the terminal / stdout):</h4>
+For each test case, output the minimum time to sort the array on a new line, if
+Bessie divides her integers optimally.
+</div>
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+4
+5
+1 2 4 5 100000000000
+5
+17 53 4 33 44
+4
+3 5 5 5
+6
+2 5 100 1 4 5
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+6
+15
+5
+6
+</pre>
+
+<p>In the first example, Bessie can assign $1,2$ to helpers and leave $4,5,10^{11}$
+for herself. 
+
+<p><pre>
+Time | Event
+-----+----------------------
+1    | Helper adds 1
+2    | Helper adds 2
+3    | Bessie adds 4
+5    | Bessie adds 5
+6    | Bessie adds 10^{11}
+</pre>
+
+<p>In the second example, the best Bessie can do is sort everything by herself. One
+division that does *not* work is for Bessie to assign $4$ to a helper and the
+rest to herself because Bessie will end up adding $17$ to the array before the
+helper adds $4$ to the array.
+
+<p>In the third example, Bessie can assign all the integers to helpers.
+
+<p>In the fourth example, Bessie can assign $1,4,5$ to helpers and leave $2,5,100$
+to herself.
+
+<p><pre>
+Time | Event
+-----+------------------
+1    | Helper adds 1
+3    | Bessie adds 2
+4    | Helper adds 4
+5    | Bessie adds 5
+5    | Helper adds 5
+6    | Bessie adds 100
+</pre>
+
+<p><div class='prob-section'><h4>SCORING:</h4>
+
+<p><ul><li>Input 2: $N\le 16$</li><li>Inputs 3-5: $N\le 150$</li><li>Inputs 6-8: $\sum N\le 5000$</li><li>Inputs 9-11: No additional constraints.</li></ul>
+
+<p></div>
+
+<p>
+
+<p>Problem credits: Suhas Nagar
+</span>
+</div>
+
+           Contest has ended.  No further submissions allowed.
+    
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-70px; width:840px;"> 
+
+</div>
+
+<br style="clear:both" />
+
+<script>
+ var retries = 100, timeout = 1000;
+
+ function postback()
+ { 
+     var sid = $('#last-status').data('sid'); if (sid == -1) return;
+     $.post('current/tpcm/status-update.php', { sid: sid }, update_response, 'json'); 
+ }
+
+ function update_response(s)
+ {
+     // only try a limited number of times
+     if (--retries < 0) return;
+
+     // if there is xml data, update the DOM
+     if (s != null)
+     {
+	 $('#last-status img').attr("src","current/images/medal_none.png");
+	 if (parseInt(s.cd) <= -8 && s.sc == 'status-working') { $('#last-status img').attr("src","current/images/ajax.gif"); }
+
+         // change class and text of the response box
+         $('#last-status').removeClass().addClass(s.sc);
+         $('#last-status p').text(s.sr);
+
+         // change the response code of the data section
+         $('#last-status').data('response-code', parseInt(s.cd));
+	 $('#last-status .output-data').hide();
+
+	 if (s.output != null)
+	 {
+	     $('#last-status .output-data').show().text(s.output);
+	     // if the status is in a "working" state, keep checking
+	     if (parseInt($('#last-status').data('response-code')) <= -8)
+		 { setTimeout(postback, timeout); timeout *= 1.1; }
+
+	     return;
+	 }
+
+	 if (s.jd != null && s.jd.length != 0)
+	     $('#trial-information').html(s.jd);
+     }
+
+     // if the status is in a "working" state, keep checking
+     if (parseInt($('#last-status').data('response-code')) <= -8)
+         { setTimeout(postback, timeout); timeout *= 1.1; }
+ }
+
+ $(document).ready(function(){
+     $('#last-status .output-data').hide();
+     $('#last-status img').attr("src","current/images/medal_none.png");
+     if ($('#last-status').length) postback();
+
+     $('.masterTooltip').hover(function(){
+	 // Hover over code
+	 var title = $(this).attr('title');
+	 $(this).data('tipText', title).removeAttr('title');
+	 $('<p class="tooltip"></p>').text(title).appendTo('body').fadeIn('fast');
+     }, function() {
+	 // Hover out code
+	 $(this).attr('title', $(this).data('tipText'));
+	 $('.tooltip').remove();
+     }).mousemove(function(e) {
+	 var mousex = e.pageX + 20; //Get X coordinates
+	 var mousey = e.pageY + 10; //Get Y coordinates
+	 $('.tooltip').css({ top: mousey, left: mousex })
+     });
+ });
+
+ $('#choose-language').change(function(e){
+     window.location = "index.php?page=viewproblem2&cpid=1379&lang=" + $(this).val();
+ });
+
+</script>
+
+
+   </div>
+  </div>
+ </div>
+
+ <br style="clear:both" />
+
+<script>(function(){if (!document.body) return;var js = "window['__CF$cv$params']={r:'86a9efb1de640a0f',t:'MTcxMTQ4NTQyMi4zOTcwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+
+</html>
+
+

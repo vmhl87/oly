@@ -1,0 +1,244 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2021 US Open, Platinum
+
+Problem 2. Routing Schemes
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Russian (ru) Spanish (es) Chinese (zh)
+
+Consider a network of $N$ ($2\le N\le 100$) nodes labeled $1\ldots N$.
+Each node is designated as a sender, a receiver, or neither. The number
+of senders, $S$, is equal to the number of receivers ($S\ge 1$).
+
+The connections between the nodes in this network can be described by a
+list of directed edges each of the form $i\to j$, meaning that node $i$
+may route to node $j$. Interestingly, all of these edges satisfy the
+property that $i<j$, aside from $K$ that satisfy $i>j$ ($0\le K\le 2$).
+There are no self-loops (edges of the form $i\to i$).
+
+The description of a "routing scheme" consists of a set of $S$ directed
+paths from senders to receivers such that no two of these paths share an
+endpoint. That is, the paths connect distinct senders to distinct
+receivers. A path from a sender $s$ to a receiver $r$ can be described
+as a sequence of nodes
+
+$$s=v_0\to v_1 \to v_2\to \cdots \to v_e=r$$
+
+such that the directed edges $v_i\to v_{i+1}$ exist for all $0\le i<e$.
+A node may appear more than once within the same path.
+
+Count the number of distinct routing schemes such that every directed
+edge is traversed exactly once. Since the answer may be very large,
+report it modulo $10^9+7$. It is guaranteed that there is at least one
+routing scheme satisfying these constraints.
+
+Each input contains $T$ ($1\le T\le 20$) test cases that should be
+solved independently. It is guaranteed that the sum of $N^2$ over all
+test cases does not exceed $2\cdot 10^4$.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line of the input contains $T$, the number of test cases.
+
+The first line of each test case contains the integers $N$ and $K$. Note
+that $S$ is not explicitly given within the input.
+
+The second line of each test case contains a string of length $N$. The
+$i$-th character of the string is equal to S if the $i$-th node is a
+sender, R if the $i$-th node is a receiver, or . if the $i$-th node is
+neither. The number of Rs in this string is equal to the number of Ss,
+and there is at least one S.
+
+The next $N$ lines of each test case each contain a bit string of $N$
+zeros and ones. The $j$-th bit of the $i$-th line is equal to $1$ if
+there exists a directed edge from node $i$ to node $j$, and $0$
+otherwise. As there are no self-loops, the main diagonal of the matrix
+consists solely of zeros. Furthermore, there are exactly $K$ ones below
+the main diagonal.
+
+Consecutive test cases are separated by newlines for readability.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+For each test case, the number of routing schemes such that every edge
+is traversed exactly once, modulo $10^9+7$. It is guaranteed that there
+is at least one valid routing scheme for each test case.
+
+SAMPLE INPUT:
+
+    2
+
+    8 0
+    SS....RR
+    00100000
+    00100000
+    00011000
+    00000100
+    00000100
+    00000011
+    00000000
+    00000000
+
+    13 0
+    SSS.RRRSS.RR.
+    0001000000000
+    0001000000000
+    0001000000000
+    0000111000000
+    0000000000000
+    0000000000000
+    0000000000000
+    0000000001000
+    0000000001000
+    0000000000110
+    0000000000000
+    0000000000000
+    0000000000000
+
+SAMPLE OUTPUT:
+
+    4
+    12
+
+For the first test case, the edges are $1\to 3, 2\to 3, 3\to 4, 3\to 5,
+4\to 6, 5\to 6, 6\to 7, 6\to 8$.
+
+There are four possible routing schemes:
+
+-   $1\to 3\to 4\to 6\to 7, 2\to 3\to 5\to 6\to 8$
+-   $1\to 3\to 5\to 6\to 7, 2\to 3\to 4\to 6\to 8$
+-   $1\to 3\to 4\to 6\to 8, 2\to 3\to 5\to 6\to 7$
+-   $1\to 3\to 5\to 6\to 8, 2\to 3\to 4\to 6\to 7$
+
+For the second test case, the edges are $1\to 4, 2\to 4, 3\to 4, 4\to
+5,4\to 6,4\to 7, 8\to 10, 9\to 10, 10\to 11, 10\to 12$.
+
+One possible routing scheme consists of the following paths:
+
+-   $1\to 4\to 5$
+-   $2\to 4\to 7$
+-   $3\to 4\to 6$
+-   $8\to 10\to 12$
+-   $9\to 10\to 11$
+
+In general, senders $\{1,2,3\}$ can route to some permutation of
+receivers $\{5,6,7\}$ and senders $\{8,9\}$ can route to some
+permutation of receivers $\{11,12\}$, giving an answer of $6\cdot 2=12$.
+
+SAMPLE INPUT:
+
+    2
+
+    5 1
+    SS.RR
+    00101
+    00100
+    10010
+    00000
+    00000
+
+    6 2
+    S....R
+    001000
+    000100
+    010001
+    000010
+    001000
+    000000
+
+SAMPLE OUTPUT:
+
+    3
+    1
+
+For the first test case, the edges are $1\to 3, 1\to 5, 2\to 3, 3\to 1,
+3\to 4$.
+
+There are three possible routing schemes:
+
+-   $1\to 3\to 1\to 5$, $2\to 3\to 4$
+-   $1\to 3\to 4$, $2\to 3\to 1\to 5$
+-   $1\to 5$, $2\to 3\to 1\to 3\to 4$
+
+For the second test case, the edges are $1\to 3, 2\to 4, 3\to 2,3\to 6,
+4\to 5, 5\to 3$.
+
+There is only one possible routing scheme: $1\to 3\to 2\to 4\to 5\to
+3\to 6$.
+
+SAMPLE INPUT:
+
+    5
+
+    3 2
+    RS.
+    010
+    101
+    100
+
+    4 2
+    .R.S
+    0100
+    0010
+    1000
+    0100
+
+    4 2
+    .SR.
+    0000
+    0011
+    0100
+    0010
+
+    5 2
+    .SSRR
+    01000
+    10101
+    01010
+    00000
+    00000
+
+    6 2
+    SS..RR
+    001010
+    000010
+    000010
+    000010
+    100101
+    000000
+
+SAMPLE OUTPUT:
+
+    2
+    1
+    2
+    6
+    24
+
+Some additional small test cases.
+
+SCORING:
+
+-   Test cases 4-5 satisfy $N\le 6$.
+-   Test cases 6-7 satisfy $K=0$.
+-   Test cases 8-12 satisfy $K=1$.
+-   Test cases 13-24 satisfy $K=2$.
+
+Problem credits: Benjamin Qi
+
+Contest has ended. No further submissions allowed.

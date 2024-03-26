@@ -1,0 +1,97 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2022 January Contest, Gold
+
+Problem 3. Tests for Haybales
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Russian (ru) Spanish (es) Chinese (zh)
+
+Farmer John's cows have decided to offer a programming contest for the
+cows on Farmer Nhoj's farm. In order to make the problems as fun as
+possible, they have spent considerable time coming up with challenging
+input cases. For one problem in particular, "Haybales", the cows need
+your help devising challenging inputs. This involve solving the
+following somewhat intriguing problem:
+
+There is an array of sorted integers $x_1 \leq x_2 \leq \dotsb \leq x_N$
+($1 \leq N \leq 10^5$), and an integer $K$. You don't know the array or
+$K$, but you do know for each index $i$, the largest index $j_i$ such
+that $x_{j_i} \leq x_i + K$. It is guaranteed that $i\le j_i$ and
+$j_1\le j_2\le \cdots \le j_N\le N$.
+
+Given this information, Farmer John's cows need to construct any array
+along with some integer $K$ that matches that information. The
+construction needs to satisfy $0 \leq x_i \leq 10^{18}$ for all $i$ and
+$1 \leq K \leq 10^{18}$.
+
+It can be proven that this is always possible. Help Farmer John's cows
+solve this problem!
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line of input contains $N$. The next line contains
+$j_1,j_2,\ldots,j_N$.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+Print $K$, then $x_1,\ldots,x_N$ on separate lines. Any valid output
+will be accepted.
+
+SAMPLE INPUT:
+
+    6
+    2 2 4 5 6 6
+
+SAMPLE OUTPUT:
+
+    6
+    1
+    6
+    17
+    22
+    27
+    32
+
+The sample output is the array $a = [1, 6, 17, 22, 27, 32]$ with $K =
+6$. $j_1 = 2$ is satisfied because $a_2 = 6 \leq 1 + 6 = a_1 + K$ but
+$a_3 = 17 > 1 + 6 = a_1 + K$, so $a_2$ is the largest element that is at
+most $a_1$. Similarly,
+
+-   $j_2 = 2$ is satisfied because $a_2 = 6 \leq 6 + 6$ but $a_3 = 17 >
+    6 + 6$
+-   $j_3 = 4$ is satisfied because $a_4 = 22 \leq 17 + 6$ but $a_5 =
+    27 > 17 + 6$
+-   $j_4 = 5$ is satisfied because $a_5 = 27 \leq 22 + 6$ but $a_5 =
+    32 > 22 + 6$
+-   $j_5 = 6$ is satisfied because $a_6 = 32 \leq 27 + 6$ and $a_6$ is
+    the last element of the array
+-   $j_6 = 6$ is satisfied because $a_6 = 32 \leq 32 + 6$ and $a_6$ is
+    the last element of the array
+
+This is not the only possible correct output for the sample input. For
+example, you could instead output the array $[1, 2, 4, 5, 6, 7]$ with $K
+= 1$.
+
+SCORING:
+
+-   For 50% of all inputs, $N\le 5000$
+-   For the remaining inputs, there are no additional constraints.
+
+Problem credits: Danny Mittal
+
+Contest has ended. No further submissions allowed.

@@ -1,0 +1,159 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2024 January Contest, Silver
+
+Problem 1. Cowmpetency
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) Armenian (hy) French (fr) Russian (ru) Spanish (es) Chinese
+(zh)
+
+Farmer John is hiring a new herd leader for his cows. To that end, he
+has interviewed $N$ ($2 \leq N \leq 10^5$) cows for the position. After
+interviewing the $i$th candidate, he assigned the candidate an integer
+"cowmpetency" score $c_i$ ranging from $1$ to $C$ inclusive ($1 \leq C
+\leq 10^9$) that is correlated with their leadership abilities.
+
+Because he has interviewed so many cows, Farmer John does not remember
+all of their cowmpetency scores. However, he does remembers $Q$ ($1 \leq
+Q < N$) pairs of numbers $(a_j, h_j)$ where cow $h_j$ was the first cow
+with a strictly greater cowmpetency score than cows $1$ through $a_j$
+(so $1 \leq a_j < h_j \leq N$).
+
+Farmer John now tells you the sequence $c_1, \dots, c_N$ (where $c_i =
+0$ means that he has forgotten cow $i$'s cowmpetency score) and the $Q$
+pairs of $(a_j, h_j)$. Help him determine the lexicographically smallest
+sequence of cowmpetency scores consistent with this information, or that
+no such sequence exists! A sequence of scores is lexicographically
+smaller than another sequence of scores if it assigns a smaller score to
+the first cow at which the two sequences differ.
+
+Each input contains $T$ $(1 \leq T \leq 20)$ independent test cases. The
+sum of $N$ across all test cases is guaranteed to not exceed $3 \cdot
+10^5$.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line contains $T$, the number of independent test cases. Each
+test case is described as follows:
+
+1.  First, a line containing $N$, $Q$, and $C$.
+2.  Next, a line containing the sequence $c_1, \dots, c_N$ $(0 \leq c_i
+    \leq C)$.
+3.  Finally, $Q$ lines each containing a pair $(a_j, h_j)$. It is
+    guaranteed that all $a_j$ within a test case are distinct.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+For each test case, output a single line containing the
+lexicographically smallest sequence of cowmpetency scores consistent
+with what Farmer John remembers, or $-1$ if such a sequence does not
+exist.
+
+SAMPLE INPUT:
+
+    1
+    7 3 5
+    1 0 2 3 0 4 0
+    1 2
+    3 4
+    4 5
+
+SAMPLE OUTPUT:
+
+    1 2 2 3 4 4 1
+
+We can see that the given output satisfies all of Farmer John's
+remembered pairs.
+
+-   $\max(c_1) = 1$, $c_2 = 2$ and $1<2$ so the first pair is satisfied
+-   $\max(c_1,c_2,c_3) = 2$, $c_4 = 3$ and $2<3$ so the second pair is
+    satisfied
+-   $\max(c_1,c_2,c_3,c_4) = 3$, $c_5 = 4$ and $3<4$ so the third pair
+    is satisfied
+
+There are several other sequences consistent with Farmer John's memory,
+such as
+
+    1 2 2 3 5 4 1
+    1 2 2 3 4 4 5
+
+However, none of these are lexicographically smaller than the given
+output.
+
+SAMPLE INPUT:
+
+    5
+    7 6 10
+    0 0 0 0 0 0 0
+    1 2
+    2 3
+    3 4
+    4 5
+    5 6
+    6 7
+    8 4 9
+    0 0 0 0 1 6 0 6
+    1 3
+    6 7
+    4 7
+    2 3
+    2 1 1
+    0 0
+    1 2
+    10 4 10
+    1 2 0 2 1 5 8 6 0 3
+    4 7
+    1 2
+    5 7
+    3 7
+    10 2 8
+    1 0 0 0 0 5 7 0 0 0
+    4 6
+    6 9
+
+SAMPLE OUTPUT:
+
+    1 2 3 4 5 6 7
+    1 1 2 6 1 6 7 6
+    -1
+    1 2 5 2 1 5 8 6 1 3
+    -1
+
+In test case 3, since $C=1$, the only potential sequence is
+
+    1 1
+
+However, in this case, cow 2 does not have a greater score than cow 1,
+so we cannot satisfy the condition.
+
+In test case 5, $a_1$ and $h_1$ tell us that cow 6 is the first cow to
+have a strictly greater score than cows 1 through 4. Therefore, the
+largest score for cows 1 through 6 is that of cow 6: 5. Since cow 7 has
+a score of 7, cow 7 is the first cow to have a greater score than cows 1
+through 6. So, the second statement that cow 9 is the first cow to have
+a greater score than cows 1 through 6 cannot be true.
+
+SCORING:
+
+-   Input 3 satisfies $N \leq 10$ and $Q, C \leq 4$.
+-   Inputs 4-8 satisfy $N \leq 1000$.
+-   Inputs 9-12 satisfy no additional constraints.
+
+Problem credits: Suhas Nagar
+
+Contest has ended. No further submissions allowed.

@@ -1,0 +1,166 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2024 US Open Contest, Platinum
+
+Problem 1. Identity Theft
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Russian (ru) Chinese (zh)
+
+**Note: The time limit and memory limit for this problem are 3s and
+512MB, which are 1.5x and 2x the normal amount, respectively.**
+
+Farmer John's $N$ ($1 \leq N \leq 10^5$) cows each have a Farm ID number
+in the form of a bitstring (a string consisting of the characters '0'
+and '1'). Bessie, the eldest cow, has the Farm ID numbers of all the
+cows memorized, and likes to go around and ask cows their ID numbers.
+
+When a cow is asked their Farm ID number, they will start to say the
+correct bitstring, but may get confused and stop before finishing it.
+When Bessie hears the bitstring, if it is not the Farm ID number of any
+cow on the farm, then she will shrug and walk off. However, if it is the
+ID number of a different cow than the one she asked, then she will
+assume that identity theft has occurred and place the farm into
+lockdown. Note that this can happen even when the cow says their full
+Farm ID number.
+
+Farmer John would like to prevent this from happening, and is willing to
+change the cows' Farm ID numbers by adding some more bits to them. In
+one second, he can add one bit to the end of the Farm ID number of any
+cow. Figure out the minimum amount of time it will take for him to
+prevent a lockdown from ever occurring.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line contains $N$, the number of cows on Farmer John's farm.
+
+Then $N$ lines follow. The $k$th line contains a bitstring equal to the
+Farm ID number of the $k$th cow on Farmer John's farm.
+
+No cow's Farm ID number is empty, and the total length of all Farm ID
+numbers is at most $10^6$.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+Output the minimum number of seconds Farmer John needs to spend to
+ensure that a lockdown will never occur.
+
+SAMPLE INPUT:
+
+    3
+    1
+    1
+    1
+
+SAMPLE OUTPUT:
+
+    5
+
+This sample satisfies the constraints for the first subtask.
+
+We can make a lockdown impossible in 5 seconds by adding '0' to the
+first Farm ID number, '10' to the second Farm ID number, and '11' to the
+third Farm ID number, making the Farm ID numbers '10', '110', and '111'.
+
+You can prove that this cannot be done in 4 or fewer seconds. For
+example, if you leave the Farm ID numbers as they are, then all 3 cows
+have the same Farm ID number '1', so when Bessie hears it it will always
+be the Farm ID number of another cow.
+
+As another example, if you spend just 2 seconds to add '0' to the second
+Farm ID number and '1' to the third Farm ID number, then the Farm ID
+numbers are '1', '10', and '11', and so the second and third cows, when
+saying their Farm ID numbers, might stop in the middle and just say '1',
+which would be the Farm ID number of the first cow.
+
+SAMPLE INPUT:
+
+    3
+    1
+    11
+    111
+
+SAMPLE OUTPUT:
+
+    2
+
+We can make a lockdown impossible in 2 seconds by adding '0' to the
+first two Farm ID numbers, making the Farm ID numbers '10', '110', and
+'111' like before. You can prove that this cannot be done in 1 second.
+
+SAMPLE INPUT:
+
+    3
+    1
+    1
+    11
+
+SAMPLE OUTPUT:
+
+    4
+
+We can make a lockdown impossible in 4 seconds by adding '00' to the
+first Farm ID number and '01' to the second Farm ID number. You can
+prove that this cannot be done in 3 or fewer seconds.
+
+SAMPLE INPUT:
+
+    5
+    0
+    01
+    0011
+    010
+    01
+
+SAMPLE OUTPUT:
+
+    6
+
+SAMPLE INPUT:
+
+    14
+    0
+    1
+    1
+    0
+    1
+    0
+    1
+    1
+    1
+    1
+    1
+    0
+    0
+    1
+
+SAMPLE OUTPUT:
+
+    41
+
+This sample satisfies the constraints for the first subtask.
+
+SCORING:
+
+-   Inputs 6-7: All Farm ID numbers have length exactly $1$.
+-   Inputs 8-15: $N\le 10^2$ and the total length of the Farm ID numbers
+    does not exceed $10^3$.
+-   Inputs 16-25: No additional constraints.
+
+Problem credits: Benjamin Qi
+
+Contest has ended. No further submissions allowed.

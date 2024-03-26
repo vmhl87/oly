@@ -1,0 +1,103 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2020 January Contest, Silver
+
+Problem 3. Wormhole Sort
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Mongolian (mn) Russian (ru) Spanish (es)
+Chinese (zh)
+
+Farmer John's cows have grown tired of his daily request that they sort
+themselves before leaving the barn each morning. They have just
+completed their PhDs in quantum physics, and are ready to speed things
+up a bit.
+
+This morning, as usual, Farmer John's $N$ cows ($1 \leq N \leq 10^5$),
+conveniently numbered $1 \dots N$, are scattered throughout the barn at
+$N$ distinct locations, also numbered $1 \dots N$, such that cow $i$ is
+at location $p_i$. But this morning there are also $M$ wormholes ($1
+\leq M \leq 10^5$), numbered $1 \dots M$, where wormhole $i$
+bidirectionally connects location $a_i$ with location $b_i$, and has a
+width $w_i$ ($1\le a_i,b_i\le N, a_i\neq b_i, 1\le w_i\le 10^9$).
+
+At any point in time, two cows located at opposite ends of a wormhole
+may choose to simultaneously swap places through the wormhole. The cows
+must perform such swaps until cow $i$ is at location $i$ for $1 \leq i
+\leq N$.
+
+The cows are not eager to get squished by the wormholes. Help them
+maximize the width of the least wide wormhole which they must use to
+sort themselves. It is guaranteed that it is possible for the cows to
+sort themselves.
+
+SCORING:
+
+-   Test cases 3-5 satisfy $N,M\le 1000.$
+-   Test cases 6-10 satisfy no additional constraints.
+
+INPUT FORMAT (file wormsort.in):
+
+The first line contains two integers, $N$ and $M$.
+
+The second line contains the $N$ integers $p_1, p_2, \dots, p_N$. It is
+guaranteed that $p$ is a permutation of $1\ldots N.$
+
+For each $i$ between $1$ and $M$, line $i+2$ contains the integers
+$a_i$, $b_i$, and $w_i$.
+
+OUTPUT FORMAT (file wormsort.out):
+
+A single integer: the maximum minimal wormhole width which a cow must
+squish itself into during the sorting process. If the cows do not need
+any wormholes to sort themselves, output $-1$.
+
+SAMPLE INPUT:
+
+    4 4
+    3 2 1 4
+    1 2 9
+    1 3 7
+    2 3 10
+    2 4 3
+
+SAMPLE OUTPUT:
+
+    9
+
+Here is one possible way to sort the cows using only wormholes of width
+at least 9:
+
+-   Cow 1 and cow 2 swap positions using the third wormhole.
+-   Cow 1 and cow 3 swap positions using the first wormhole.
+-   Cow 2 and cow 3 swap positions using the third wormhole.
+
+SAMPLE INPUT:
+
+    4 1
+    1 2 3 4
+    4 2 13
+
+SAMPLE OUTPUT:
+
+    -1
+
+No wormholes are needed to sort the cows.
+
+Problem credits: Dhruv Rohatgi
+
+Contest has ended. No further submissions allowed.

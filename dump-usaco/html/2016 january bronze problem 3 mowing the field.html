@@ -1,0 +1,262 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="https://www.w3.org/1999/xhtml">
+
+<head>
+
+
+ <title>USACO</title>
+ <link rel="stylesheet" type="text/css" href="current/usaco.css">
+ <script src="current/js/jquery.min.js"></script>
+ <script src="current/js/d3.v3.min.js"></script>
+
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+ <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+ <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    "HTML-CSS": {
+	scale: 85,
+	preferredFont: "STIX"
+    },
+  tex2jax: {
+    inlineMath: [['$','$'],['\\(','\\)']],
+    processEscapes: true,
+    skipTags: ['pre'],
+    processClass: "mathjax",
+    ignoreClass: "no-mathjax"
+  }
+});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</head>
+
+<body class="no-mathjax">
+ <div align="center">
+  <div class="shadow1">
+
+   <div class="content">
+
+  
+ <a href="index.php"><img src="current/images/usaco_logo.png" height="130px" border="0px" /></a> 
+
+    <div class="navbar" align="left" border="10px">
+     <ul>
+      <li><a href="index.php">Overview</a></li> 
+      <li><a href="index.php?page=training">Training</a></li>
+      <li><a href="index.php?page=contests">Contests</a></li>
+      <li><a href="index.php?page=history">History</a></li>
+      <li><a href="index.php?page=staff">Staff</a></li>
+      <li><a href="index.php?page=resources">Resources</a></li>
+     </ul>
+    </div><br/>
+
+   
+    
+
+
+<div style="position:relative; float:left; left:10px; top:-50px; width:550px;"> 
+<div class="panel">
+
+<h2> USACO 2016 January Contest, Bronze </h2>
+<h2> Problem 3. Mowing the Field </h2>
+ 
+</div>
+</div>
+
+<div align="right" style="position:relative; float:right; right:30px; top:-40px; width:350px;">
+
+<button style="margin-bottom:6px;" type="button" onClick="window.location='index.php?page=jan16results';">Return to Problem List</button><br style="padding-top:6px"/>
+Contest has ended.
+
+</div>
+
+<br style="clear:both" />
+
+
+<div id="last-status" style="padding:10px; position:relative; float:left; left:30px; top:-45px; width:820px; border:1px solid black; background-color:#FFF; " 
+	data-response-code="-1" data-sid="-1"> 
+   <img src="current/images/ajax.gif"/> <p style="display:inline;"> <b>Log in to allow submissions in analysis mode</b></p>
+<div id="trial-information"></div>
+<p style="text-align:left;" class="mono prewrap output-data"></p>
+</div>
+
+<br style="clear:both" />
+
+<div align="right" style="position:relative; float:right; right:40px; top:-93px; width:350px; z-index:2; padding:0px;">
+
+<form style="padding-top:60px;" action=""> 
+<select name="lang" style="background-color:#eee;" id="choose-language">
+<option value='en' selected='yes'>English (en)</option>
+<option value='hy'>Armenian (hy)</option>
+<option value='fr'>French (fr)</option>
+<option value='ru'>Russian (ru)</option>
+<option value='es'>Spanish (es)</option>
+<option value='rs'>Serbian (rs)</option>
+</select>
+</form>
+
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-100px; width:840px; z-index:1;"> 
+<div align="left" class="problem-text" style='width:800px; padding-top:10px;'>
+<span id="probtext-text" class="mathjax">Farmer John is quite reliable in all aspects of managing his farm, except one:
+he is terrible at mowing the grass in a timely or logical fashion.
+
+<p>The farm is a large 2D grid of square unit cells.  FJ starts in one of these
+cells at time $t = 0$, mowing the grass in this cell so that it is initially the
+only cell in which the grass is cut.  FJ&apos;s remaining mowing pattern is 
+described by a sequence of $N$ statements.  For example, if the first  statement
+is &quot;W 10&quot;, then for times $t = 1$ through $t = 10$ (i.e., the next 10 units of
+time), FJ will step one cell to his west, mowing the  grass along the way. 
+After completing this sequence of steps, he will end up 10 cells to his west at
+time $t = 10$, having mowed the grass in every cell along the way. 
+
+<p>So slow is FJ&apos;s progress that some of the grass he mows might grow back before
+he is finished with all his mowing. Any section of grass that is cut at time $t$
+will reappear at time $t + x$. 
+
+<p>FJ&apos;s mowing pattern might have him re-visit the same cell multiple times, but he
+remarks that he never encounters a cell in which the grass is already cut.  That
+is, every time he visits a cell, his most recent visit to that same cell must
+have been at least $x$ units of time earlier, in order for the grass to have
+grown back.
+
+<p>Please determine the maximum possible value of $x$ so that FJ&apos;s observation
+remains valid.
+
+<p><div class='prob-in-spec'><h4>INPUT FORMAT (file mowing.in):</h4>
+The first line of input contains $N$ ($1 \leq N \leq 100$). Each of the
+remaining $N$ lines contains a single statement and is of the form &apos;D S&apos;, where
+D is a character describing a direction (N=north, E=east, S=south, W=west) and S
+is the number of steps taken in that direction ($1 \leq S \leq 10$).  
+</div>
+
+<p><div class='prob-out-spec'><h4>OUTPUT FORMAT (file mowing.out):</h4>
+Please determine the maximum value of $x$ such that FJ never steps on a cell
+with cut grass.  If FJ never visits any cell more than once, please
+output -1.
+</div>
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+6
+N 10
+E 2
+S 3
+W 4
+S 5
+E 8
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+10
+</pre>
+
+<p>In this example, FJ steps on a cell at time 17 that he stepped on earlier at
+time 7; therefore, $x$ must be at most 10 or else the grass from his first visit
+would not yet have grown back.  He also steps on a cell at time 26 that he also
+visited at time 2; hence $x$ must also be at most 24.  Since the first of these
+two constraints is tighter, we see that $x$ can be at most 10.
+
+<p>Problem credits: Brian Dean
+</span>
+</div>
+
+           Contest has ended.  No further submissions allowed.
+    
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-70px; width:840px;"> 
+
+</div>
+
+<br style="clear:both" />
+
+<script>
+ var retries = 100, timeout = 1000;
+
+ function postback()
+ { 
+     var sid = $('#last-status').data('sid'); if (sid == -1) return;
+     $.post('current/tpcm/status-update.php', { sid: sid }, update_response, 'json'); 
+ }
+
+ function update_response(s)
+ {
+     // only try a limited number of times
+     if (--retries < 0) return;
+
+     // if there is xml data, update the DOM
+     if (s != null)
+     {
+	 $('#last-status img').attr("src","current/images/medal_none.png");
+	 if (parseInt(s.cd) <= -8 && s.sc == 'status-working') { $('#last-status img').attr("src","current/images/ajax.gif"); }
+
+         // change class and text of the response box
+         $('#last-status').removeClass().addClass(s.sc);
+         $('#last-status p').text(s.sr);
+
+         // change the response code of the data section
+         $('#last-status').data('response-code', parseInt(s.cd));
+	 $('#last-status .output-data').hide();
+
+	 if (s.output != null)
+	 {
+	     $('#last-status .output-data').show().text(s.output);
+	     // if the status is in a "working" state, keep checking
+	     if (parseInt($('#last-status').data('response-code')) <= -8)
+		 { setTimeout(postback, timeout); timeout *= 1.1; }
+
+	     return;
+	 }
+
+	 if (s.jd != null && s.jd.length != 0)
+	     $('#trial-information').html(s.jd);
+     }
+
+     // if the status is in a "working" state, keep checking
+     if (parseInt($('#last-status').data('response-code')) <= -8)
+         { setTimeout(postback, timeout); timeout *= 1.1; }
+ }
+
+ $(document).ready(function(){
+     $('#last-status .output-data').hide();
+     $('#last-status img').attr("src","current/images/medal_none.png");
+     if ($('#last-status').length) postback();
+
+     $('.masterTooltip').hover(function(){
+	 // Hover over code
+	 var title = $(this).attr('title');
+	 $(this).data('tipText', title).removeAttr('title');
+	 $('<p class="tooltip"></p>').text(title).appendTo('body').fadeIn('fast');
+     }, function() {
+	 // Hover out code
+	 $(this).attr('title', $(this).data('tipText'));
+	 $('.tooltip').remove();
+     }).mousemove(function(e) {
+	 var mousex = e.pageX + 20; //Get X coordinates
+	 var mousey = e.pageY + 10; //Get Y coordinates
+	 $('.tooltip').css({ top: mousey, left: mousex })
+     });
+ });
+
+ $('#choose-language').change(function(e){
+     window.location = "index.php?page=viewproblem2&cpid=593&lang=" + $(this).val();
+ });
+
+</script>
+
+
+   </div>
+  </div>
+ </div>
+
+ <br style="clear:both" />
+
+<script>(function(){if (!document.body) return;var js = "window['__CF$cv$params']={r:'86a9ed7f5f322d23',t:'MTcxMTQ4NTMzMi4zOTQwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+
+</html>
+
+

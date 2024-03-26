@@ -1,0 +1,289 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="https://www.w3.org/1999/xhtml">
+
+<head>
+
+
+ <title>USACO</title>
+ <link rel="stylesheet" type="text/css" href="current/usaco.css">
+ <script src="current/js/jquery.min.js"></script>
+ <script src="current/js/d3.v3.min.js"></script>
+
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+ <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+ <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    "HTML-CSS": {
+	scale: 85,
+	preferredFont: "STIX"
+    },
+  tex2jax: {
+    inlineMath: [['$','$'],['\\(','\\)']],
+    processEscapes: true,
+    skipTags: ['pre'],
+    processClass: "mathjax",
+    ignoreClass: "no-mathjax"
+  }
+});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</head>
+
+<body class="no-mathjax">
+ <div align="center">
+  <div class="shadow1">
+
+   <div class="content">
+
+  
+ <a href="index.php"><img src="current/images/usaco_logo.png" height="130px" border="0px" /></a> 
+
+    <div class="navbar" align="left" border="10px">
+     <ul>
+      <li><a href="index.php">Overview</a></li> 
+      <li><a href="index.php?page=training">Training</a></li>
+      <li><a href="index.php?page=contests">Contests</a></li>
+      <li><a href="index.php?page=history">History</a></li>
+      <li><a href="index.php?page=staff">Staff</a></li>
+      <li><a href="index.php?page=resources">Resources</a></li>
+     </ul>
+    </div><br/>
+
+   
+    
+
+
+<div style="position:relative; float:left; left:10px; top:-50px; width:550px;"> 
+<div class="panel">
+
+<h2> USACO 2022 US Open Contest, Gold </h2>
+<h2> Problem 2. Pair Programming </h2>
+ 
+</div>
+</div>
+
+<div align="right" style="position:relative; float:right; right:30px; top:-40px; width:350px;">
+
+<button style="margin-bottom:6px;" type="button" onClick="window.location='index.php?page=open22results';">Return to Problem List</button><br style="padding-top:6px"/>
+Contest has ended.
+
+</div>
+
+<br style="clear:both" />
+
+
+<div id="last-status" style="padding:10px; position:relative; float:left; left:30px; top:-45px; width:820px; border:1px solid black; background-color:#FFF; " 
+	data-response-code="-1" data-sid="-1"> 
+   <img src="current/images/ajax.gif"/> <p style="display:inline;"> <b>Log in to allow submissions in analysis mode</b></p>
+<div id="trial-information"></div>
+<p style="text-align:left;" class="mono prewrap output-data"></p>
+</div>
+
+<br style="clear:both" />
+
+<div align="right" style="position:relative; float:right; right:40px; top:-93px; width:350px; z-index:2; padding:0px;">
+
+<form style="padding-top:60px;" action=""> 
+<select name="lang" style="background-color:#eee;" id="choose-language">
+<option value='en' selected='yes'>English (en)</option>
+<option value='fr'>French (fr)</option>
+<option value='ru'>Russian (ru)</option>
+<option value='es'>Spanish (es)</option>
+<option value='zh'>Chinese (zh)</option>
+</select>
+</form>
+
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-100px; width:840px; z-index:1;"> 
+<div align="left" class="problem-text" style='width:800px; padding-top:10px;'>
+<span id="probtext-text" class="mathjax"><p>A program consists of a sequence of instructions, each of which is of one of the
+following forms:
+
+<p><ol><li>$\times d$, where $d$ is a digit in the range $[0,9]$</li><li>$+s$, where $s$ is a string denoting the name of a variable. Within a
+program, all variable names must be distinct.</li></ol>
+
+<p>The result of executing a program is defined to be the expression that results
+after applying each instruction in order, starting with $0$. For example, the result of
+executing the program  $[\times 3,+x,+y,\times 2,+z]$ is the expression
+$(0\times 3+x+y)\times 2+z=2\times x+2\times y+z$. Different programs, when
+executed may produce the same expressions; for example, executing
+$[+w,\times 0,+y,+x,\times 2,+z, \times 1]$ would also result in the expression
+$2\times x+2\times y+z$.
+
+<p>Bessie and Elsie each have programs of $N$ ($1\le N\le 2000$) instructions. They
+will interleave these programs to produce a new program of length $2N$.  Note
+that there are $\frac{(2N)!}{N!\times N!}$ ways to do this, but not all such
+programs, when executed, will produce distinct expressions.
+
+<p>Count the number of distinct expressions that may be produced by executing
+Bessie and Elsie's interleaved program, modulo $10^9+7$. 
+
+<p>Each input contains $T$ ($1\le T\le 10$)  test cases that should be solved
+independently. It is guaranteed that the sum of $N$ over all test cases does not
+exceed $2000$.
+
+<p><div class='prob-in-spec'><h4>INPUT FORMAT (input arrives from the terminal / stdin):</h4>
+The first line of the input contains $T$, the number of test cases.
+
+<p>The first line of each test case contains $N$.
+
+<p>The second line of each test case contains Bessie's program, represented by a
+string of length $N$. Each character is either a digit $d\in [0,9]$,
+representing an instruction of type 1, or the character $+$, representing an
+instruction of type 2.
+
+<p>The third line of each test case contains Elsie's program in the same format as
+Bessie's.
+
+<p>Within a test case, the variable names among all instructions are distinct. Note
+that their actual names are not provided, as they do not affect the answer.
+</div>
+
+<p><div class='prob-out-spec'><h4>OUTPUT FORMAT (print output to the terminal / stdout):</h4>
+The number of distinct expressions that may be produced by executing  Bessie and
+Elsie's interleaved programs, modulo $10^9+7$.
+</div>
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+4
+1
+0
+1
+3
+12+
++02
+3
+0++
+++9
+4
+5+++
++6+1
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+1
+3
+9
+9
+</pre>
+
+<p>For the first test case, the two possible interleaved programs are
+$[\times 1, \times 0]$  and $[\times 0,\times 1]$. These will both produce the
+expression $0$ when executed.
+
+<p>For the second test case, executing an interleaving of $[\times 1,\times 2, +x]$
+and $[+y, \times 0,\times 2]$ could produce one of the expressions $0$, $x$, or
+$2\times x$.
+
+<p><div class='prob-section'><h4>SCORING:</h4>
+
+<p><ul><li>Input 2 satisfies $N\le 6$.</li><li>In inputs 3-5, the sum of all $N$ is at most $100$.</li><li>In inputs 6-8, the sum of all $N$ is at most $500$.</li><li>Inputs 9-16 satisfy no additional constraints.</li></ul>
+
+<p></div>
+
+<p>
+<p>Problem credits: Benjamin Qi
+</span>
+</div>
+
+           Contest has ended.  No further submissions allowed.
+    
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-70px; width:840px;"> 
+
+</div>
+
+<br style="clear:both" />
+
+<script>
+ var retries = 100, timeout = 1000;
+
+ function postback()
+ { 
+     var sid = $('#last-status').data('sid'); if (sid == -1) return;
+     $.post('current/tpcm/status-update.php', { sid: sid }, update_response, 'json'); 
+ }
+
+ function update_response(s)
+ {
+     // only try a limited number of times
+     if (--retries < 0) return;
+
+     // if there is xml data, update the DOM
+     if (s != null)
+     {
+	 $('#last-status img').attr("src","current/images/medal_none.png");
+	 if (parseInt(s.cd) <= -8 && s.sc == 'status-working') { $('#last-status img').attr("src","current/images/ajax.gif"); }
+
+         // change class and text of the response box
+         $('#last-status').removeClass().addClass(s.sc);
+         $('#last-status p').text(s.sr);
+
+         // change the response code of the data section
+         $('#last-status').data('response-code', parseInt(s.cd));
+	 $('#last-status .output-data').hide();
+
+	 if (s.output != null)
+	 {
+	     $('#last-status .output-data').show().text(s.output);
+	     // if the status is in a "working" state, keep checking
+	     if (parseInt($('#last-status').data('response-code')) <= -8)
+		 { setTimeout(postback, timeout); timeout *= 1.1; }
+
+	     return;
+	 }
+
+	 if (s.jd != null && s.jd.length != 0)
+	     $('#trial-information').html(s.jd);
+     }
+
+     // if the status is in a "working" state, keep checking
+     if (parseInt($('#last-status').data('response-code')) <= -8)
+         { setTimeout(postback, timeout); timeout *= 1.1; }
+ }
+
+ $(document).ready(function(){
+     $('#last-status .output-data').hide();
+     $('#last-status img').attr("src","current/images/medal_none.png");
+     if ($('#last-status').length) postback();
+
+     $('.masterTooltip').hover(function(){
+	 // Hover over code
+	 var title = $(this).attr('title');
+	 $(this).data('tipText', title).removeAttr('title');
+	 $('<p class="tooltip"></p>').text(title).appendTo('body').fadeIn('fast');
+     }, function() {
+	 // Hover out code
+	 $(this).attr('title', $(this).data('tipText'));
+	 $('.tooltip').remove();
+     }).mousemove(function(e) {
+	 var mousex = e.pageX + 20; //Get X coordinates
+	 var mousey = e.pageY + 10; //Get Y coordinates
+	 $('.tooltip').css({ top: mousey, left: mousex })
+     });
+ });
+
+ $('#choose-language').change(function(e){
+     window.location = "index.php?page=viewproblem2&cpid=1234&lang=" + $(this).val();
+ });
+
+</script>
+
+
+   </div>
+  </div>
+ </div>
+
+ <br style="clear:both" />
+
+<script>(function(){if (!document.body) return;var js = "window['__CF$cv$params']={r:'86a9ef4f29d907d3',t:'MTcxMTQ4NTQwNi42MjUwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+
+</html>
+
+

@@ -1,0 +1,281 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="https://www.w3.org/1999/xhtml">
+
+<head>
+
+
+ <title>USACO</title>
+ <link rel="stylesheet" type="text/css" href="current/usaco.css">
+ <script src="current/js/jquery.min.js"></script>
+ <script src="current/js/d3.v3.min.js"></script>
+
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+ <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+ <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    "HTML-CSS": {
+	scale: 85,
+	preferredFont: "STIX"
+    },
+  tex2jax: {
+    inlineMath: [['$','$'],['\\(','\\)']],
+    processEscapes: true,
+    skipTags: ['pre'],
+    processClass: "mathjax",
+    ignoreClass: "no-mathjax"
+  }
+});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</head>
+
+<body class="no-mathjax">
+ <div align="center">
+  <div class="shadow1">
+
+   <div class="content">
+
+  
+ <a href="index.php"><img src="current/images/usaco_logo.png" height="130px" border="0px" /></a> 
+
+    <div class="navbar" align="left" border="10px">
+     <ul>
+      <li><a href="index.php">Overview</a></li> 
+      <li><a href="index.php?page=training">Training</a></li>
+      <li><a href="index.php?page=contests">Contests</a></li>
+      <li><a href="index.php?page=history">History</a></li>
+      <li><a href="index.php?page=staff">Staff</a></li>
+      <li><a href="index.php?page=resources">Resources</a></li>
+     </ul>
+    </div><br/>
+
+   
+    
+
+
+<div style="position:relative; float:left; left:10px; top:-50px; width:550px;"> 
+<div class="panel">
+
+<h2> USACO 2024 February Contest, Bronze </h2>
+<h2> Problem 2. Milk Exchange </h2>
+ 
+</div>
+</div>
+
+<div align="right" style="position:relative; float:right; right:30px; top:-40px; width:350px;">
+
+<button style="margin-bottom:6px;" type="button" onClick="window.location='index.php?page=feb24results';">Return to Problem List</button><br style="padding-top:6px"/>
+Contest has ended.
+
+</div>
+
+<br style="clear:both" />
+
+
+<div id="last-status" style="padding:10px; position:relative; float:left; left:30px; top:-45px; width:820px; border:1px solid black; background-color:#FFF; " 
+	data-response-code="-1" data-sid="-1"> 
+   <img src="current/images/ajax.gif"/> <p style="display:inline;"> <b>Log in to allow submissions in analysis mode</b></p>
+<div id="trial-information"></div>
+<p style="text-align:left;" class="mono prewrap output-data"></p>
+</div>
+
+<br style="clear:both" />
+
+<div align="right" style="position:relative; float:right; right:40px; top:-93px; width:350px; z-index:2; padding:0px;">
+
+<form style="padding-top:60px;" action=""> 
+<select name="lang" style="background-color:#eee;" id="choose-language">
+<option value='en' selected='yes'>English (en)</option>
+<option value='hy'>Armenian (hy)</option>
+<option value='fr'>French (fr)</option>
+<option value='ru'>Russian (ru)</option>
+<option value='es'>Spanish (es)</option>
+<option value='zh'>Chinese (zh)</option>
+</select>
+</form>
+
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-100px; width:840px; z-index:1;"> 
+<div align="left" class="problem-text" style='width:800px; padding-top:10px;'>
+<span id="probtext-text" class="mathjax">
+<p>Farmer John's $N$ $(1 \leq N \leq 2 \cdot 10^5)$ cows are lined up in a circle
+such that for each $i$ in $1,2,\dots,N-1$, the cow to the right of cow $i$ is
+cow $i+1$, and the cow to the right of cow $N$ is cow $1$. The $i$th cow has a
+bucket with integer capacity $a_i$ $(1 \leq a_i \leq 10^9)$ liters. All buckets
+are initially full.
+
+<p>Every minute, the cows exchange milk according to a string $s_1s_2\dots s_N$ 
+consisting solely of the characters $\text{‘L’}$ and $\text{‘R’}$.  if
+the $i$th cow has at least $1$ liter of milk, she will pass $1$ liter of milk to
+the cow to her left if $s_i=\text{‘L’}$, or to the right if
+$s_i=\text{‘R’}$.  All exchanges happen simultaneously (i.e., if a cow has a
+full bucket but gives away a liter of milk but also receives a liter, her milk
+is preserved). If a cow's total milk ever ends up exceeding $a_i$, then the
+excess milk will be lost.
+
+<p>FJ wants to know: after $M$ minutes $(1 \leq M \leq 10^9$), what is the total
+amount of milk left among all cows?
+
+<p><div class='prob-in-spec'><h4>INPUT FORMAT (input arrives from the terminal / stdin):</h4>
+The first line contains $N$ and $M$.
+
+<p>The second line contains a string $s_1s_2\dots s_N$ consisting solely of the
+characters $\text{‘L’}$ or $\text{‘R’}$, denoting the direction each cow
+will pass their milk in.
+
+<p>The third line contains integers $a_1, a_2, \dots, a_N$, the capacities of each
+bucket.
+</div>
+
+<p><div class='prob-out-spec'><h4>OUTPUT FORMAT (print output to the terminal / stdout):</h4>
+Output an integer, the sum of milk among all cows after $M$ minutes.
+
+<p><strong>Note that the large size of integers involved in this problem may require the
+use of 64-bit integer data types (e.g., a "long long" in C/C++).</strong>
+</div>
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+3 1
+RRL
+1 1 1
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+2
+</pre>
+Cows $2$ and $3$ pass each other one liter of milk, so their milk is preserved.
+When cow $1$ passes their milk to cow $2$, cow $2$'s bucket overflows, and one
+liter of milk is lost after one minute.
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+5 20
+LLLLL
+3 3 2 3 3
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+14
+</pre>
+Each cow is passing a liter of milk to the cow on the left and gaining a liter
+of milk from the cow on the right, so all of the milk is preserved regardless of
+how much time passes.
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+9 5
+RRRLRRLLR
+5 8 4 9 3 4 9 5 4
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+38
+</pre>
+Initially, there are a total of 51 liters of milk. After 5 minutes, cows $3$, $6$, and $7$ will lose 5, 3, and 5 liters of milk respectively. Therefore, a total of 38 liters of milk remain.
+
+<p><div class='prob-section'><h4>SCORING:</h4>
+<ul><li>Inputs 4-8: $N,M \le 1000$</li><li>Inputs 9-16: No additional
+constraints.</li></ul>
+</div>
+
+<p>
+
+<p>Problem credits: Chongtian Ma, Alex Liang
+</span>
+</div>
+
+           Contest has ended.  No further submissions allowed.
+    
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-70px; width:840px;"> 
+
+</div>
+
+<br style="clear:both" />
+
+<script>
+ var retries = 100, timeout = 1000;
+
+ function postback()
+ { 
+     var sid = $('#last-status').data('sid'); if (sid == -1) return;
+     $.post('current/tpcm/status-update.php', { sid: sid }, update_response, 'json'); 
+ }
+
+ function update_response(s)
+ {
+     // only try a limited number of times
+     if (--retries < 0) return;
+
+     // if there is xml data, update the DOM
+     if (s != null)
+     {
+	 $('#last-status img').attr("src","current/images/medal_none.png");
+	 if (parseInt(s.cd) <= -8 && s.sc == 'status-working') { $('#last-status img').attr("src","current/images/ajax.gif"); }
+
+         // change class and text of the response box
+         $('#last-status').removeClass().addClass(s.sc);
+         $('#last-status p').text(s.sr);
+
+         // change the response code of the data section
+         $('#last-status').data('response-code', parseInt(s.cd));
+	 $('#last-status .output-data').hide();
+
+	 if (s.output != null)
+	 {
+	     $('#last-status .output-data').show().text(s.output);
+	     // if the status is in a "working" state, keep checking
+	     if (parseInt($('#last-status').data('response-code')) <= -8)
+		 { setTimeout(postback, timeout); timeout *= 1.1; }
+
+	     return;
+	 }
+
+	 if (s.jd != null && s.jd.length != 0)
+	     $('#trial-information').html(s.jd);
+     }
+
+     // if the status is in a "working" state, keep checking
+     if (parseInt($('#last-status').data('response-code')) <= -8)
+         { setTimeout(postback, timeout); timeout *= 1.1; }
+ }
+
+ $(document).ready(function(){
+     $('#last-status .output-data').hide();
+     $('#last-status img').attr("src","current/images/medal_none.png");
+     if ($('#last-status').length) postback();
+
+     $('.masterTooltip').hover(function(){
+	 // Hover over code
+	 var title = $(this).attr('title');
+	 $(this).data('tipText', title).removeAttr('title');
+	 $('<p class="tooltip"></p>').text(title).appendTo('body').fadeIn('fast');
+     }, function() {
+	 // Hover out code
+	 $(this).attr('title', $(this).data('tipText'));
+	 $('.tooltip').remove();
+     }).mousemove(function(e) {
+	 var mousex = e.pageX + 20; //Get X coordinates
+	 var mousey = e.pageY + 10; //Get Y coordinates
+	 $('.tooltip').css({ top: mousey, left: mousex })
+     });
+ });
+
+ $('#choose-language').change(function(e){
+     window.location = "index.php?page=viewproblem2&cpid=1396&lang=" + $(this).val();
+ });
+
+</script>
+
+
+   </div>
+  </div>
+ </div>
+
+ <br style="clear:both" />
+
+<script>(function(){if (!document.body) return;var js = "window['__CF$cv$params']={r:'86a9efc36d2b7003',t:'MTcxMTQ4NTQyNS4yMDQwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+
+</html>
+
+

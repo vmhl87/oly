@@ -1,0 +1,264 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="https://www.w3.org/1999/xhtml">
+
+<head>
+
+
+ <title>USACO</title>
+ <link rel="stylesheet" type="text/css" href="current/usaco.css">
+ <script src="current/js/jquery.min.js"></script>
+ <script src="current/js/d3.v3.min.js"></script>
+
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+ <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+ <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    "HTML-CSS": {
+	scale: 85,
+	preferredFont: "STIX"
+    },
+  tex2jax: {
+    inlineMath: [['$','$'],['\\(','\\)']],
+    processEscapes: true,
+    skipTags: ['pre'],
+    processClass: "mathjax",
+    ignoreClass: "no-mathjax"
+  }
+});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</head>
+
+<body class="no-mathjax">
+ <div align="center">
+  <div class="shadow1">
+
+   <div class="content">
+
+  
+ <a href="index.php"><img src="current/images/usaco_logo.png" height="130px" border="0px" /></a> 
+
+    <div class="navbar" align="left" border="10px">
+     <ul>
+      <li><a href="index.php">Overview</a></li> 
+      <li><a href="index.php?page=training">Training</a></li>
+      <li><a href="index.php?page=contests">Contests</a></li>
+      <li><a href="index.php?page=history">History</a></li>
+      <li><a href="index.php?page=staff">Staff</a></li>
+      <li><a href="index.php?page=resources">Resources</a></li>
+     </ul>
+    </div><br/>
+
+   
+    
+
+
+<div style="position:relative; float:left; left:10px; top:-50px; width:550px;"> 
+<div class="panel">
+
+<h2> USACO 2022 December Contest, Gold </h2>
+<h2> Problem 1. Bribing Friends </h2>
+ 
+</div>
+</div>
+
+<div align="right" style="position:relative; float:right; right:30px; top:-40px; width:350px;">
+
+<button style="margin-bottom:6px;" type="button" onClick="window.location='index.php?page=dec22results';">Return to Problem List</button><br style="padding-top:6px"/>
+Contest has ended.
+
+</div>
+
+<br style="clear:both" />
+
+
+<div id="last-status" style="padding:10px; position:relative; float:left; left:30px; top:-45px; width:820px; border:1px solid black; background-color:#FFF; " 
+	data-response-code="-1" data-sid="-1"> 
+   <img src="current/images/ajax.gif"/> <p style="display:inline;"> <b>Log in to allow submissions in analysis mode</b></p>
+<div id="trial-information"></div>
+<p style="text-align:left;" class="mono prewrap output-data"></p>
+</div>
+
+<br style="clear:both" />
+
+<div align="right" style="position:relative; float:right; right:40px; top:-93px; width:350px; z-index:2; padding:0px;">
+
+<form style="padding-top:60px;" action=""> 
+<select name="lang" style="background-color:#eee;" id="choose-language">
+<option value='en' selected='yes'>English (en)</option>
+<option value='fr'>French (fr)</option>
+<option value='ru'>Russian (ru)</option>
+<option value='es'>Spanish (es)</option>
+<option value='zh'>Chinese (zh)</option>
+</select>
+</form>
+
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-100px; width:840px; z-index:1;"> 
+<div align="left" class="problem-text" style='width:800px; padding-top:10px;'>
+<span id="probtext-text" class="mathjax">Bessie wants to watch <em>Bovine Genomics: The Documentary</em>, but she doesn’t
+want to go alone. Unfortunately, her friends aren’t enthusiastic enough to go
+with her! Therefore, Bessie needs to bribe her friends to accompany her to the
+movie theater. She has two tools in her bribery arsenal: <strong>mooney</strong> and
+<strong>ice cream cones</strong>.
+
+<p>Bessie has $N$ ($1 \le N \le 2000$) friends. However, not all friends are created equal! Friend $i$ has a popularity score
+of $P_i$ ($1 \le P_i \le 2000$), and Bessie wants to maximize the sum of the
+popularity scores of the friends accompanying her. Friend $i$ is only willing to
+accompany Bessie if she gives them $C_i$ ($1 \le C_i \le 2000$) moonies. They
+will also offer her a discount of $1$ mooney if she gives them $X_i$
+($1 \le X_i \le 2000$) ice cream cones. Bessie can get as many whole-number
+discounts as she wants from a friend, as long as the discounts don’t cause the
+friend to give her mooney.
+
+<p>Bessie has $A$ moonies and $B$ ice cream cones at her disposal
+($0 \le A, B \le 2000$). Help her determine the maximum sum of the popularity
+scores she can achieve if she spends her mooney and ice cream cones optimally!
+
+<p><div class='prob-in-spec'><h4>INPUT FORMAT (input arrives from the terminal / stdin):</h4>
+
+<p>Line $1$ contains three numbers $N$, $A$, and $B$, representing the number of
+friends, the amount of mooney, and the number of ice cream cones Bessie has
+respectively.
+
+<p>Each of the next $N$ lines contains three numbers, $P_i$, $C_i$, and $X_i$,
+representing popularity ($P_i$), mooney needed to bribe friend $i$ to accompany
+Bessie ($C_i$), and ice cream cones needed to receive a discount of $1$ mooney
+from friend $i$ ($X_i$).
+
+<p></div>
+
+<p><div class='prob-out-spec'><h4>OUTPUT FORMAT (print output to the terminal / stdout):</h4>
+
+<p>Output the maximum sum of the popularity scores of the friends accompanying
+Bessie, assuming she spends her moonie and ice cream cones optimally.
+
+<p></div>
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+3 10 8
+5 5 4
+6 7 3
+10 6 3
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+15
+</pre>
+
+<p>Bessie can give $4$ moonies and $4$ ice cream cones to cow $1$, and $6$ moonies
+and $3$ ice cream cones to cow $3$, in order to get cows $1$ and $3$ to
+accompany her for a total popularity of $5 + 10 = 15$.
+
+<p><div class='prob-section'><h4>SCORING:</h4>
+
+<p><ul><li>Test cases 2-4 satisfy $N \leq 5$ and $C_i = 1$</li><li>Test cases 5-7 satisfy $B = 0$</li><li>Test cases 8-10 satisfy $N, A, B, P_i, C_i, X_i \leq 50$</li><li>Test cases 11-15 satisfy $N, A, B, P_i, C_i, X_i \leq 200$</li><li>Test cases 16-20 satisfy no further constraints</li></ul>
+
+<p></div>
+
+<p>
+<p>Problem credits: Timothy Feng, Nathan Wang, and Sam Zhang
+</span>
+</div>
+
+           Contest has ended.  No further submissions allowed.
+    
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-70px; width:840px;"> 
+
+</div>
+
+<br style="clear:both" />
+
+<script>
+ var retries = 100, timeout = 1000;
+
+ function postback()
+ { 
+     var sid = $('#last-status').data('sid'); if (sid == -1) return;
+     $.post('current/tpcm/status-update.php', { sid: sid }, update_response, 'json'); 
+ }
+
+ function update_response(s)
+ {
+     // only try a limited number of times
+     if (--retries < 0) return;
+
+     // if there is xml data, update the DOM
+     if (s != null)
+     {
+	 $('#last-status img').attr("src","current/images/medal_none.png");
+	 if (parseInt(s.cd) <= -8 && s.sc == 'status-working') { $('#last-status img').attr("src","current/images/ajax.gif"); }
+
+         // change class and text of the response box
+         $('#last-status').removeClass().addClass(s.sc);
+         $('#last-status p').text(s.sr);
+
+         // change the response code of the data section
+         $('#last-status').data('response-code', parseInt(s.cd));
+	 $('#last-status .output-data').hide();
+
+	 if (s.output != null)
+	 {
+	     $('#last-status .output-data').show().text(s.output);
+	     // if the status is in a "working" state, keep checking
+	     if (parseInt($('#last-status').data('response-code')) <= -8)
+		 { setTimeout(postback, timeout); timeout *= 1.1; }
+
+	     return;
+	 }
+
+	 if (s.jd != null && s.jd.length != 0)
+	     $('#trial-information').html(s.jd);
+     }
+
+     // if the status is in a "working" state, keep checking
+     if (parseInt($('#last-status').data('response-code')) <= -8)
+         { setTimeout(postback, timeout); timeout *= 1.1; }
+ }
+
+ $(document).ready(function(){
+     $('#last-status .output-data').hide();
+     $('#last-status img').attr("src","current/images/medal_none.png");
+     if ($('#last-status').length) postback();
+
+     $('.masterTooltip').hover(function(){
+	 // Hover over code
+	 var title = $(this).attr('title');
+	 $(this).data('tipText', title).removeAttr('title');
+	 $('<p class="tooltip"></p>').text(title).appendTo('body').fadeIn('fast');
+     }, function() {
+	 // Hover out code
+	 $(this).attr('title', $(this).data('tipText'));
+	 $('.tooltip').remove();
+     }).mousemove(function(e) {
+	 var mousex = e.pageX + 20; //Get X coordinates
+	 var mousey = e.pageY + 10; //Get Y coordinates
+	 $('.tooltip').css({ top: mousey, left: mousex })
+     });
+ });
+
+ $('#choose-language').change(function(e){
+     window.location = "index.php?page=viewproblem2&cpid=1257&lang=" + $(this).val();
+ });
+
+</script>
+
+
+   </div>
+  </div>
+ </div>
+
+ <br style="clear:both" />
+
+<script>(function(){if (!document.body) return;var js = "window['__CF$cv$params']={r:'86a9ef5f3d739c7c',t:'MTcxMTQ4NTQwOS4xNzAwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+
+</html>
+
+

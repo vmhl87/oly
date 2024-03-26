@@ -1,0 +1,92 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2024 February Contest, Bronze
+
+Problem 3. Maximizing Productivity
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) Armenian (hy) French (fr) Russian (ru) Spanish (es) Chinese
+(zh)
+
+Farmer John has $N$ ($1 \leq N \leq 2 \cdot 10^5$) farms, numbered from
+$1$ to $N$. It is known that FJ closes farm $i$ at time $c_i$. Bessie
+wakes up at time $S$, and wants to maximize the productivity of her day
+by visiting as many farms as possible before they close. She plans to
+visit farm $i$ on time $t_i + S$. Bessie must arrive at a farm strictly
+before Farmer John closes it to actually visit it.
+
+Bessie has $Q$ $(1 \leq Q \leq 2 \cdot 10^5)$ queries. For each query,
+she gives you two integers $S$ and $V$. For each query, output whether
+Bessie can visit at least $V$ farms if she wakes up at time $S$.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line consists of $N$ and $Q$.
+
+The second line consists of $c_1, c_2, c_3 \dots c_N$ ($1 \leq c_i \leq
+10^6$).
+
+The third line consists of $t_1, t_2, t_3 \dots t_N$ ($1 \leq t_i \leq
+10^6$).
+
+The next $Q$ lines each consist of two integers $V$ ($1 \leq V \leq N$)
+and $S$ ($1 \leq S \leq 10^6$).
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+For each of the $Q$ queries, output YES or NO on a new line.
+
+SAMPLE INPUT:
+
+    5 5
+    3 5 7 9 12
+    4 2 3 3 8
+    1 5
+    1 6
+    3 3
+    4 2
+    5 1
+
+SAMPLE OUTPUT:
+
+    YES
+    NO
+    YES
+    YES
+    NO
+
+For the first query, Bessie will visit the farms at time $t = [9, 7, 8,
+8, 13]$, so she will only get to visit farm $4$ on time before FJ closes
+the farm.
+
+For the second query, Bessie will not be able to visit any of the farms
+on time.
+
+For the third query, Bessie will visit farms $3, 4, 5$ on time.
+
+For the fourth and fifth queries, Bessie will be able to visit all but
+the first farm on time.
+
+SCORING:
+
+-   Inputs 2-4: $N,Q\le 10^3$
+-   Inputs 5-9: $c_i, t_i \le 20$
+-   Inputs 10-17: No additional constraints.
+
+Problem credits: Chongtian Ma
+
+Contest has ended. No further submissions allowed.

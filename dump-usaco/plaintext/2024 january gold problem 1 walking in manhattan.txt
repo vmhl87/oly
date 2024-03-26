@@ -1,0 +1,99 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2024 January Contest, Gold
+
+Problem 1. Walking in Manhattan
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Russian (ru) Spanish (es) Chinese (zh)
+
+Farmer John and his $Q$ ($1 \leq Q \leq 2 \cdot 10^5$) cows are in
+Manhattan on vacation, but the cows have escaped and are now walking
+around freely in the city! Manhattan is huge – so huge that its $N$ ($1
+\le N \le 2 \cdot 10^5$) roads stretch infinitely in the $x$-$y$ plane,
+but conveniently, those roads all run perfectly horizontally or
+vertically. Each horizontal and vertical road can be modeled by an
+equation of the form $y = c_i$ or $x = c_i$, where $c_i$ is an integer
+in the range $0$ to $10^9$ inclusive.
+
+Farmer John knows exactly where each cow started walking and how long
+ago they escaped. Cows are very predictable, so each of them walks
+according to the following pattern:
+
+-   They only walk north ($+y$) or east ($+x$) at one unit per second.
+-   If they are currently on a single road, they continue walking along
+    the road's direction.
+-   If they are at the intersection of two roads, they walk north if
+    they have been walking for an even number of seconds and east
+    otherwise.
+
+Given the layout of Manhattan and the information for each cow, help
+Farmer John determine where his cows are now!
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line contains $N$ and $Q$.
+
+The next $N$ lines describe the roads. Each road is described by a
+direction (H or V) and a coordinate $c_i$. It is guaranteed that the
+roads are unique.
+
+The next $Q$ lines describe the cows. Each cow is described by three
+integers $(x_i, y_i, d_i)$, meaning that they started walking from
+$(x_i, y_i)$ exactly $d_i$ seconds ago. It is guaranteed that $(x_i,
+y_i)$ lies on some road, and $0 \le x_i, y_i, d_i \le 10^9$.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+Output $Q$ lines, where the $i$th line contains the current position of
+the $i$th cow.
+
+SAMPLE INPUT:
+
+    4 5
+    V 7
+    H 4
+    H 5
+    V 6
+    6 3 10
+    6 4 10
+    6 5 10
+    6 6 10
+    100 4 10
+
+SAMPLE OUTPUT:
+
+    14 5
+    7 13
+    6 15
+    6 16
+    110 4
+
+The first two cows took the following paths:
+
+    (6, 3) -> (6, 4) -> (7, 4) -> (7, 5) -> (8, 5) -> ... -> (14, 5)
+    (6, 4) -> (6, 5) -> (7, 5) -> (7, 6) -> ... -> (7, 13)
+
+SCORING:
+
+-   Inputs 2-4 satisfy $N, Q, c_i, x_i, y_i, d_i \leq 100$.
+-   Inputs 5-9 satisfy $N, Q\le 3000$.
+-   Inputs 10-20 satisfy no additional constraints.
+
+Problem credits: Benjamin Qi
+
+Contest has ended. No further submissions allowed.

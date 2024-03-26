@@ -1,0 +1,121 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2023 December Contest, Silver
+
+Problem 3. Target Practice
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) Armenian (hy) French (fr) Russian (ru) Spanish (es)
+
+Bessie is a robovine, also known as a cowborg. She is on a number line
+trying to shoot a series of $T$ $(1 \leq T \leq 10^5)$ targets located
+at distinct positions. Bessie starts at position $0$ and follows a
+string of $C$ $(1 \leq C \leq 10^5)$ commands, each one of L, F, or R:
+
+-   L: Bessie moves one unit to the left.
+-   R: Bessie moves one unit to the right.
+-   F: Bessie fires. If there is a target at Bessie's current position,
+    it is hit and destroyed, and cannot be hit again.
+
+If you are allowed to change up to one command in the string to a
+different command before Bessie starts following it, what is the maximum
+number of targets that Bessie can hit?
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line contains $T$ and $C$.
+
+The next line contains the locations of the $T$ targets, distinct
+integers in the range $[-C,C]$.
+
+The next line contains the command string of length $C$, containing only
+the characters F, L, and R.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+Print the maximum number of targets that Bessie can hit after changing
+up to one command in the string.
+
+SAMPLE INPUT:
+
+    3 7
+    0 -1 1
+    LFFRFRR
+
+SAMPLE OUTPUT:
+
+    3
+
+If you make no changes to the string, Bessie will hit two targets:
+
+    Command | Position | Total Targets Hit
+    --------+----------+-------------------
+    Start   |  0       | 0 
+    L       | -1       | 0
+    F       | -1       | 1
+    F       | -1       | 1 (can't destroy target more than once)
+    R       |  0       | 1
+    F       |  0       | 2
+    R       |  1       | 2
+    R       |  2       | 2
+
+If you change the last command from R to F, Bessie will hit all three
+targets:
+
+    Command | Position | Total Targets Hit
+    --------+----------+-------------------
+    Start   |  0       | 0 
+    L       | -1       | 0
+    F       | -1       | 1
+    F       | -1       | 1 (can't destroy target more than once)
+    R       |  0       | 1
+    F       |  0       | 2
+    R       |  1       | 2
+    F       |  1       | 3
+
+SAMPLE INPUT:
+
+    1 5
+    0
+    FFFFF
+
+SAMPLE OUTPUT:
+
+    1
+
+If the commands are left unchanged, the only target at 0 will be
+destroyed. Since a target cannot be destroyed multiple times, the answer
+is 1.
+
+SAMPLE INPUT:
+
+    5 6
+    1 2 3 4 5
+    FFRFRF
+
+SAMPLE OUTPUT:
+
+    3
+
+SCORING:
+
+-   Inputs 4-6: $T,C \le 1000$
+-   Inputs 7-15: No additional constraints.
+
+Problem credits: Suhas Nagar
+
+Contest has ended. No further submissions allowed.

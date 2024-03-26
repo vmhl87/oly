@@ -1,0 +1,113 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2024 February Contest, Gold
+
+Problem 1. Bessla Motors
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Russian (ru) Chinese (zh)
+
+**Note: The time limit for this problem is 3s, 1.5x the default. The
+memory limit for this problem is 512MB, twice the default.**
+
+Farmer John would like to promote his line of Bessla electric tractors
+by showcasing Bessla's network of charging stations. He has identified
+$N$ ($2\le N\le 5\cdot 10^4$) points of interest labeled $1\dots N$, of
+which the first $C$ ($1\le C < N$) are charging stations and the
+remainder are travel destinations. These points of interest are
+interconnected by $M$ ($1\le M\le 10^5$) bidirectional roads, the $i$-th
+of which connects distinct points $u_i$ and $v_i$ ($1\le u_i, v_i\le N$)
+and has length $\ell_i$ miles ($1\le\ell_i\le 10^9$).
+
+A Bessla can travel up to $2R$ miles ($1\le R\le 10^9$) on a single
+charge, allowing it to reach any destination within $R$ miles of a
+charging station. A destination is deemed well-connected if it is
+reachable from at least $K$ ($1\le K\le 10$) distinct charging stations.
+Your task is to assist Farmer John in identifying the set of
+well-connected travel destinations.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line contains five space-separated integers $N$, $M$, $C$,
+$R$, and $K$. Each of the following $M$ lines contains three
+space-separated integers $u_i$, $v_i$, and $\ell_i$ such that $u_i\neq
+v_i$.
+
+The charging stations are labeled $1, 2, \ldots, C$. The remaining
+points of interest are all travel destinations.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+First, output the number of well-connected travel destinations on a
+single line. Then, list all well-connected travel destinations in
+ascending order, each on a separate line.
+
+SAMPLE INPUT:
+
+    3 3 1 4 1
+    1 2 3
+    1 3 5
+    2 3 2
+
+SAMPLE OUTPUT:
+
+    1
+    2
+
+We have one charging station at $1$. From this charging station, we can
+reach point $2$ (since it is distance $3$ away from $1$), but not point
+$3$ (since it is distance $5$ away from $1$). Thus, only point $2$ is
+well-connected.
+
+SAMPLE INPUT:
+
+    4 3 2 101 2
+    1 2 1
+    2 3 100
+    1 4 10
+
+SAMPLE OUTPUT:
+
+    2
+    3
+    4
+
+We have charging stations at $1$ and $2$, and both points $3$ and $4$
+are within distance $101$ of both $1$ and $2$. Thus, both points $3$ and
+$4$ are well-connected.
+
+SAMPLE INPUT:
+
+    4 3 2 100 2
+    1 2 1
+    2 3 100
+    1 4 10
+
+SAMPLE OUTPUT:
+
+    1
+    4
+
+SCORING:
+
+-   Inputs 4 and 5: $K = 2$ and $N \le 500$ and $M\le 1000$.
+-   Inputs 6 and 7: $K = 2$.
+-   Inputs 8-15: No additional constraints.
+
+Problem credits: Alexander Wei
+
+Contest has ended. No further submissions allowed.

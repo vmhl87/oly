@@ -1,0 +1,92 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2023 December Contest, Silver
+
+Problem 1. Bovine Acrobatics
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) Armenian (hy) French (fr) Russian (ru) Spanish (es)
+
+Farmer John has decided to make his cows do some acrobatics! First, FJ
+weighs his cows and finds that they have $N$ ($1\le N\le 2\cdot 10^5$)
+distinct weights. In particular, for each $i\in [1,N]$, $a_i$ of his
+cows have a weight of $w_i$ ($1\le a_i\le 10^9, 1\le w_i\le 10^9$).
+
+His most popular stunt involves the cows forming balanced towers. A
+tower is a sequence of cows where each cow is stacked on top of the
+next. A tower is balanced if every cow with a cow directly above it has
+weight at least $K$ ($1\le K\le 10^9$) greater than the weight of the
+cow directly above it. Any cow can be part of at most one balanced
+tower.
+
+If FJ wants to create at most $M$ ($1 \le M \le 10^9$) balanced towers
+of cows, at most how many cows can be part of some tower?
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line contains three space-separated integers, $N$, $M$, and
+$K$.
+
+The next $N$ lines contain two space-separated integers, $w_{i}$ and
+$a_i$. It is guaranteed that all $w_i$ are distinct.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+Output the maximum number of cows in balanced towers if FJ helps the
+cows form towers optimally.
+
+SAMPLE INPUT:
+
+    3 5 2
+    9 4
+    7 6
+    5 5
+
+SAMPLE OUTPUT:
+
+    14
+
+FJ can create four balanced towers with cows of weights 5, 7, and 9, and
+one balanced tower with cows of weights 5 and 7.
+
+SAMPLE INPUT:
+
+    3 5 3
+    5 5
+    7 6
+    9 4
+
+SAMPLE OUTPUT:
+
+    9
+
+FJ can create four balanced towers with cows of weights 5 and 9, and one
+balanced tower with a cow of weight 7. Alternatively, he can create four
+balanced towers with cows of weights 5 and 9, and one balanced tower
+with a cow of weight 5.
+
+SCORING:
+
+-   In inputs 3-5, $M \leq 5000$ and the total number of cows does not
+    exceed $5000$.
+-   In inputs 6-11, the total number of cows does not exceed $2\cdot
+    10^5$.
+-   Inputs 12-17 have no additional constraints.
+
+Problem credits: Eric Hsu
+
+Contest has ended. No further submissions allowed.

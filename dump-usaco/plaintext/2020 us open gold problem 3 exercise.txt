@@ -1,0 +1,81 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2020 US Open Contest, Gold
+
+Problem 3. Exercise
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Russian (ru) Spanish (es) Chinese (zh)
+
+Farmer John has come up with a new morning exercise routine for the cows
+(again)!
+
+As before, Farmer John's $N$ cows ($1\le N\le 10^4$) are standing in a
+line. The $i$-th cow from the left has label $i$ for each $1\le i\le N$.
+He tells them to repeat the following step until the cows are in the
+same order as when they started.
+
+-   Given a permutation $A$ of length $N$, the cows change their order
+    such that the $i$-th cow from the left before the change is $A_i$-th
+    from the left after the change.
+
+For example, if $A=(1,2,3,4,5)$ then the cows perform one step. If
+$A=(2,3,1,5,4)$, then the cows perform six steps. The order of the cows
+from left to right after each step is as follows:
+
+-   0 steps: $(1,2,3,4,5)$
+-   1 step: $(3,1,2,5,4)$
+-   2 steps: $(2,3,1,4,5)$
+-   3 steps: $(1,2,3,5,4)$
+-   4 steps: $(3,1,2,4,5)$
+-   5 steps: $(2,3,1,5,4)$
+-   6 steps: $(1,2,3,4,5)$
+
+Find the sum of all positive integers $K$ such that there exists a
+permutation of length $N$ that requires the cows to take exactly $K$
+steps.
+
+As this number may be very large, output the answer modulo $M$ ($10^8\le
+M\le 10^9+7$, $M$ is prime).
+
+INPUT FORMAT (file exercise.in):
+
+The first line contains $N$ and $M$.
+
+OUTPUT FORMAT (file exercise.out):
+
+A single integer.
+
+SAMPLE INPUT:
+
+    5 1000000007
+
+SAMPLE OUTPUT:
+
+    21
+
+There exist permutations that cause the cows to take $1$, $2$, $3$, $4$,
+$5$, and $6$ steps. Thus, the answer is $1+2+3+4+5+6=21$.
+
+SCORING:
+
+-   Test cases 2-5 satisfy $N\le 10^2$.
+-   Test cases 6-10 satisfy no additional constraints.
+
+Problem credits: Benjamin Qi
+
+Contest has ended. No further submissions allowed.

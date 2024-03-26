@@ -1,0 +1,366 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="https://www.w3.org/1999/xhtml">
+
+<head>
+
+
+ <title>USACO</title>
+ <link rel="stylesheet" type="text/css" href="current/usaco.css">
+ <script src="current/js/jquery.min.js"></script>
+ <script src="current/js/d3.v3.min.js"></script>
+
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+ <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+ <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    "HTML-CSS": {
+	scale: 85,
+	preferredFont: "STIX"
+    },
+  tex2jax: {
+    inlineMath: [['$','$'],['\\(','\\)']],
+    processEscapes: true,
+    skipTags: ['pre'],
+    processClass: "mathjax",
+    ignoreClass: "no-mathjax"
+  }
+});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</head>
+
+<body class="no-mathjax">
+ <div align="center">
+  <div class="shadow1">
+
+   <div class="content">
+
+  
+ <a href="index.php"><img src="current/images/usaco_logo.png" height="130px" border="0px" /></a> 
+
+    <div class="navbar" align="left" border="10px">
+     <ul>
+      <li><a href="index.php">Overview</a></li> 
+      <li><a href="index.php?page=training">Training</a></li>
+      <li><a href="index.php?page=contests">Contests</a></li>
+      <li><a href="index.php?page=history">History</a></li>
+      <li><a href="index.php?page=staff">Staff</a></li>
+      <li><a href="index.php?page=resources">Resources</a></li>
+     </ul>
+    </div><br/>
+
+   
+    
+
+
+<div style="position:relative; float:left; left:10px; top:-50px; width:550px;"> 
+<div class="panel">
+
+<h2> USACO 2023 US Open Contest, Gold </h2>
+<h2> Problem 1. Custodial Cleanup </h2>
+ 
+</div>
+</div>
+
+<div align="right" style="position:relative; float:right; right:30px; top:-40px; width:350px;">
+
+<button style="margin-bottom:6px;" type="button" onClick="window.location='index.php?page=open23results';">Return to Problem List</button><br style="padding-top:6px"/>
+Contest has ended.
+
+</div>
+
+<br style="clear:both" />
+
+
+<div id="last-status" style="padding:10px; position:relative; float:left; left:30px; top:-45px; width:820px; border:1px solid black; background-color:#FFF; " 
+	data-response-code="-1" data-sid="-1"> 
+   <img src="current/images/ajax.gif"/> <p style="display:inline;"> <b>Log in to allow submissions in analysis mode</b></p>
+<div id="trial-information"></div>
+<p style="text-align:left;" class="mono prewrap output-data"></p>
+</div>
+
+<br style="clear:both" />
+
+<div align="right" style="position:relative; float:right; right:40px; top:-93px; width:350px; z-index:2; padding:0px;">
+
+<form style="padding-top:60px;" action=""> 
+<select name="lang" style="background-color:#eee;" id="choose-language">
+<option value='en' selected='yes'>English (en)</option>
+<option value='fr'>French (fr)</option>
+<option value='ru'>Russian (ru)</option>
+<option value='es'>Spanish (es)</option>
+</select>
+</form>
+
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-100px; width:840px; z-index:1;"> 
+<div align="left" class="problem-text" style='width:800px; padding-top:10px;'>
+<span id="probtext-text" class="mathjax">
+<p>Due to the disorganized structure of his mootels (much like motels but with
+bovine rather than human guests), Farmer John has decided to take up the role of
+the mootel custodian to restore order to the stalls.
+
+<p>Each mootel has $N$ stalls labeled $1$ through $N$ ($1 \le N \le 10^5$) and $M$
+($0 \le M \le 10^5$) corridors that connect pairs of stalls to each other
+bidirectionally. The $i$th stall is painted with color $C_i$ and initially has a
+single key of color $S_i$ in it. FJ will have to rearrange the keys to appease
+the cows and restore order to the stalls.
+
+<p>FJ starts out in stall $1$ without holding any keys and is allowed to repeatedly
+do one of the following moves:
+<ul><li> Pick up a key in the stall he is currently in. FJ can hold multiple keys at
+a time.</li><li> Place down a key he is holding into the stall he is currently
+in. A stall may hold multiple keys at a time.</li><li> Enter stall $1$ by
+moving through a corridor.</li><li> Enter a stall other than stall $1$ by
+moving through a corridor. He can only do this if he currently holds a key that
+is the same color as the stall he is entering.</li></ul>
+
+<p>Unfortunately, it seems that the keys are not in their intended locations. To
+restore order to FJ's mootel, the $i$th stall requires that a single key of
+color $F_i$ is in it. It is guaranteed that $S$ is a permutation of $F$.
+
+<p>For $T$ different mootels ($1 \le T \le 100$), FJ starts in stall $1$ and needs
+to place every key in its appropriate location, ending back in stall $1$. For
+each of the $T$ mootels, please answer if it is possible to do this.
+
+<p><div class='prob-in-spec'><h4>INPUT FORMAT (input arrives from the terminal / stdin):</h4>
+The first line contains $T$, the number of mootels (test cases).
+
+<p>Each test case will be preceded by a blank line. Then, the first line 
+of each test case contains two integers $N$ and $M$.
+
+<p>The second line of each test case contains $N$ integers. The $i$-th integer on
+this line, $C_i$, means that stall $i$ has color $C_i$ ($1 \le C_i \le N$).
+
+<p>The third line of each test case contains $N$ integers. The $i$-th integer on
+this line, $S_i$, means that stall $i$ initially holds a key of color $S_i$
+($1 \le S_i \le N$).
+
+<p>The fourth line of each test case contains $N$ integers. The $i$-th integer on
+this line, $F_i$, means that stall $i$ needs to have a key of color $F_i$ in it
+($1 \le F_i \le N$).
+
+<p>The next $M$ lines of each test case follow. The $i$-th of these lines contains
+two distinct integers, $u_i$ and $v_i$ ($1 \le u_i, v_i \le N$). This represents
+that a corridor exists between stalls $u_i$ and $v_i$. No corridors are
+repeated.
+
+<p>The sum of $N$ over all mootels will not exceed $10^5$, and the sum of $M$ over
+all mootels will not exceed $2\cdot 10^5$.
+</div>
+
+<p><div class='prob-out-spec'><h4>OUTPUT FORMAT (print output to the terminal / stdout):</h4>
+For each mootel, output YES on a new line if there exists a way for FJ to return
+a key of color $F_i$ to each stall $i$ and end back in stall $1$. Otherwise,
+output NO on a new line.
+</div>
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+2
+
+5 5
+4 3 2 4 3
+3 4 3 4 2
+2 3 4 4 3
+1 2
+2 3
+3 1
+4 1
+4 5
+
+4 3
+3 2 4 1
+2 3 4 4
+4 2 3 4
+4 2
+4 1
+4 3
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+YES
+NO
+</pre>
+
+<p>For the first test case, here is a possible sequence of moves:
+
+<p><pre>
+Current stall: 1. Keys held: []. Keys in stalls: [3, 4, 3, 4, 2]
+(pick up key of color 3)
+Current stall: 1. Keys held: [3]. Keys in stalls: [x, 4, 3, 4, 2]
+(move from stall 1 to 2, allowed since we have a key of color C_2=3)
+Current stall: 2. Keys held: [3]. Keys in stalls: [x, 4, 3, 4, 2]
+(pick up key of color 4)
+Current stall: 2. Keys held: [3, 4]. Keys in stalls: [x, x, 3, 4, 2]
+(move from stall 2 to 1 to 4 to 5, allowed since we have keys of colors C_4=4 and C_5=3)
+Current stall: 5. Keys held: [3, 4]. Keys in stalls: [x, x, 3, 4, 2]
+(pick up key of color 2 and place key of color 3)
+Current stall: 5. Keys held: [2, 4]. Keys in stalls: [x, x, 3, 4, 3]
+(move from stall 5 to 4 to 1 to 3, allowed since we have keys of colors C_4=4 and C_3=2)
+Current stall: 3. Keys held: [2, 4]. Keys in stalls: [x, x, 3, 4, 3]
+(pick up key of color 3 and place key of color 4)
+Current stall: 3. Keys held: [2, 3]. Keys in stalls: [x, x, 4, 4, 3]
+(move from stall 3 to stall 2 and place key of color 3)
+Current stall: 2. Keys held: [2]. Keys in stalls: [x, 3, 4, 4, 3]
+(move from stall 2 to stall 1 and place key of color 2)
+Current stall: 1. Keys held: []. Keys in stalls: [2, 3, 4, 4, 3]
+</pre>
+
+<p>For the second test case, there exists no way for FJ to return a key of color
+$F_i$ to each stall $i$ and end back at stall $1$.
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+5
+
+2 0
+1 2
+2 2
+2 2
+
+2 1
+1 1
+2 1
+2 1
+1 2
+
+2 1
+1 1
+2 1
+1 2
+1 2
+
+2 1
+1 1
+1 2
+2 1
+1 2
+
+5 4
+1 2 3 4 4
+2 3 5 4 2
+5 3 2 4 2
+1 2
+1 3
+1 4
+4 5
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+YES
+YES
+NO
+YES
+NO
+</pre>
+
+<p><div class='prob-section'><h4>SCORING:</h4>
+
+<p><ul><li>Test cases 3-6 satisfy $N,M\le 8$.</li><li>Test cases 7-10 satisfy $C_i=F_i$.</li><li>Test cases 11-18 satisfy no additional constraints.</li></ul>
+
+<p></div>
+
+<p>
+
+<p>Problem credits: Eric Yachbes
+</span>
+</div>
+
+           Contest has ended.  No further submissions allowed.
+    
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-70px; width:840px;"> 
+
+</div>
+
+<br style="clear:both" />
+
+<script>
+ var retries = 100, timeout = 1000;
+
+ function postback()
+ { 
+     var sid = $('#last-status').data('sid'); if (sid == -1) return;
+     $.post('current/tpcm/status-update.php', { sid: sid }, update_response, 'json'); 
+ }
+
+ function update_response(s)
+ {
+     // only try a limited number of times
+     if (--retries < 0) return;
+
+     // if there is xml data, update the DOM
+     if (s != null)
+     {
+	 $('#last-status img').attr("src","current/images/medal_none.png");
+	 if (parseInt(s.cd) <= -8 && s.sc == 'status-working') { $('#last-status img').attr("src","current/images/ajax.gif"); }
+
+         // change class and text of the response box
+         $('#last-status').removeClass().addClass(s.sc);
+         $('#last-status p').text(s.sr);
+
+         // change the response code of the data section
+         $('#last-status').data('response-code', parseInt(s.cd));
+	 $('#last-status .output-data').hide();
+
+	 if (s.output != null)
+	 {
+	     $('#last-status .output-data').show().text(s.output);
+	     // if the status is in a "working" state, keep checking
+	     if (parseInt($('#last-status').data('response-code')) <= -8)
+		 { setTimeout(postback, timeout); timeout *= 1.1; }
+
+	     return;
+	 }
+
+	 if (s.jd != null && s.jd.length != 0)
+	     $('#trial-information').html(s.jd);
+     }
+
+     // if the status is in a "working" state, keep checking
+     if (parseInt($('#last-status').data('response-code')) <= -8)
+         { setTimeout(postback, timeout); timeout *= 1.1; }
+ }
+
+ $(document).ready(function(){
+     $('#last-status .output-data').hide();
+     $('#last-status img').attr("src","current/images/medal_none.png");
+     if ($('#last-status').length) postback();
+
+     $('.masterTooltip').hover(function(){
+	 // Hover over code
+	 var title = $(this).attr('title');
+	 $(this).data('tipText', title).removeAttr('title');
+	 $('<p class="tooltip"></p>').text(title).appendTo('body').fadeIn('fast');
+     }, function() {
+	 // Hover out code
+	 $(this).attr('title', $(this).data('tipText'));
+	 $('.tooltip').remove();
+     }).mousemove(function(e) {
+	 var mousex = e.pageX + 20; //Get X coordinates
+	 var mousey = e.pageY + 10; //Get Y coordinates
+	 $('.tooltip').css({ top: mousey, left: mousex })
+     });
+ });
+
+ $('#choose-language').change(function(e){
+     window.location = "index.php?page=viewproblem2&cpid=1329&lang=" + $(this).val();
+ });
+
+</script>
+
+
+   </div>
+  </div>
+ </div>
+
+ <br style="clear:both" />
+
+<script>(function(){if (!document.body) return;var js = "window['__CF$cv$params']={r:'86a9ef903d8613b7',t:'MTcxMTQ4NTQxNy4wMjUwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+
+</html>
+
+

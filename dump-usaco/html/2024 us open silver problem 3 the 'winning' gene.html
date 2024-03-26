@@ -1,0 +1,307 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="https://www.w3.org/1999/xhtml">
+
+<head>
+
+
+ <title>USACO</title>
+ <link rel="stylesheet" type="text/css" href="current/usaco.css">
+ <script src="current/js/jquery.min.js"></script>
+ <script src="current/js/d3.v3.min.js"></script>
+
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+ <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+ <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    "HTML-CSS": {
+	scale: 85,
+	preferredFont: "STIX"
+    },
+  tex2jax: {
+    inlineMath: [['$','$'],['\\(','\\)']],
+    processEscapes: true,
+    skipTags: ['pre'],
+    processClass: "mathjax",
+    ignoreClass: "no-mathjax"
+  }
+});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</head>
+
+<body class="no-mathjax">
+ <div align="center">
+  <div class="shadow1">
+
+   <div class="content">
+
+  
+ <a href="index.php"><img src="current/images/usaco_logo.png" height="130px" border="0px" /></a> 
+
+    <div class="navbar" align="left" border="10px">
+     <ul>
+      <li><a href="index.php">Overview</a></li> 
+      <li><a href="index.php?page=training">Training</a></li>
+      <li><a href="index.php?page=contests">Contests</a></li>
+      <li><a href="index.php?page=history">History</a></li>
+      <li><a href="index.php?page=staff">Staff</a></li>
+      <li><a href="index.php?page=resources">Resources</a></li>
+     </ul>
+    </div><br/>
+
+   
+    
+
+
+<div style="position:relative; float:left; left:10px; top:-50px; width:550px;"> 
+<div class="panel">
+
+<h2> USACO 2024 US Open Contest, Silver </h2>
+<h2> Problem 3. The 'Winning' Gene </h2>
+ 
+</div>
+</div>
+
+<div align="right" style="position:relative; float:right; right:30px; top:-40px; width:350px;">
+
+<button style="margin-bottom:6px;" type="button" onClick="window.location='index.php?page=open24results';">Return to Problem List</button><br style="padding-top:6px"/>
+Contest has ended.
+
+</div>
+
+<br style="clear:both" />
+
+
+<div id="last-status" style="padding:10px; position:relative; float:left; left:30px; top:-45px; width:820px; border:1px solid black; background-color:#FFF; " 
+	data-response-code="-1" data-sid="-1"> 
+   <img src="current/images/ajax.gif"/> <p style="display:inline;"> <b>Log in to allow submissions in analysis mode</b></p>
+<div id="trial-information"></div>
+<p style="text-align:left;" class="mono prewrap output-data"></p>
+</div>
+
+<br style="clear:both" />
+
+<div align="right" style="position:relative; float:right; right:40px; top:-93px; width:350px; z-index:2; padding:0px;">
+
+<form style="padding-top:60px;" action=""> 
+<select name="lang" style="background-color:#eee;" id="choose-language">
+<option value='en' selected='yes'>English (en)</option>
+<option value='hy'>Armenian (hy)</option>
+<option value='fr'>French (fr)</option>
+<option value='ru'>Russian (ru)</option>
+<option value='es'>Spanish (es)</option>
+<option value='zh'>Chinese (zh)</option>
+</select>
+</form>
+
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-100px; width:840px; z-index:1;"> 
+<div align="left" class="problem-text" style='width:800px; padding-top:10px;'>
+<span id="probtext-text" class="mathjax">
+<p><strong>**Note: The memory limit for this problem is 512MB, twice the default.**</strong>
+
+<p>After years of hosting games and watching Bessie get first place over and over,
+Farmer John has realized that this can't be accidental. Instead, he concludes
+that Bessie must have winning coded into her DNA so he sets out to find this
+"winning" gene.
+
+<p>He devises a process to identify possible candidates for this "winning" gene. He
+takes Bessie's genome, which is a string $S$ of length $N$ where
+$1 \leq N \leq 3000$. He picks some pair $(K,L)$ where $1 \leq L \leq K \leq N$
+representing that the "winning" gene candidates will have length $L$ and will be
+found within a larger $K$ length substring. To identify the gene, he takes all
+$K$ length substrings from $S$ which we will call a $k$-mer. For a given
+$k$-mer, he takes all length $L$ substrings, identifies the lexicographically
+minimal substring as a winning gene candidate (choosing the leftmost such
+substring if there is a tie),  and then writes down the $0$-indexed position
+$p_i$ where that substring starts in $S$ to a set $P$. 
+
+<p>Since he hasn't picked $K$ and $L$ yet, he wants to know how many candidates
+there will be for every pair of $(K,L)$.
+
+<p>For each $v$ in $1\dots N$, help him determine the number of $(K,L)$ pairs with
+$|P|=v$.
+
+<p><div class='prob-in-spec'><h4>INPUT FORMAT (input arrives from the terminal / stdin):</h4>
+$N$ representing the length of the string. $S$ representing the given string.
+All characters are guaranteed to be uppercase characters where $s_i \in A-Z$
+since bovine genetics are far more advanced than ours.
+</div>
+
+<p><div class='prob-out-spec'><h4>OUTPUT FORMAT (print output to the terminal / stdout):</h4>
+For each $v$ in $1\dots N$, output the number of $(K,L)$ pairs with $|P|=v$,
+with each number on a separate line.
+</div>
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+8
+AGTCAACG
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+11
+10
+5
+4
+2
+2
+1
+1
+</pre>
+
+<p>In this test case, the third line of the output is 5 because we see that there are exactly 5 pairs of $K$ and $L$ that allow for
+three "winning" gene candidates.  These candidates are (where $p_i$ is $0$-indexed):
+
+<p><pre>
+(4,2) -&gt; P = [0,3,4]
+(5,3) -&gt; P = [0,3,4]
+(6,4) -&gt; P = [0,3,4]
+(6,5) -&gt; P = [0,1,3]
+(6,6) -&gt; P = [0,1,2]
+</pre>
+To see how (4,2) leads to these results, we take all $4$-mers
+<pre>
+AGTC
+GTCA
+TCAA
+CAAC
+AACG
+</pre>
+For each $4$-mer, we identify the lexicographically minimal length 2 substring
+<pre>
+AGTC -&gt; AG
+GTCA -&gt; CA
+TCAA -&gt; AA
+CAAC -&gt; AA
+AACG -&gt; AA
+</pre>
+We take the positions of all these substrings in the original string and add
+them to a set $P$ to get $P = [0,3,4]$.
+
+<p>On the other hand, if we focus on the pair $(4,1)$, we see that this only leads
+to $2$ total "winning" gene candidates. If we take all $4$-mers and identify the
+lexicographically minimum length $1$ substring (using A and A' and A* to
+distinguish the different As), we get
+<pre>
+AGTC -&gt; A
+GTCA' -&gt; A'
+TCA'A* -&gt; A'
+CA'A*C -&gt; A'
+A'A*CG -&gt; A'
+</pre>
+While both A' and A* are lexicographically minimal in the last 3 cases, the
+leftmost substring takes precedence so A' is counted as the only candidate in
+all of these cases. This means that $P = [0,4]$.
+
+<p><div class='prob-section'><h4>SCORING:</h4>
+<ul><li>Inputs 2-4: $N \leq 100$ </li><li>Inputs 5-7: $N \leq 500$ </li><li>Inputs 8-16: No additional constraints. </li></ul>
+
+<p></div>
+
+<p>
+
+<p>Problem credits: Suhas Nagar
+</span>
+</div>
+
+           Contest has ended.  No further submissions allowed.
+    
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-70px; width:840px;"> 
+
+</div>
+
+<br style="clear:both" />
+
+<script>
+ var retries = 100, timeout = 1000;
+
+ function postback()
+ { 
+     var sid = $('#last-status').data('sid'); if (sid == -1) return;
+     $.post('current/tpcm/status-update.php', { sid: sid }, update_response, 'json'); 
+ }
+
+ function update_response(s)
+ {
+     // only try a limited number of times
+     if (--retries < 0) return;
+
+     // if there is xml data, update the DOM
+     if (s != null)
+     {
+	 $('#last-status img').attr("src","current/images/medal_none.png");
+	 if (parseInt(s.cd) <= -8 && s.sc == 'status-working') { $('#last-status img').attr("src","current/images/ajax.gif"); }
+
+         // change class and text of the response box
+         $('#last-status').removeClass().addClass(s.sc);
+         $('#last-status p').text(s.sr);
+
+         // change the response code of the data section
+         $('#last-status').data('response-code', parseInt(s.cd));
+	 $('#last-status .output-data').hide();
+
+	 if (s.output != null)
+	 {
+	     $('#last-status .output-data').show().text(s.output);
+	     // if the status is in a "working" state, keep checking
+	     if (parseInt($('#last-status').data('response-code')) <= -8)
+		 { setTimeout(postback, timeout); timeout *= 1.1; }
+
+	     return;
+	 }
+
+	 if (s.jd != null && s.jd.length != 0)
+	     $('#trial-information').html(s.jd);
+     }
+
+     // if the status is in a "working" state, keep checking
+     if (parseInt($('#last-status').data('response-code')) <= -8)
+         { setTimeout(postback, timeout); timeout *= 1.1; }
+ }
+
+ $(document).ready(function(){
+     $('#last-status .output-data').hide();
+     $('#last-status img').attr("src","current/images/medal_none.png");
+     if ($('#last-status').length) postback();
+
+     $('.masterTooltip').hover(function(){
+	 // Hover over code
+	 var title = $(this).attr('title');
+	 $(this).data('tipText', title).removeAttr('title');
+	 $('<p class="tooltip"></p>').text(title).appendTo('body').fadeIn('fast');
+     }, function() {
+	 // Hover out code
+	 $(this).attr('title', $(this).data('tipText'));
+	 $('.tooltip').remove();
+     }).mousemove(function(e) {
+	 var mousex = e.pageX + 20; //Get X coordinates
+	 var mousey = e.pageY + 10; //Get Y coordinates
+	 $('.tooltip').css({ top: mousey, left: mousex })
+     });
+ });
+
+ $('#choose-language').change(function(e){
+     window.location = "index.php?page=viewproblem2&cpid=1424&lang=" + $(this).val();
+ });
+
+</script>
+
+
+   </div>
+  </div>
+ </div>
+
+ <br style="clear:both" />
+
+<script>(function(){if (!document.body) return;var js = "window['__CF$cv$params']={r:'86a9efd608872d18',t:'MTcxMTQ4NTQyOC4xNzYwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+
+</html>
+
+

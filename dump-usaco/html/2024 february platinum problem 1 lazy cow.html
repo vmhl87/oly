@@ -1,0 +1,315 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="https://www.w3.org/1999/xhtml">
+
+<head>
+
+
+ <title>USACO</title>
+ <link rel="stylesheet" type="text/css" href="current/usaco.css">
+ <script src="current/js/jquery.min.js"></script>
+ <script src="current/js/d3.v3.min.js"></script>
+
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+ <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+ <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    "HTML-CSS": {
+	scale: 85,
+	preferredFont: "STIX"
+    },
+  tex2jax: {
+    inlineMath: [['$','$'],['\\(','\\)']],
+    processEscapes: true,
+    skipTags: ['pre'],
+    processClass: "mathjax",
+    ignoreClass: "no-mathjax"
+  }
+});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</head>
+
+<body class="no-mathjax">
+ <div align="center">
+  <div class="shadow1">
+
+   <div class="content">
+
+  
+ <a href="index.php"><img src="current/images/usaco_logo.png" height="130px" border="0px" /></a> 
+
+    <div class="navbar" align="left" border="10px">
+     <ul>
+      <li><a href="index.php">Overview</a></li> 
+      <li><a href="index.php?page=training">Training</a></li>
+      <li><a href="index.php?page=contests">Contests</a></li>
+      <li><a href="index.php?page=history">History</a></li>
+      <li><a href="index.php?page=staff">Staff</a></li>
+      <li><a href="index.php?page=resources">Resources</a></li>
+     </ul>
+    </div><br/>
+
+   
+    
+
+
+<div style="position:relative; float:left; left:10px; top:-50px; width:550px;"> 
+<div class="panel">
+
+<h2> USACO 2024 February Contest, Platinum </h2>
+<h2> Problem 1. Lazy Cow </h2>
+ 
+</div>
+</div>
+
+<div align="right" style="position:relative; float:right; right:30px; top:-40px; width:350px;">
+
+<button style="margin-bottom:6px;" type="button" onClick="window.location='index.php?page=feb24results';">Return to Problem List</button><br style="padding-top:6px"/>
+Contest has ended.
+
+</div>
+
+<br style="clear:both" />
+
+
+<div id="last-status" style="padding:10px; position:relative; float:left; left:30px; top:-45px; width:820px; border:1px solid black; background-color:#FFF; " 
+	data-response-code="-1" data-sid="-1"> 
+   <img src="current/images/ajax.gif"/> <p style="display:inline;"> <b>Log in to allow submissions in analysis mode</b></p>
+<div id="trial-information"></div>
+<p style="text-align:left;" class="mono prewrap output-data"></p>
+</div>
+
+<br style="clear:both" />
+
+<div align="right" style="position:relative; float:right; right:40px; top:-93px; width:350px; z-index:2; padding:0px;">
+
+<form style="padding-top:60px;" action=""> 
+<select name="lang" style="background-color:#eee;" id="choose-language">
+<option value='en' selected='yes'>English (en)</option>
+<option value='ru'>Russian (ru)</option>
+<option value='zh'>Chinese (zh)</option>
+</select>
+</form>
+
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-100px; width:840px; z-index:1;"> 
+<div align="left" class="problem-text" style='width:800px; padding-top:10px;'>
+<span id="probtext-text" class="mathjax">
+<p>Bessie is hard at work preparing test cases for the USA Cowmputing Olympiad
+February contest. Each minute, she can choose to not prepare any tests,
+expending no energy; or expend $3^{a-1}$ energy preparing $a$ test cases, for
+some positive integer $a$.
+
+<p>Farmer John has $D$ ($1\le D\le 2\cdot 10^5$) demands. For the $i$th demand, he
+tells Bessie that within the first $m_i$ minutes, she needs to have prepared  at
+least $b_i$ test cases in total ($1\le m_i\le 10^6, 1 \leq b_i \leq 10^{12}$).
+
+<p>Let $e_i$ be the smallest amount of energy Bessie needs to spend to satisfy the
+first $i$ demands. Print $e_1,\dots,e_D$ modulo $10^9+7$.
+
+<p><div class='prob-in-spec'><h4>INPUT FORMAT (input arrives from the terminal / stdin):</h4>
+The first line contains $D$. The $i$th of the next $D$ lines contains two
+space-separated integers $m_i$ and $b_i$.
+</div>
+
+<p><div class='prob-out-spec'><h4>OUTPUT FORMAT (print output to the terminal / stdout):</h4>
+Output $D$ lines, the $i$th containing $e_i \text{ mod } 10^9+7$.
+</div>
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+4
+5 11
+6 10
+10 15
+10 30
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+21
+21
+25
+90
+</pre>
+
+<p>For the first test case, 
+<ul><li> $i=1$: If Bessie creates $[2, 3, 2, 2, 2]$ test cases on the first $5$
+days, respectively, she would have expended $3^1 + 3^2 + 3^1 + 3^1 + 3^1 = 21$
+units of energy and created $11$ test cases by the end of day $5$. </li><li>
+$i=2$: Bessie can follow the above strategy to ensure $11$ test cases are
+created by the end of day $5$, and this will automatically satisfy the second
+demand.</li><li> $i=3$: If Bessie creates $[2, 3, 2, 2, 2, 0, 1, 1, 1, 1]$ test
+cases on the first $10$ days, respectively, she would have expended $25$ units
+of energy and satisfied all demands. It can be shown that she cannot expend less
+energy. </li><li>$i=4$: If Bessie creates 3 test cases on each of the first
+$10$ days she would have expended $3^{2}\cdot 10 = 90$ units of energy and
+satisfied all demands. </li></ul>
+For each $i$, it can be shown that Bessie cannot satisfy the first $i$ demands using
+less energy.
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+2
+100 5
+100 1000000000000
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+5
+627323485
+</pre>
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+20
+303590 482848034083
+180190 112716918480
+312298 258438719980
+671877 605558355401
+662137 440411075067
+257593 261569032231
+766172 268433874550
+8114 905639446594
+209577 11155741818
+227183 874665904430
+896141 55422874585
+728247 456681845046
+193800 632739601224
+443005 623200306681
+330325 955479269245
+377303 177279745225
+880246 22559233849
+58084 155169139314
+813702 758370488574
+929760 785245728062
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+108753959
+108753959
+108753959
+148189797
+148189797
+148189797
+148189797
+32884410
+32884410
+32884410
+32884410
+32884410
+32884410
+32884410
+3883759
+3883759
+3883759
+3883759
+3883759
+3883759
+</pre>
+
+<p><div class='prob-section'><h4>SCORING:</h4>
+
+<p><ul><li>Inputs 4-5: $D\le 100$ and $m_i \le 100$ for all $i$ </li><li>Inputs 6-8: $D\le 3000$</li><li>Inputs 9-20: No additional constraints.</li></ul>
+
+<p></div>
+
+<p>
+
+<p>Problem credits: Brandon Wang and Claire Zhang
+</span>
+</div>
+
+           Contest has ended.  No further submissions allowed.
+    
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-70px; width:840px;"> 
+
+</div>
+
+<br style="clear:both" />
+
+<script>
+ var retries = 100, timeout = 1000;
+
+ function postback()
+ { 
+     var sid = $('#last-status').data('sid'); if (sid == -1) return;
+     $.post('current/tpcm/status-update.php', { sid: sid }, update_response, 'json'); 
+ }
+
+ function update_response(s)
+ {
+     // only try a limited number of times
+     if (--retries < 0) return;
+
+     // if there is xml data, update the DOM
+     if (s != null)
+     {
+	 $('#last-status img').attr("src","current/images/medal_none.png");
+	 if (parseInt(s.cd) <= -8 && s.sc == 'status-working') { $('#last-status img').attr("src","current/images/ajax.gif"); }
+
+         // change class and text of the response box
+         $('#last-status').removeClass().addClass(s.sc);
+         $('#last-status p').text(s.sr);
+
+         // change the response code of the data section
+         $('#last-status').data('response-code', parseInt(s.cd));
+	 $('#last-status .output-data').hide();
+
+	 if (s.output != null)
+	 {
+	     $('#last-status .output-data').show().text(s.output);
+	     // if the status is in a "working" state, keep checking
+	     if (parseInt($('#last-status').data('response-code')) <= -8)
+		 { setTimeout(postback, timeout); timeout *= 1.1; }
+
+	     return;
+	 }
+
+	 if (s.jd != null && s.jd.length != 0)
+	     $('#trial-information').html(s.jd);
+     }
+
+     // if the status is in a "working" state, keep checking
+     if (parseInt($('#last-status').data('response-code')) <= -8)
+         { setTimeout(postback, timeout); timeout *= 1.1; }
+ }
+
+ $(document).ready(function(){
+     $('#last-status .output-data').hide();
+     $('#last-status img').attr("src","current/images/medal_none.png");
+     if ($('#last-status').length) postback();
+
+     $('.masterTooltip').hover(function(){
+	 // Hover over code
+	 var title = $(this).attr('title');
+	 $(this).data('tipText', title).removeAttr('title');
+	 $('<p class="tooltip"></p>').text(title).appendTo('body').fadeIn('fast');
+     }, function() {
+	 // Hover out code
+	 $(this).attr('title', $(this).data('tipText'));
+	 $('.tooltip').remove();
+     }).mousemove(function(e) {
+	 var mousex = e.pageX + 20; //Get X coordinates
+	 var mousey = e.pageY + 10; //Get Y coordinates
+	 $('.tooltip').css({ top: mousey, left: mousex })
+     });
+ });
+
+ $('#choose-language').change(function(e){
+     window.location = "index.php?page=viewproblem2&cpid=1404&lang=" + $(this).val();
+ });
+
+</script>
+
+
+   </div>
+  </div>
+ </div>
+
+ <br style="clear:both" />
+
+<script>(function(){if (!document.body) return;var js = "window['__CF$cv$params']={r:'86a9efc8fd907fbe',t:'MTcxMTQ4NTQyNi4wOTAwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+
+</html>
+
+

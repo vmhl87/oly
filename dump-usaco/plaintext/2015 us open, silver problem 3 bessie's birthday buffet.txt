@@ -1,0 +1,83 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2015 US Open, Silver
+
+Problem 3. Bessie's Birthday Buffet
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) Armenian (hy) Bulgarian (bg) French (fr) Georgian (ka)
+Russian (ru) Spanish (es)
+
+For Bessie the cow’s birthday, Farmer John has given her free reign over
+one of his best fields to eat grass.
+
+The field is covered in $N$ patches of grass ($1 \le N \le 1000$),
+conveniently numbered $1\ldots N$, that each have a distinct quality
+value. If Bessie eats grass of quality $Q$, she gains $Q$ units of
+energy. Each patch is connected to up to 10 neighboring patches via
+bi-directional paths, and it takes Bessie $E$ units of energy to move
+between adjacent patches ($1 \le E \le 1,000,000$). Bessie can choose to
+start grazing in any patch she wishes, and she wants to stop grazing
+once she has accumulated a maximum amount of energy.
+
+Unfortunately, Bessie is a picky bovine, and once she eats grass of a
+certain quality, she’ll never eat grass at or below that quality level
+again! She is still happy to walk through patches without eating their
+grass; in fact, she might find it beneficial to walk through a patch of
+high-quality grass without eating it, only to return later for a tasty
+snack.
+
+Please help determine the maximum amount of energy Bessie can
+accumulate.
+
+INPUT FORMAT (file buffet.in):
+
+The first line of input contains $N$ and $E$. Each of the remaining $N$
+lines describe a patch of grass. They contain two integers $Q$ and $D$
+giving the quality of the patch (in the range $1\ldots 1,000,000$) and
+its number of neighbors. The remaining $D$ numbers on the line specify
+the neighbors.
+
+OUTPUT FORMAT (file buffet.out):
+
+Please output the maximum amount of energy Bessie can accumulate.
+
+SAMPLE INPUT:
+
+    5 2
+    4 1 2
+    1 3 1 3 4
+    6 2 2 5
+    5 2 2 5
+    2 2 3 4
+
+SAMPLE OUTPUT:
+
+    7
+
+Bessie starts at patch 4 gaining 5 units of energy from the grass there.
+She then takes the path to patch 5 losing 2 units of energy during her
+travel. She refuses to eat the lower quality grass at patch 5 and
+travels to patch 3 again losing 2 units of energy. Finally she eats the
+grass at patch 3 gaining 6 units of energy for a total of 7 energy.
+
+Note tha the sample case above is different from test case 1 when you
+submit.
+
+[Problem credits: Austin Anderson and Brian Dean, 2015]
+
+Contest has ended. No further submissions allowed.

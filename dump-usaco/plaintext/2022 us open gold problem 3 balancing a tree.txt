@@ -1,0 +1,140 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2022 US Open Contest, Gold
+
+Problem 3. Balancing a Tree
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Russian (ru) Spanish (es) Chinese (zh)
+
+Farmer John has conducted an extensive study of the evolution of
+different cow breeds. The result is a rooted tree with $N$ ($2\le N\le
+10^5$) nodes labeled $1\ldots N$, each node corresponding to a cow
+breed. For each $i\in [2,N]$, the parent of node $i$ is node $p_i$
+($1\le p_i<i$), meaning that breed $i$ evolved from breed $p_i$. A node
+$j$ is called an ancestor of node $i$ if $j=p_i$ or $j$ is an ancestor
+of $p_i$.
+
+Every node $i$ in the tree is associated with a breed having an integer
+number of spots $s_i$. The "imbalance" of the tree is defined to be the
+maximum of $|s_i-s_j|$ over all pairs of nodes $(i,j)$ such that $j$ is
+an ancestor of $i$.
+
+Farmer John doesn't know the exact value of $s_i$ for each breed, but he
+knows lower and upper bounds on these values. Your job is to assign an
+integer value of $s_i \in [l_i,r_i]$ ($0\le l_i\le r_i\le 10^9$) to each
+node such that the imbalance of the tree is minimized.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line contains $T$ ($1\le T\le 10$), the number of independent
+test cases to be solved, and an integer $B\in \{0,1\}$.
+
+Each test case starts with a line containing $N$, followed by $N-1$
+integers $p_2,p_3,\ldots,p_N$.
+
+The next $N$ lines each contain two integers $l_i$ and $r_i$.
+
+It is guaranteed that the sum of $N$ over all test cases does not exceed
+$10^5$.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+For each test case, output one or two lines, depending on the value of
+$B$.
+
+The first line for each test case should contain the minimum imbalance.
+
+If $B=1,$ then print an additional line with $N$ space-separated
+integers $s_1,s_2,\ldots, s_N$ containing an assignment of spots that
+achieves the above imbalance. Any valid assignment will be accepted.
+
+SAMPLE INPUT:
+
+    3 0
+    3
+    1 1
+    0 100
+    1 1
+    6 7
+    5
+    1 2 3 4
+    6 6
+    1 6
+    1 6
+    1 6
+    5 5
+    3
+    1 1
+    0 10
+    0 1
+    9 10
+
+SAMPLE OUTPUT:
+
+    3
+    1
+    4
+
+For the first test case, the minimum imbalance is $3$. One way to
+achieve imbalance $3$ is to set $[s_1,s_2,s_3]=[4,1,7]$.
+
+SAMPLE INPUT:
+
+    3 1
+    3
+    1 1
+    0 100
+    1 1
+    6 7
+    5
+    1 2 3 4
+    6 6
+    1 6
+    1 6
+    1 6
+    5 5
+    3
+    1 1
+    0 10
+    0 1
+    9 10
+
+SAMPLE OUTPUT:
+
+    3
+    3 1 6
+    1
+    6 5 5 5 5
+    4
+    5 1 9
+
+This input is the same as the first one aside from the value of $B$.
+Another way to achieve imbalance $3$ is to set $[s_1,s_2,s_3]=[3,1,6]$.
+
+SCORING:
+
+-   Test cases 3-4 satisfy $l_i=r_i$ for all $i$.
+-   Test cases 5-6 satisfy $p_i=i-1$ for all $i$.
+-   Test cases 7-16 satisfy no additional constraints.
+
+Within each subtask, the first half of the test cases will satisfy
+$B=0$, and the rest will satisfy $B=1$.
+
+Problem credits: Andrew Wang
+
+Contest has ended. No further submissions allowed.

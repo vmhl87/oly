@@ -1,0 +1,101 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2020 US Open Contest, Platinum
+
+Problem 1. Sprinklers 2: Return of the Alfalfa
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Russian (ru) Spanish (es) Chinese (zh)
+
+Farmer John has a small field in the shape of an $N$ by $N$ grid ($1 \le
+N \le 2000$) where the $j$-th square from the left of the $i$-th row
+from the top is denoted by $(i,j)$ for all $1 \le i,j \le N$. He is
+interested in planting sweet corn and alfalfa in his field. To do so, he
+needs to install some special sprinklers.
+
+A sweet corn sprinkler in square $(I,J)$ will sprinkle all squares to
+the bottom-left: i.e. $(i,j)$ with $I \le i$ and $j \le J$.
+
+An alfalfa sprinkler in square $(I,J)$ will sprinkle all squares to the
+top-right: i.e. $(i,j)$ with $i \le I$ and $J \le j$.
+
+A square sprinkled by one or multiple sweet corn sprinklers can grow
+sweet corn; a square sprinkled by one or multiple alfalfa sprinklers can
+grow alfalfa. But a square sprinkled by both types of sprinklers (or
+neither type) can grow nothing.
+
+Help FJ determine the number of ways (modulo $10^9 + 7$) to install
+sprinklers in his field, at most one per square, so that every square is
+fertile (i.e., sprinkled by exactly one type of sprinkler).
+
+Some of the squares are already occupied by woolly cows; this doesn't
+prevent these squares from being fertile, but no sprinklers can be
+installed in such squares.
+
+INPUT FORMAT (file sprinklers2.in):
+
+The first line contains a single integer $N.$
+
+For each $1\le i\le N,$ the $i+1$-st line contains a string of length
+$N$ denoting the $i$-th row of the grid. Each character of the string is
+one of 'W' (indicating a square occupied by a woolly cow), or '.'
+(unoccupied).
+
+OUTPUT FORMAT (file sprinklers2.out):
+
+Output the remainder when the number of ways to install sprinklers is
+divided by $10^9+7.$
+
+SAMPLE INPUT:
+
+    2
+    ..
+    ..
+
+SAMPLE OUTPUT:
+
+    28
+
+Here are all fourteen possibilities when sweet corn can grow at $(1,1)$.
+
+    CC  .C  CA  CC  .C  CA  CA  C.  CA  C.  CC  .C  CC  .C  
+    CC, CC, CC, .C, .C, .C, CA, CA, .A, .A, C., C., .., ..
+
+SAMPLE INPUT:
+
+    4
+    ..W.
+    ..WW
+    WW..
+    ...W
+
+SAMPLE OUTPUT:
+
+    2304
+
+This satisfies the constraints for the first subtask described below.
+
+SCORING:
+
+-   Test cases 3-4 satisfy $N\le 10$ and there are at most ten
+    unoccupied squares.
+-   Test cases 5-9 satisfy $N\le 200$.
+-   Test cases 10-16 satisfy no additional constraints.
+
+Problem credits: Benjamin Qi
+
+Contest has ended. No further submissions allowed.

@@ -1,0 +1,68 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2017 February Contest, Platinum
+
+Problem 3. Why Did the Cow Cross the Road III
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Indonesian (id) Russian (ru) Spanish (es)
+
+Farmer John is continuing to ponder the issue of cows crossing the road
+through his farm, introduced in the preceding two problems. He realizes
+now that the threshold for friendliness is a bit more subtle than he
+previously considered -- breeds $a$ and $b$ are now friendly if $|a - b|
+\leq K$, and unfriendly otherwise.
+
+Given the orderings of fields on either side of the road through FJ's
+farm, please count the number of unfriendly crossing pairs of breeds,
+where a crossing pair of breeds is defined as in the preceding problems.
+
+INPUT FORMAT (file friendcross.in):
+
+The first line of input contains $N$ ($1 \leq N \leq 100,000$) and $K$
+($0 \leq K < N$). The next $N$ lines describe the order, by breed ID, of
+fields on one side of the road; each breed ID is an integer in the range
+$1 \ldots N$. The last $N$ lines describe the order, by breed ID, of the
+fields on the other side of the road. Each breed ID appears exactly once
+in each ordering.
+
+OUTPUT FORMAT (file friendcross.out):
+
+Please output the number of unfriendly crossing pairs of breeds.
+
+SAMPLE INPUT:
+
+    4 1
+    4
+    3
+    2
+    1
+    1
+    4
+    2
+    3
+
+SAMPLE OUTPUT:
+
+    2
+
+In this example, breeds 1 and 4 are unfriendly and crossing, as are
+breeds 1 and 3.
+
+Problem credits: Brian Dean
+
+Contest has ended. No further submissions allowed.

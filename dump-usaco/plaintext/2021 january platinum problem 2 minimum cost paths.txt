@@ -1,0 +1,136 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2021 January Contest, Platinum
+
+Problem 2. Minimum Cost Paths
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Russian (ru) Spanish (es) Chinese (zh)
+
+Farmer John's pasture can be regarded as an $N\times M$ ($2\le N\le
+10^9$, $2\le M\le 2\cdot 10^5$) 2D grid of square "cells" (picture a
+huge chessboard). The cell at the $x$-th row from the top and $y$-th
+column from the right is denoted by $(x,y)$ for each $x\in [1,N], y\in
+[1,M]$. Furthermore, for each $y\in [1,M]$, the $y$-th column is
+associated with the cost $c_y$ ($1\le c_y\le 10^9$).
+
+Bessie starts at the cell $(1,1)$. If she is currently located at the
+cell $(x,y)$, then she may perform one of the following actions:
+
+-   If $y<M$, Bessie may move to the next column (increasing $y$ by one)
+    for a cost of $x^2$.
+-   If $x<N$, Bessie may move to the next row (increasing $x$ by one)
+    for a cost of $c_y$.
+
+Given $Q$ ($1\le Q\le 2\cdot 10^5$) independent queries each of the form
+$(x_i,y_i)$ ($x_i\in [1,N], y_i\in [1,M]$), compute the minimum possible
+total cost for Bessie to move from $(1,1)$ to $(x_i,y_i)$.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line contains $N$ and $M$.
+
+The second line contains $M$ space-separated integers
+$c_1,c_2,\ldots,c_M$.
+
+The third line contains $Q$.
+
+The last $Q$ lines each contain two space-separated integers $x_i$ and
+$y_i$.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+$Q$ lines, containing the answers for each query.
+
+Note that the large size of integers involved in this problem may
+require the use of 64-bit integer data types (e.g., a "long long" in
+C/C++).
+
+SAMPLE INPUT:
+
+    5 4
+    1 100 100 20
+    20
+    1 1
+    2 1
+    3 1
+    4 1
+    5 1
+    1 2
+    2 2
+    3 2
+    4 2
+    5 2
+    1 3
+    2 3
+    3 3
+    4 3
+    5 3
+    1 4
+    2 4
+    3 4
+    4 4
+    5 4
+
+SAMPLE OUTPUT:
+
+    0
+    1
+    2
+    3
+    4
+    1
+    5
+    11
+    19
+    29
+    2
+    9
+    20
+    35
+    54
+    3
+    13
+    29
+    49
+    69
+
+The output in grid format:
+
+        1  2  3  4
+      *--*--*--*--*
+    1 | 0| 1| 2| 3|
+      *--*--*--*--*
+    2 | 1| 5| 9|13|
+      *--*--*--*--*
+    3 | 2|11|20|29|
+      *--*--*--*--*
+    4 | 3|19|35|49|
+      *--*--*--*--*
+    5 | 4|29|54|69|
+      *--*--*--*--*
+
+SCORING:
+
+-   Test cases 1-3 satisfy $N,M\le 2000$.
+-   Test cases 4-8 satisfy $c_2>c_3>\cdots>c_M$.
+-   Test cases 9-15 satisfy $N\le 2\cdot 10^5$.
+-   Test cases 16-20 satisfy no additional constraints.
+
+Problem credits: Benjamin Qi
+
+Contest has ended. No further submissions allowed.

@@ -1,0 +1,104 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2020 December Contest, Platinum
+
+Problem 3. Cowmistry
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Russian (ru) Spanish (es) Chinese (zh)
+
+Bessie has been procrastinating on her cow-mistry homework and now needs
+your help! She needs to create a mixture of three different cow-michals.
+As all good cows know though, some cow-michals cannot be mixed with each
+other or else they will cause an explosion. In particular, two
+cow-michals with labels $a$ and $b$ can only be present in the same
+mixture if $a \oplus b \le K$ ($1 \le K \le 10^9$).
+
+NOTE: Here, $a\oplus b$ denotes the "bitwise exclusive or'' of
+non-negative integers $a$ and $b$. This operation is equivalent to
+adding each corresponding pair of bits in base 2 and discarding the
+carry. For example,
+
+$$0\oplus 0=1\oplus 1=0,$$
+
+$$1\oplus 0=0\oplus 1=1,$$
+
+$$5\oplus 7=101_2\oplus 111_2=010_2=2.$$
+
+Bessie has $N$ ($1\le N\le 2\cdot 10^4$) boxes of cow-michals and the
+$i$-th box contains cow-michals labeled $l_i$ through $r_i$ inclusive
+$(0\le l_i \le r_i \le 10^9)$. No two boxes have any cow-michals in
+common. She wants to know how many unique mixtures of three different
+cow-michals she can create. Two mixtures are considered different if
+there is at least one cow-michal present in one but not the other. Since
+the answer may be very large, report it modulo $10^9 + 7$.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line contains two integers $N$ and $K$.
+
+Each of the next $N$ lines contains two space-separated integers $l_i$
+and $r_i$. It is guaranteed that the boxes of cow-michals are provided
+in increasing order of their contents; namely, $r_i<l_{i+1}$ for each
+$1\le i<N$.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+The number of mixtures of three different cow-michals Bessie can create,
+modulo $10^9 + 7$.
+
+SAMPLE INPUT:
+
+    1 13
+    0 199
+
+SAMPLE OUTPUT:
+
+    4280
+
+We can split the chemicals into 13 groups that cannot cross-mix:
+$(0\ldots 15)$, $(16\ldots 31)$, $\ldots$ $(192\ldots 199)$. Each of the
+first twelve groups contributes $352$ unique mixtures and the last
+contributes $56$ (since all $\binom{8}{3}$ combinations of three
+different cow-michals from $(192\ldots 199)$ are okay), for a total of
+$352\cdot 12+56=4280$.
+
+SAMPLE INPUT:
+
+    6 147
+    1 35
+    48 103
+    125 127
+    154 190
+    195 235
+    240 250
+
+SAMPLE OUTPUT:
+
+    267188
+
+SCORING
+
+-   Test cases 3-4 satisfy $\max(K,r_N)\le 10^4$.
+-   Test cases 5-6 satisfy $K=2^k-1$ for some integer $k\ge 1$.
+-   Test cases 7-11 satisfy $\max(K,r_N)\le 10^6$.
+-   Test cases 12-16 satisfy $N\le 20$.
+-   Test cases 17-21 satisfy no additional constraints.
+
+Problem credits: Benjamin Qi
+
+Contest has ended. No further submissions allowed.

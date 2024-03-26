@@ -1,0 +1,93 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2023 US Open Contest, Bronze
+
+Problem 1. FEB
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Russian (ru) Spanish (es)
+
+Bessie and Elsie are plotting to overthrow Farmer John at last! They
+plan it out over $N$ ($1\le N\le 2\cdot 10^5$) text messages. Their
+conversation can be represented by a string $S$ of length $N$ where
+$S_i$ is either $B$ or $E$, meaning the $i$th message was sent by Bessie
+or Elsie, respectively.
+
+However, Farmer John hears of the plan and attempts to intercept their
+conversation. Thus, some letters of $S$ are $F$, meaning Farmer John
+obfuscated the message and the sender is unknown.
+
+The excitement level of a non-obfuscated conversation is the number of
+times a cow double-sends - that is, the number of occurrences of
+substring $BB$ or $EE$ in $S$. You want to find the excitement level of
+the original message, but you don’t know which of Farmer John’s messages
+were actually Bessie’s / Elsie’s. Over all possibilities, output all
+possible excitement levels of $S$.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line will consist of one integer $N$.
+
+The next line contains $S$.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+First output $K$, the number of distinct excitement levels possible. On
+the next $K$ lines, output the excitement levels, in increasing order.
+
+SAMPLE INPUT:
+
+    4
+    BEEF
+
+SAMPLE OUTPUT:
+
+    2
+    1
+    2
+
+SAMPLE INPUT:
+
+    9
+    FEBFEBFEB
+
+SAMPLE OUTPUT:
+
+    2
+    2
+    3
+
+SAMPLE INPUT:
+
+    10
+    BFFFFFEBFE
+
+SAMPLE OUTPUT:
+
+    3
+    2
+    4
+    6
+
+SCORING:
+
+-   Inputs 4-8: $N\le 10$
+-   Inputs 9-20: No additional constraints.
+
+Problem credits: William Yue and Claire Zhang
+
+Contest has ended. No further submissions allowed.

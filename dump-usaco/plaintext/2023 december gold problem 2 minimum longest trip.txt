@@ -1,0 +1,143 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2023 December Contest, Gold
+
+Problem 2. Minimum Longest Trip
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) French (fr) Russian (ru) Spanish (es)
+
+Bessie is going on a trip in Cowland, which has $N$ ($2\le N\le 2\cdot
+10^5$) towns numbered from $1$ to $N$ and $M$ ($1\le M\le 4\cdot 10^5$)
+one-way roads. The $i$th road runs from town $a_i$ to town $b_i$ and has
+label $l_i$ ($1\le a_i,b_i\le N$, $1\le l_i\le 10^9$).
+
+A trip of length $k$ starting at town $x_0$ is a sequence of towns $x_0,
+x_1, \ldots, x_k$, such that there is a road from town $x_i$ to town
+$x_{i+1}$ for all $0\le i < k$. It is guaranteed that there are no trips
+of infinite length in Cowland, and that no two roads connect the same
+pair of towns.
+
+For each town, Bessie wants to know the longest possible trip starting
+at it. For some starting towns, there are multiple longest trips - out
+of these, she prefers the trip with the lexicographically minimum
+sequence of road labels. A sequence is lexicographically smaller than
+another sequence of the same length if, at the first position in which
+they differ, the first sequence has a smaller element than the second
+sequence.
+
+Output the length and sum of road labels of Bessie's preferred trip
+starting at each town.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line contains $N$ and $M$.
+
+The next $M$ lines each contain three integers $a_i$, $b_i$, and $l_i$,
+denoting a road from $a_i$ to $b_i$ with label $l_i$.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+Output $N$ lines. The $i$th should contain two space-separated integers,
+the length and sum of road labels of Bessie's preferred trip starting at
+town $i$.
+
+SAMPLE INPUT:
+
+    4 5
+    4 3 10
+    4 2 10
+    3 1 10
+    2 1 10
+    4 1 10
+
+SAMPLE OUTPUT:
+
+    0 0
+    1 10
+    1 10
+    2 20
+
+SAMPLE INPUT:
+
+    4 5
+    4 3 4
+    4 2 2
+    3 1 5
+    2 1 10
+    4 1 1
+
+SAMPLE OUTPUT:
+
+    0 0
+    1 10
+    1 5
+    2 12
+
+In the following explanation, we let $a_i\overset{l_i}\to b_i$ represent
+the road from $a_i$ to $b_i$ with label $l_i$.
+
+There are several trips starting from vertex $4$, including $4
+\overset{4}\to 3\overset{5}\to 1$, $4\overset{1}\to 1$, and
+$4\overset{2}\to 2\overset{10}\to 1$. Of these trips, $4 \overset{4}\to
+3\overset{5}\to 1$ and $4\overset{2}\to 2\overset{10}\to 1$ are the
+longest. These trips each have length 2, and their road label sequences
+are $[4,5]$ and $[2,10]$, respectively. $[2,10]$ is the
+lexicographically smaller sequence, and its sum is $12$.
+
+SAMPLE INPUT:
+
+    4 5
+    4 3 2
+    4 2 2
+    3 1 5
+    2 1 10
+    4 1 1
+
+SAMPLE OUTPUT:
+
+    0 0
+    1 10
+    1 5
+    2 7
+
+SAMPLE INPUT:
+
+    4 5
+    4 3 2
+    4 2 2
+    3 1 10
+    2 1 5
+    4 1 1
+
+SAMPLE OUTPUT:
+
+    0 0
+    1 5
+    1 10
+    2 7
+
+SCORING:
+
+-   Inputs 5-6: All labels are the same.
+-   Inputs 7-8: All labels are distinct.
+-   Inputs 9-10: $N,M\le 5000$
+-   Inputs 11-20: No additional constraints.
+
+Problem credits: Claire Zhang and Spencer Compton
+
+Contest has ended. No further submissions allowed.

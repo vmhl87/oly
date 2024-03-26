@@ -1,0 +1,306 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="https://www.w3.org/1999/xhtml">
+
+<head>
+
+
+ <title>USACO</title>
+ <link rel="stylesheet" type="text/css" href="current/usaco.css">
+ <script src="current/js/jquery.min.js"></script>
+ <script src="current/js/d3.v3.min.js"></script>
+
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+ <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+ <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    "HTML-CSS": {
+	scale: 85,
+	preferredFont: "STIX"
+    },
+  tex2jax: {
+    inlineMath: [['$','$'],['\\(','\\)']],
+    processEscapes: true,
+    skipTags: ['pre'],
+    processClass: "mathjax",
+    ignoreClass: "no-mathjax"
+  }
+});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</head>
+
+<body class="no-mathjax">
+ <div align="center">
+  <div class="shadow1">
+
+   <div class="content">
+
+  
+ <a href="index.php"><img src="current/images/usaco_logo.png" height="130px" border="0px" /></a> 
+
+    <div class="navbar" align="left" border="10px">
+     <ul>
+      <li><a href="index.php">Overview</a></li> 
+      <li><a href="index.php?page=training">Training</a></li>
+      <li><a href="index.php?page=contests">Contests</a></li>
+      <li><a href="index.php?page=history">History</a></li>
+      <li><a href="index.php?page=staff">Staff</a></li>
+      <li><a href="index.php?page=resources">Resources</a></li>
+     </ul>
+    </div><br/>
+
+   
+    
+
+
+<div style="position:relative; float:left; left:10px; top:-50px; width:550px;"> 
+<div class="panel">
+
+<h2> USACO 2018 US Open Contest, Platinum </h2>
+<h2> Problem 2. Train Tracking </h2>
+ 
+</div>
+</div>
+
+<div align="right" style="position:relative; float:right; right:30px; top:-40px; width:350px;">
+
+<button style="margin-bottom:6px;" type="button" onClick="window.location='index.php?page=open18results';">Return to Problem List</button><br style="padding-top:6px"/>
+Contest has ended.
+
+</div>
+
+<br style="clear:both" />
+
+
+<div id="last-status" style="padding:10px; position:relative; float:left; left:30px; top:-45px; width:820px; border:1px solid black; background-color:#FFF; " 
+	data-response-code="-1" data-sid="-1"> 
+   <img src="current/images/ajax.gif"/> <p style="display:inline;"> <b>Log in to allow submissions in analysis mode</b></p>
+<div id="trial-information"></div>
+<p style="text-align:left;" class="mono prewrap output-data"></p>
+</div>
+
+<br style="clear:both" />
+
+<div align="right" style="position:relative; float:right; right:40px; top:-93px; width:350px; z-index:2; padding:0px;">
+
+<form style="padding-top:60px;" action=""> 
+<select name="lang" style="background-color:#eee;" id="choose-language">
+<option value='en' selected='yes'>English (en)</option>
+<option value='hy'>Armenian (hy)</option>
+<option value='fr'>French (fr)</option>
+<option value='ru'>Russian (ru)</option>
+<option value='es'>Spanish (es)</option>
+<option value='zh'>Chinese (zh)</option>
+</select>
+</form>
+
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-100px; width:840px; z-index:1;"> 
+<div align="left" class="problem-text" style='width:800px; padding-top:10px;'>
+<span id="probtext-text" class="mathjax">Every morning the express train goes past the farm, heading to the big city, and
+every afternoon it goes past in the opposite direction, back to the suburbs.
+Today, Bessie is taking the time to watch it, both in the morning and in the
+afternoon.
+
+<p>Bessie knows in advance that the train has $N$ carriages ($1 \leq N \leq 10^6$),
+conveniently numbered $0 \dots N-1$. Carriage $i$ has an ID number $c_i$ written
+on it ($0 \le c_i \le 10^9$). All numbers are visible both in the morning and in
+the afternoon, so for each carriage Bessie has two opportunities to observe its
+number. That is, as the train passes by in the morning, Bessie is able to
+observe $c_0$, followed by $c_1$, all the way to $c_{N-1}$. As the train passes
+by in the afternoon, she is again able to observe $c_0$, followed by $c_1$, all
+the way to $c_{N-1}$.
+
+<p>Bessie has picked out an integer $K$ ($1 \leq K \leq N$), and she wishes to 
+determine the minimum ID number for each contiguous set of $K$ carriages. She
+has a notebook in which she can perform computations, but it is rather small and
+her handwriting (hoof-writing?) is rather large. For example, there may not even
+be enough space to write down all $N+1-K$ minimums. For arcane reasons, Bessie
+is content with mooing the minimums to the sky as she computes them, so this at
+least is not an issue.
+
+<p>The train is soon arriving! Help Bessie find the $N + 1 - K$ minimums as the
+train goes by twice, and make sure she uses her limited notebook size
+effectively. Her notebook is divided into $5500$ sections, conveniently numbered
+$0 \dots 5499$, and each section has the space to store exactly one integer
+between $-2^{31}$ and $2^{31}-1$ inclusive. Initially, each section stores the
+integer $0$.
+
+<p>This is an interactive problem, but you will not be using standard (or file)
+I/O. In particular, you must implement the following function, which helps
+Bessie manage her limited notebook space effectively:
+<pre class='prettyprint'>
+void helpBessie(int ID);
+</pre>
+
+<p>As each train car goes by, both in the morning and in the afternoon, your
+function will be called, and its input will be the ID number on that train car. 
+
+<p>Your implementation of the $\texttt{helpBessie}$ function will be able to call
+these functions:
+
+<p><ul><li> <strong> int get(int index)</strong>: gets the value of the integer stored at the given
+index of Bessie's notebook.
+</li><li> <strong> void set(int index, int value)</strong>: sets the integer at the given index to
+the given value.
+</li><li> <strong> void shoutMinimum(int output)</strong>: instructs Bessie to moo the given number
+to the skies.
+</li><li> <strong> int getTrainLength()</strong>: returns $N$, the number of train carriages.
+</li><li> <strong> int getWindowLength()</strong>: returns $K$, the window length.
+</li><li> <strong> int getCurrentCarIndex()</strong>: returns the index of the train carriage which
+is currently passing by.
+</li><li> <strong> int getCurrentPassIndex()</strong>: returns $0$ if Bessie is observing the
+morning pass, and $1$ if she is observing the afternoon pass.
+</li></ul>
+
+<p>To help you get started with your code, we have provided initial templates for you in
+<a href="https://usaco.org/current/data/template_cpp_train_open18.cpp">C/C++</a> and <a href="https://usaco.org/current/data/template_java_train_open18.java">Java</a>.  <strong>Python and Pascal submissions are unfortunately not supported for this problem.</strong>
+
+<p>The window minimums must be output in order (so the minimum over carriages
+$0, 1, \dots, K-1$ must be output before the minimum over carriages
+$1, 2, \dots, K$ is output, and so forth), but aside from this ordering
+constraint, your function may output minimums during any of its function calls,
+at any times. For example, your function may produce no output during some
+calls, and may produce multiple outputs during other calls.
+
+<p>Bessie has fantastic very-short-term memory, for which reason there is no
+restriction on memory usage within the $\texttt{helpBessie}$ function, aside
+from the normal 256MB limit. However, between train cars, Bessie is unable to
+"remember" anything not contained in the notebook. So between function calls,
+your program may not persist state except with the $\texttt{get}$ and
+$\texttt{set}$ calls.
+
+<p>This means:
+
+<p><strong> You are NOT ALLOWED to create any non-constant global or static variables.
+Any solution doing so will be disqualified. Coaches WILL manually inspect
+solutions to verify solutions follow the spirit of the problem.  Since file I/O
+is not necessary for this problem, you are also NOT ALLOWED to perform any file
+I/O in your code.</strong>
+
+<p>The total number of $\texttt{set}$ calls plus the total number of $\texttt{get}$
+calls made by your program will be limited to $25 \cdot 10^6$ for each test
+case.
+
+<p><h4>SAMPLE INPUT:</h4><pre class='in'>
+10 3
+5 7 9 2 0 1 7 4 3 6
+</pre><h4>SAMPLE OUTPUT:</h4> <pre class='out'>
+5
+2
+0
+0
+0
+1
+3
+3
+</pre>
+
+<p>
+<p>Problem credits: Dhruv Rohatgi
+</span>
+</div>
+
+           Contest has ended.  No further submissions allowed.
+    
+</div>
+
+<div align="left" style="position:relative; float:left; left:30px; top:-70px; width:840px;"> 
+
+</div>
+
+<br style="clear:both" />
+
+<script>
+ var retries = 100, timeout = 1000;
+
+ function postback()
+ { 
+     var sid = $('#last-status').data('sid'); if (sid == -1) return;
+     $.post('current/tpcm/status-update.php', { sid: sid }, update_response, 'json'); 
+ }
+
+ function update_response(s)
+ {
+     // only try a limited number of times
+     if (--retries < 0) return;
+
+     // if there is xml data, update the DOM
+     if (s != null)
+     {
+	 $('#last-status img').attr("src","current/images/medal_none.png");
+	 if (parseInt(s.cd) <= -8 && s.sc == 'status-working') { $('#last-status img').attr("src","current/images/ajax.gif"); }
+
+         // change class and text of the response box
+         $('#last-status').removeClass().addClass(s.sc);
+         $('#last-status p').text(s.sr);
+
+         // change the response code of the data section
+         $('#last-status').data('response-code', parseInt(s.cd));
+	 $('#last-status .output-data').hide();
+
+	 if (s.output != null)
+	 {
+	     $('#last-status .output-data').show().text(s.output);
+	     // if the status is in a "working" state, keep checking
+	     if (parseInt($('#last-status').data('response-code')) <= -8)
+		 { setTimeout(postback, timeout); timeout *= 1.1; }
+
+	     return;
+	 }
+
+	 if (s.jd != null && s.jd.length != 0)
+	     $('#trial-information').html(s.jd);
+     }
+
+     // if the status is in a "working" state, keep checking
+     if (parseInt($('#last-status').data('response-code')) <= -8)
+         { setTimeout(postback, timeout); timeout *= 1.1; }
+ }
+
+ $(document).ready(function(){
+     $('#last-status .output-data').hide();
+     $('#last-status img').attr("src","current/images/medal_none.png");
+     if ($('#last-status').length) postback();
+
+     $('.masterTooltip').hover(function(){
+	 // Hover over code
+	 var title = $(this).attr('title');
+	 $(this).data('tipText', title).removeAttr('title');
+	 $('<p class="tooltip"></p>').text(title).appendTo('body').fadeIn('fast');
+     }, function() {
+	 // Hover out code
+	 $(this).attr('title', $(this).data('tipText'));
+	 $('.tooltip').remove();
+     }).mousemove(function(e) {
+	 var mousex = e.pageX + 20; //Get X coordinates
+	 var mousey = e.pageY + 10; //Get Y coordinates
+	 $('.tooltip').css({ top: mousey, left: mousex })
+     });
+ });
+
+ $('#choose-language').change(function(e){
+     window.location = "index.php?page=viewproblem2&cpid=841&lang=" + $(this).val();
+ });
+
+</script>
+
+
+   </div>
+  </div>
+ </div>
+
+ <br style="clear:both" />
+
+<script>(function(){if (!document.body) return;var js = "window['__CF$cv$params']={r:'86a9ee2faf59081c',t:'MTcxMTQ4NTM2MC42MDQwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+
+</html>
+
+
