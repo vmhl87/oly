@@ -31,8 +31,6 @@ using namespace std;
 typedef struct{
 	// adjacent houses
 	unordered_set<int> adj;
-	// adjacent houses that are *not leaves yet*
-	unordered_set<int> ladj;
 	// ant count at this house
 	int count=1;
 }house;
@@ -67,9 +65,7 @@ typedef struct sol{
 		for(int i=1;i<n;++i){
 			int u,v;cin>>u>>v;u--;v--;
 			houses[u].adj.insert(v);
-			houses[u].ladj.insert(v);
 			houses[v].adj.insert(u);
-			houses[v].ladj.insert(u);
 		}
 		// initialize leaves
 		for(int i=0;i<n;++i){
@@ -98,9 +94,7 @@ typedef struct sol{
 		houses[other].count+=houses[i].count;
 		// update adjacencies
 		houses[i].adj.clear();
-		houses[i].ladj.clear();
 		houses[other].adj.erase(i);
-		houses[other].ladj.erase(i);
 		// if the "other leaf" is now a leaf, add it
 		if(is_leaf(other))add_leaf(other);
 	}
