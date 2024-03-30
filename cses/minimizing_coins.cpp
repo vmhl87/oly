@@ -1,4 +1,4 @@
-// Minimizing Coins  -  https://cses.fi/problemset/result/8873761/
+// Minimizing Coins  -  https://cses.fi/problemset/task/1634
 //
 // Yet another shameless DP bash - compute for each sum s the
 // minimum number of coins required recursively, adding one coin
