@@ -10,13 +10,13 @@ typedef struct segtree{
 		n=v.size();
 		for(int i=0;i<n;++i)tree[i+n]=v[i];
 		for(int i=n-1;i>0;--i)
-			tree[i]=mx(tree[i<<1],tree[i<<1|1]);
+			tree[i]=max(tree[i<<1],tree[i<<1|1]);
 	}
 	// i is zero-indexed (ofc)
 	void set(int i,int v){
 		i+=n;tree[i]=v;i>>=1;
 		while(i){
-			tree[i]=mx(tree[i<<1],tree[i<<1|1]);
+			tree[i]=max(tree[i<<1],tree[i<<1|1]);
 			i>>=1;
 		}
 	}
@@ -25,8 +25,8 @@ typedef struct segtree{
 		l+=n;u+=n;
 		int ret=0;
 		while(l<u){
-			if(l&1)ret=mx(ret,tree[l++]);
-			if(u&1)ret=mx(ret,tree[--u]);
+			if(l&1)ret=max(ret,tree[l++]);
+			if(u&1)ret=max(ret,tree[--u]);
 			l>>=1;u>>=1;
 		}
 		return ret;
