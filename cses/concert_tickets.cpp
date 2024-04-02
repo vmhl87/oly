@@ -31,13 +31,15 @@ namespace seg{
 	}
 	// find tree index of each element, accounting for wrap
 	int leaf(int i){
-		return n+(ln-n+i)%n;
+		i+=ln;
+		i-=(i>=n*2)*n;
+		return i;
 	}
 	// initialize from vector
 	void init(vector<int> v){
 		tree.resize(v.size()<<1);
 		// compute wraparound - always a power of 2
-		n=v.size();while(ln<=n)ln<<=1;
+		n=v.size();ln=1<<__lg(n*2-1);
 		for(int i=0;i<n;++i)tree[leaf(i)]=make_pair(v[i],v[i]);
 		for(int i=n-1;i>0;--i)prop(i);
 	}
