@@ -3,115 +3,85 @@
 #include <queue>
 using namespace std;
 
-class segtree{
-	private:
-		struct node{
-			int count;
-			int next=-1;
-			int p1,p2,p3,p4;
-			int l1,l2,u1,u2;
-		};
-		int len;
-		vector<node> tree;
-		void merge(int l,int rows,int i,int j,int i2,int j2){
-			int ids[4]={
-				l+i*rows+j,
-				l+i*rows+j2,
-				l+i2*rows+j,
-				l+i2*rows+j2
-			};
-			node t;
-			t.l1=tree[ids[0]].l1;t.l2=tree[ids[0]].l2;
-			t.u1=tree[ids[3]].u1;t.u2=tree[ids[3]].u2;
-			t.count=tree[ids[0]].count;
-			if(j2!=j)t.count+=tree[ids[1]].count;
-			if(i2!=i){
-				t.count+=tree[ids[2]].count;
-				if(j2!=j)t.count+=tree[ids[3]].count;
+namespace seg{
+	struct segtree{
+		vector<int> tree;
+		int n;
+		void cpy(segtree a,segtree b){
+			n=a.n;
+			tree.resize(n*2);
+			for(int i=0;i<n*2;++i)
+				tree[i]=a.tree[i]+b.tree[i];
+		}
+		void init(int l){
+			n=l;tree.resize(l*2);
+			for(int i=0;i<n;++i){
+				char c;cin>>c;
+				tree[i+n]=(c=='*');
 			}
-			for(int i:ids)tree[i].next=tree.size();
-			t.p1=ids[0];t.p2=ids[1];t.p3=ids[2];t.p4=ids[3];
-			tree.push_back(t);
+			for(int i=n-1;i>0;--i)
+				tree[i]=tree[i<<1]+tree[i<<1|1];
 		}
-		bool in_range(int n,int l1,int l2,int u1,int u2){
-			return tree[n].l1>=l1&&tree[n].l2>=l2
-				&&tree[n].u1<=u1&&tree[n].u2<=u2;
-		}
-		bool on_range(int n,int l1,int l2,int u1,int u2){
-			return tree[n].u1>l1&&tree[n].u2>l2
-				&&tree[n].l1<u1&&tree[n].l2<u2;
-		}
-	public:
-		segtree(int n){
-			len=n*n;
-			tree.reserve((len*4)/3);
-			for(int i=0;i<n;++i)
-				for(int j=0;j<n;++j){
-					node t;
-					t.l1=i;t.u1=i+1;
-					t.l2=j;t.u2=j+1;
-					char c;cin>>c;
-					t.count=(c=='*');
-					tree.push_back(t);
-				}
-			int l=0,u=len,rows=n;
-			while(l<u-1){
-				for(int i=0;i<rows;i+=2)
-					for(int j=0;j<rows;j+=2){
-						int i2=i+1,j2=j+1;
-						if(i2==rows)i2=i;
-						if(j2==rows)j2=j;
-						merge(l,rows,i,j,i2,j2);
-					}
-				l=u;u=tree.size();rows=(rows+1)/2;
-			}
-			len=n;
-		}
-		void flip(int x,int y){
-			int ptr=x+y*len;
-			tree[ptr].count^=1;
-			while(tree[ptr].next+1){
-				ptr=tree[ptr].next;
-				tree[ptr].count=tree[tree[ptr].p1].count;
-				if(tree[ptr].p1!=tree[ptr].p2)
-					tree[ptr].count+=tree[tree[ptr].p2].count;
-				if(tree[ptr].p1!=tree[ptr].p3){
-					tree[ptr].count+=tree[tree[ptr].p3].count;
-					if(tree[ptr].p1!=tree[ptr].p2)
-						tree[ptr].count+=tree[tree[ptr].p4].count;
-				}
+		void set(int i,int v){
+			i+=n;
+			while(i){
+				tree[i]+=v;
+				i>>=1;
 			}
 		}
-		int range(int l1,int l2,int u1,int u2){
+		int range(int l,int r){
+			l+=n;r+=n;
 			int ret=0;
-			queue<int> q;
-			q.push(tree.size()-1);
-			while(!q.empty()){
-				int n=q.front();q.pop();
-				if(in_range(n,l1,l2,u1,u2)){
-					ret+=tree[n].count;
-				}else if(on_range(n,l1,l2,u1,u2)){
-					q.push(tree[n].p1);
-					q.push(tree[n].p2);
-					q.push(tree[n].p3);
-					q.push(tree[n].p4);
-				}
+			while(l<r){
+				if(l&1)ret+=tree[l++];
+				if(r&1)ret+=tree[--r];
+				l>>=1;r>>=1;
 			}
 			return ret;
 		}
-};
+	};
+	vector<segtree> tree;
+	int n;
+	void init(int l){
+		n=l;
+		tree.resize(l*2);
+		for(int i=0;i<n;++i)tree[i+n].init(l);
+		for(int i=n-1;i>0;--i)
+			tree[i].cpy(tree[i<<1],tree[i<<1|1]);
+	}
+	void flip(int x,int y){
+		y+=n;
+		int diff=1-(tree[y].tree[x+n]<<1);
+		while(y){
+			tree[y].set(x,diff);
+			y>>=1;
+		}
+	}
+	int range(int y1,int x1,int y2,int x2){
+		y1+=n;y2+=n;
+		int ret=0;
+		while(y1<y2){
+			if(y1&1)ret+=tree[y1++].range(x1,x2);
+			if(y2&1)ret+=tree[--y2].range(x1,x2);
+			y1>>=1;y2>>=1;
+		}
+		return ret;
+	}
+}
 
 int main(){
+	ios::sync_with_stdio(0);
+	cin.tie(0);
 	int n,q;cin>>n>>q;
-	segtree m(n);
+	seg::init(n);
 	while(q-->0){
 		int t;cin>>t;
 		if(t-1){
 			int x1,y1,x2,y2;cin>>y1>>x1>>y2>>x2;
-			cout<<m.range(y1-1,x1-1,y2,x2)<<'\n';
+			cout<<seg::range(y1-1,x1-1,y2,x2)<<'\n';
 		}else{
 			int x,y;cin>>y>>x;
-			m.flip(x-1,y-1);
+			seg::flip(x-1,y-1);
 		}
 	}
 }
