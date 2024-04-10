@@ -52,16 +52,11 @@ namespace leg{
 	}
 	int range(int l,int r){
 		l+=n;r+=n;
-		int ret=0;
+		push(l);push(r-1);
+		int ret=tree[l]+lazy[l];
 		while(l<r){
-			if(l&1){
-				push(l);
-				ret=max(ret,tree[l++]);
-			}
-			if(r&1){
-				push(--r);
-				ret=max(ret,tree[r]);
-			}
+			if(l&1)ret=max(ret,tree[l]+lazy[l++]);
+			if(r&1)ret=max(ret,tree[--r]+lazy[r]);
 			l>>=1;r>>=1;
 		}
 		return ret;
