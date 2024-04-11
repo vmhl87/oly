@@ -34,104 +34,71 @@
 #include <vector>
 using namespace std;
 
-// segtree data structure
-class segtree{
-	private:
-		// each node stores maximum free, next, and prev nodes
-		struct node{
-			int maxfree;
-			int next=-1;
-			int prev1,prev2;
-		};
-		// storage
-		int hotels;
-		vector<node> tree;
-		// utility to build a new node from two subnodes i,i+1
-		void infill_next(int i,int u){
-			// if j is at upper bound, clip
-			int j=i+1;if(j==u)j=i;node t;
-			// trivially calculate maximum free rooms
-			t.maxfree=tree[tree[i].maxfree>tree[j].maxfree?i:j].maxfree;
-			t.prev1=i;t.prev2=j;
-			// update previous nodes' next indices
-			tree[i].next=tree.size();tree[j].next=tree.size();
-			tree.push_back(t);
+// Because we only will have one segtree instance, it is
+// cleaner to use a namespace-based impl rather than a struct
+namespace seg{
+	// tree stores maximum free rooms in any single hotel within
+	// entire subtree of node
+	vector<int> tree;
+	// n = length, s = wraparound boundary (due to bottom-up impl
+	// we need to account for wrap/unwrap when parse)
+	int n,s;
+	// propagate node upwards (pretty standard for my impl)
+	void prop(int i){
+		tree[i]=max(tree[i<<1],tree[i<<1|1]);
+	}
+	// wraparound - because we do care about the order of the
+	// hotels, and want to always pick the earlier hotels first,
+	// we must mantain some sort of ordering
+	int leaf(int i){
+		return n+(s+i)%n;
+	}
+	int unleaf(int i){
+		return (i-s+n)%n;
+	}
+	// not a struct, so no ctor
+	void init(int len){
+		n=len;s=1<<__lg(n+n-1);
+		tree.resize(n*2);
+		// input on the fly
+		for(int i=0;i<n;++i)cin>>tree[leaf(i)];
+		for(int i=n-1;i>0;--i)prop(i);
+	}
+	// find first hotel with at least v free rooms
+	int find(int v){
+		// fail condition - no room has enough space
+		if(tree[1]<v)return 0;
+		// i = node currently searching, starts at root
+		int i=1;
+		while(i<n){
+			// if the left (smaller) branch is possible, we will
+			// always pick it
+			if(tree[i<<1]>=v)i<<=1;
+			else i=i<<1|1;
 		}
-		// utility to reduce the capacity of a hotel and update
-		// the whole tree to match
-		void set(int i,int v){
-			tree[i].maxfree-=v;
-			// move upwards from this hotel through the tree
-			while(tree[i].next+1){
-				i=tree[i].next;
-				// update maximum free rooms
-				if(tree[tree[i].prev1].maxfree>tree[tree[i].prev2].maxfree)
-					tree[i].maxfree=tree[tree[i].prev1].maxfree;
-				else tree[i].maxfree=tree[tree[i].prev2].maxfree;
-			}
+		// find original id of this hotel and 1-index
+		int ret=unleaf(i)+1;
+		// change and propagate back up
+		tree[i]-=v;
+		while(i){
+			i>>=1;prop(i);
 		}
-	public:
-		// ctor accepts number of hotels and inputs inside itself
-		segtree(int n){
-			hotels=n;
-			tree.reserve(n*2);
-			for(int i=0;i<n;++i){
-				node t;cin>>t.maxfree;
-				tree.push_back(t);
-			}
-			// l,u = lower,upper bounds
-			int l=0,u=n;
-			// when they are 1 apart, we have processed the whole
-			// tree, because we are now at the root node
-			while(l<u-1){
-				// iterate over all pairs of nodes within range;
-				// if we go out of bounds, we can simply clip
-				for(int i=l;i<u;i+=2)
-					infill_next(i,u);
-				// update ranges
-				l=u;u=tree.size();
-			}
-		}
-		// find the first hotel with enough space to hold
-		// "min" guests
-		int find_hotel(int min){
-			// if the tree does not as a whole contain any
-			// hotel with enough capacity, simply exit here
-			if(tree[tree.size()-1].maxfree<min)return 0;
-			// we will start at the root node and traverse
-			// downwards, selecting the earliest subnode that
-			// has enough capacity
-			int ptr=tree.size()-1;
-			// if we are looking at a hotel node and not an
-			// intermediate node, we are finished
-			while(ptr>=hotels){
-				// prev1 is guaranteed to be earlier than
-				// prev2, by nature of the way the tree
-				// unrolls, so we check it first
-				if(tree[tree[ptr].prev1].maxfree>=min)
-					ptr=tree[ptr].prev1;
-				// if it doesn't work, we then use the
-				// second vertex
-				else ptr=tree[ptr].prev2;
-			}
-			// update tree to match
-			set(ptr,min);
-			// our tree is zero-indexed, but the problem wants
-			// us to 1-index our answer
-			return ptr+1;
-		}
-};
+		return ret;
+	}
+}
 
 int main(){
+	ios::sync_with_stdio(0);
+	cin.tie(0);
 	int n,m;cin>>n>>m;
 	// initialize datastructure - it will handle inputting
 	// of all the hotels internally
-	segtree hotels(n);
+	seg::init(n);
 	// input guests and process on the fly
 	for(int i=0;i<m;++i){
 		if(i)cout<<' ';
 		int t;cin>>t;
-		cout<<hotels.find_hotel(t);
+		cout<<seg::find(t);
 	}
 	cout<<'\n';
 }

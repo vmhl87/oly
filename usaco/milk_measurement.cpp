@@ -14,42 +14,41 @@ bool comp_events(event a,event b){
 	return a.day<b.day;
 }
 
-typedef struct segtree{
+namespace seg{
 	vector<pair<int,int>> tree;
 	int n;
-	void proc(int i){
-		if(tree[i<<1].first>tree[(i<<1)+1].first){
-			tree[i].first=tree[i<<1].first;
-			tree[i].second=tree[i<<1].second;
-		}else if(tree[i<<1].first<tree[(i<<1)+1].first){
-			tree[i].first=tree[(i<<1)+1].first;
-			tree[i].second=tree[(i<<1)+1].second;
-		}else{
+	void prop(int i){
+		if(tree[i<<1].first==tree[i<<1|1].first){
 			tree[i].first=tree[i<<1].first;
 			tree[i].second=tree[i<<1].second+
-				tree[(i<<1)+1].second;
+				tree[i<<1|1].second;
+		}else if(tree[i<<1].first>tree[i<<1|1].first){
+			tree[i].first=tree[i<<1].first;
+			tree[i].second=tree[i<<1].second;
+		}else{
+			tree[i].first=tree[i<<1|1].first;
+			tree[i].second=tree[i<<1|1].second;
 		}
 	}
-	segtree(int l,int g):tree(l*2,make_pair(g,1)){
+	void init(int l,int g){
 		n=l;
-		for(int i=n-1;i>0;--i)
-			proc(i);
+		tree.resize(l*2,make_pair(g,1));
+		for(int i=n-1;i>0;--i)prop(i);
 	}
 	bool set(int i,int v){
-		i+=n;int oi=i;
-		int om=tree[1].first,oc=tree[1].second;
-		bool was=tree[i].first==om;
-		tree[i].first+=v;i>>=1;
+		i+=n;
+		pair<int,int> o=tree[1];
+		int oi=i;bool was=tree[i].first==o.first;
+		tree[i].first+=v;
 		while(i){
-			proc(i);
-			i>>=1;
+			i>>=1;prop(i);
 		}
-		if(oc!=tree[1].second)return 1;
-		if(om!=tree[1].first)
+		if(o.second!=tree[1].second)return 1;
+		if(o.first!=tree[1].first)
 			return was^(tree[1].first==tree[oi].first);
 		return 0;
 	}
-}segtree;
+}
 
 int main(){
 	ifstream cin("measurement.in");
@@ -70,9 +69,9 @@ int main(){
 		else events[i].change=change;
 	}
 	sort(events,events+n,comp_events);
-	segtree m(index+1,g);
+	seg::init(index+1,g);
 	int ret=0;
 	for(event e:events)
-		if(m.set(e.cow,e.change))ret++;
+		if(seg::set(e.cow,e.change))ret++;
 	cout<<ret<<'\n';
 }

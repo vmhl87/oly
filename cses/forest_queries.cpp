@@ -1,5 +1,6 @@
-// Forest Queries II  -  https://cses.fi/problemset/task/1739/
-// Quite literally just an application of 2d nonlazy segtree
+// Forest Queries  -  https://cses.fi/problemset/task/1739/
+// I was lazy and reused my Forest Queries II solution, but I know
+// I could have used psums instead
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -32,14 +33,6 @@ namespace seg{
 			for(int i=n-1;i>0;--i)
 				tree[i]=tree[i<<1]+tree[i<<1|1];
 		}
-		// shift position i by some delta v (guaranteed to be +-1)
-		void set(int i,int v){
-			i+=n;
-			while(i){
-				tree[i]+=v;
-				i>>=1;
-			}
-		}
 		// find # of trees in range [l,r)
 		int range(int l,int r){
 			l+=n;r+=n;
@@ -69,17 +62,6 @@ namespace seg{
 		for(int i=n-1;i>0;--i)
 			tree[i].cpy(tree[i<<1],tree[i<<1|1]);
 	}
-	// flip tree at (x,y)
-	void flip(int x,int y){
-		y+=n;
-		// compute delta - if (x,y) = 0 then 1 else -1
-		int diff=1-(tree[y].tree[x+n]<<1);
-		// apply this delta over all sub-trees containing (x,y)
-		while(y){
-			tree[y].set(x,diff);
-			y>>=1;
-		}
-	}
 	// count # of trees over rectangular range
 	int range(int y1,int x1,int y2,int x2){
 		y1+=n;y2+=n;
@@ -103,13 +85,7 @@ int main(){
 	seg::init(n);
 	// pretty self explanatory
 	while(q--){
-		int t;cin>>t;
-		if(t&1){
-			int x,y;cin>>y>>x;
-			seg::flip(x-1,y-1);
-		}else{
-			int x1,y1,x2,y2;cin>>y1>>x1>>y2>>x2;
-			cout<<seg::range(y1-1,x1-1,y2,x2)<<'\n';
-		}
+		int x1,y1,x2,y2;cin>>y1>>x1>>y2>>x2;
+		cout<<seg::range(y1-1,x1-1,y2,x2)<<'\n';
 	}
 }
