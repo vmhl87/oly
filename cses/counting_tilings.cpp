@@ -1,36 +1,34 @@
 #include <iostream>
-#include <stack>
 using namespace std;
 
 #define M 1000000007
 
-int main(){
-	int n,m;cin>>n>>m;
-	long long a[1<<n],b[1<<n];
-	for(int i=0;i<1<<n;++i)a[i]=0;
-	stack<int> dfs;int len=1,p=0;
-	dfs.push(1);
-	while(dfs.size()){
-		int top=dfs.top();
-		if(len==n){
-			dfs.pop();
-			a[p]=1;
-			// handle p
-			continue;
-		}
-		if(len>n){
-			dfs.pop();
-			// handle p
-			continue;
-		}
-		if(top==3){
-			len-=2;dfs.pop();
-			// handle p
-		}else{
-			len+=2;
-			dfs.pop();dfs.push(2);
-			dfs.push(1);
-			// handle p
-		}
+void assign(int a, int i, int p, int v, int *next){
+	if(i==1){
+		next[p] = (next[p] + a) % M;
+		return;
 	}
+	if(i&1){
+		assign(a, i>>1, p, v<<1, next);
+		return;
+	}
+	assign(a, i>>1, p|v, v<<1, next);
+	if(!(i&1 || i&2)) assign(a, i>>2, p, v<<2, next);
+}
+
+void assign(int a, int i, int *next){
+	assign(a, i, 0, 1, next);
+}
+
+int main(){
+	int n, m; cin >> n >> m;
+	int cur[1<<n] = {0}, next[1<<n] = {0};
+	cur[0] = 1;
+	while(m--){
+		for(int i=0; i<1<<n; ++i)
+			assign(cur[i], 1<<n|i, next);
+		for(int i=0; i<1<<n; ++i)
+			cur[i] = next[i], next[i] = 0;
+	}
+	cout << cur[0] << '\n';
 }
