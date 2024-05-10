@@ -16,7 +16,7 @@ int main(){
 	long long books[n];
 	long long sum = 0;
 	for(int i=0; i<n; ++i)
-		cin>>books[i], sum += books[i];
+		cin >> books[i], sum += books[i];
 	sort(books, books+n);
 	cout << max(sum, books[n-1]*2) << '\n';
 }
