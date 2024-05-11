@@ -31,7 +31,6 @@
 // This is pretty easy to construct with recursion.
 
 #include <iostream>
-using namespace std;
 
 constexpr int M = 1e9 + 7;
 
@@ -88,7 +87,7 @@ void assign(int a, int i, int *next){
 
 int main(){
 	// input n, m
-	int n, m; cin >> n >> m;
+	int n, m; std::cin >> n >> m;
 	// prepare storage arrays to store & compute states of columns - they
 	// must have space to store every possible state, of which there are
 	// 2^n of.
@@ -110,5 +109,5 @@ int main(){
 	// we are only interested in the ending tilings that have zero poking
 	// dominoes because we can't have dominoes poke out of the right side
 	// either
-	cout << cur[0] << '\n';
+	std::cout << cur[0] << '\n';
 }
