@@ -8,7 +8,7 @@
 #include <iostream>
 using namespace std;
 
-#define M 1000000007
+constexpr int M = 1e9 + 7;
 
 int m;
 
