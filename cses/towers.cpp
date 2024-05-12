@@ -4,22 +4,16 @@
 using namespace std;
 
 int main(){
+	ios::sync_with_stdio(0);
+	cin.tie(0);
 	int n;cin>>n;
-	int ret=0;
+	int r[n]; for(int i=0; i<n; ++i) cin >> r[i];
 	multiset<int> towers;
-	for(int i=0;i<n;i++){
-		int c;
-		cin>>c;
-		auto lbound=lower_bound(towers.begin(),towers.end(),c+1);
-		if(lbound==towers.end()){
-//cout<<"making new tower for "<<c<<'\n';
-			towers.insert(c);
-			ret++;
-		}else{
-//cout<<"advancing tower "<<*lbound<<" to "<<c<<'\n';
-			towers.erase(lbound);
-			towers.insert(c);
-		}
+	for(int c : r){
+		auto bound=towers.upper_bound(c);
+		if(bound!=towers.end())
+			towers.erase(bound);
+		towers.insert(c);
 	}
-	cout<<ret<<'\n';
+	cout<<towers.size()<<'\n';
 }
