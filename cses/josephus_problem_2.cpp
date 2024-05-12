@@ -10,8 +10,7 @@
 #include <iostream>
 
 int main(){
-	std::ios::sync_with_stdio(0);
-	std::cin.tie(0);
+	std::cin.tie(0) -> sync_with_stdio(0);
 	int n, k; std::cin >> n >> k;
 	// implicit segtree - no need for vector!
 	int tree[n<<1];
