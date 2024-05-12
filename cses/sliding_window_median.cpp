@@ -34,7 +34,9 @@ int main(){
 		// overall more elements added ahead of the median, fr is
 		// positive, and x needs to be incremented)
 		int t, fr = 0; std::cin >> t;
-		// if the currently added
+		// if the currently added element is bigger than the median,
+		// it will increase the forward count, otherwise, it will
+		// increase the backward count
 		if(t < *x) --fr;
 		else ++fr;
 		// removal is really weird when there is only one element
