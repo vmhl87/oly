@@ -16,24 +16,30 @@
 int main(){
 	std::cin.tie(0) -> sync_with_stdio(0);
 	int n; std::cin >> n;
+
 	// queue to pop songs off in order, set to store which
 	// songs are in the current sliding window
 	std::queue<int> q;
 	std::set<int> s;
+
 	// running maximum length
 	int m = 0;
+
 	// repeat over all vals
 	while(n--){
 		int t; std::cin >> t;
+
 		// if t is already in the set, erase values from
 		// the set until t is no longer in the set
 		while(s.count(t)){
 			s.erase(q.front());
 			q.pop();
 		}
+
 		// insert t into the set and queue
 		s.insert(t);
 		q.push(t);
+
 		// update running max
 		m = (s.size() > m ? s.size() : m);
 	}

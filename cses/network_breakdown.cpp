@@ -14,15 +14,18 @@
 int main(){
 	std::cin.tie(0) -> sync_with_stdio(0);
 	int n, m, k; std::cin >> n >> m >> k;
+
 	// initial and added edges - we will need to filter out the
 	// added edges from the initial before building graph
 	std::set<std::array<int, 2>> init;
 	std::array<int, 2> add[k];
+	
 	// input all initial, including added
 	for(int i=0; i<m; ++i){
 		int a, b; std::cin >> a >> b;
 		init.insert({a, b});
 	}
+
 	// input added edges, and erase them from initial
 	for(int i=0; i<k; ++i){
 		std::cin >> add[i][0] >> add[i][1];
@@ -30,6 +33,7 @@ int main(){
 		// can possibly be reversed
 		init.erase({add[i][1], add[i][0]});
 	}
+
 	// inline dsu - 1-indexed because the input format is
 	int dsu[n] = {0}, comps = n;
 	// for each initial add, unite the cities and update comps
@@ -42,6 +46,7 @@ int main(){
 		if(a != b) tr.push(b), --comps;
 		while(tr.size()) dsu[tr.top()] = a+1, tr.pop();
 	}
+
 	// add each removed edge in backwards order (and store the
 	// component count *before* addition, so it can be reversed
 	// in the final output)
@@ -56,6 +61,7 @@ int main(){
 		if(a != b) tr.push(b), --comps;
 		while(tr.size()) dsu[tr.top()] = a+1, tr.pop();
 	}
+
 	for(int i=0; i<k; ++i){
 		if(i) std::cout << ' ';
 		std::cout << ret[i];

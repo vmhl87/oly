@@ -13,20 +13,24 @@
 int main(){
 	std::cin.tie(0) -> sync_with_stdio(0);
 	int n, k; std::cin >> n >> k;
+
 	// to remove elements from the set in the right order, we also
 	// mantain a queue
 	std::multiset<int> s;
 	std::queue<int> q;
+
 	// fill multiset with initial window
 	for(int i=0; i<k; ++i){
 		int t; std::cin >> t;
 		s.insert(t);
 		q.push(t);
 	}
+
 	// x = pointer to median element
 	auto x = s.begin();
 	for(int i=0; i<(k-1)>>1; ++i) ++x;
 	std::cout << *x;
+
 	// loop through the rest of the values and process
 	for(int i=k; i<n; ++i){
 		std::cout << ' ';
@@ -34,11 +38,13 @@ int main(){
 		// overall more elements added ahead of the median, fr is
 		// positive, and x needs to be incremented)
 		int t, fr = 0; std::cin >> t;
+
 		// if the currently added element is bigger than the median,
 		// it will increase the forward count, otherwise, it will
 		// increase the backward count
 		if(t < *x) --fr;
 		else ++fr;
+
 		// removal is really weird when there is only one element
 		// in the multiset, so we just hardcode it
 		if(s.size() == 1){
@@ -59,6 +65,7 @@ int main(){
 			if(s.find(q.front()) == x) s.insert(t), ++x, --fr;
 			else ++fr;
 		}
+
 		// removal and insertion
 		if(s.size() > 1){
 			s.erase(s.find(q.front()));
@@ -66,12 +73,15 @@ int main(){
 			// goofies and it needs to be handled
 			if(s.size() < k) s.insert(t);
 		}
+
 		// update queue
 		q.push(t);
 		q.pop();
+
 		// increment x
 		if(fr > 0) ++x;
 		else if(fr < 0) --x;
+
 		// print current median value
 		std::cout << *x;
 	}

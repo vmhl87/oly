@@ -58,6 +58,7 @@ void assign(int a, int i, int p, int v, int *next){
 		next[p] = (next[p] + a) % M; // take modulo
 		return;
 	}
+
 	// if i ends in a 1, the next state encoding must have a 0 at
 	// this bit. We don't modify `p` because adding a 0 at some
 	// place value will not change its value. So, we divide i by 2
@@ -66,6 +67,7 @@ void assign(int a, int i, int p, int v, int *next){
 		assign(a, i>>1, p, v<<1, next);
 		return;
 	}
+
 	// because i did not end in a 1, it ends in a 0. this means that
 	// it is possible for the next state encoding to have a 1 in this
 	// place. To do this, we of course divide i by 2, and increase the
@@ -73,6 +75,7 @@ void assign(int a, int i, int p, int v, int *next){
 	// has exactly one bit set, in the correct position to be added,
 	// we can simply use binary or. (addition works too.)
 	assign(a, i>>1, p|v, v<<1, next);
+
 	// if i ends in 00, the next state encoding can also have a 00 here.
 	// Because we are skipping 2 places instead of 1, we update i and v
 	// accordingly. p stays the same because 0 is insignificant.
@@ -88,6 +91,7 @@ void assign(int a, int i, int *next){
 int main(){
 	// input n, m
 	int n, m; std::cin >> n >> m;
+
 	// prepare storage arrays to store & compute states of columns - they
 	// must have space to store every possible state, of which there are
 	// 2^n of.
@@ -97,15 +101,18 @@ int main(){
 	// poking out from that column. (in the finished tiling, no half-dominoes
 	// can poke from the first column to the left, so this enforces it.)
 	cur[0] = 1;
+
 	// we loop as many times as there are columns
 	while(m--){
 		// loop over every state in the current column and set it in the next
 		for(int i=0; i<1<<n; ++i)
 			assign(cur[i], 1<<n|i, next);
+
 		// swap next and cur and reset next
 		for(int i=0; i<1<<n; ++i)
 			cur[i] = next[i], next[i] = 0;
 	}
+
 	// we are only interested in the ending tilings that have zero poking
 	// dominoes because we can't have dominoes poke out of the right side
 	// either
