@@ -1,43 +1,16 @@
-make many triangles (atcoder)
-	debug this sometime
+sorting methods (CSES
+	make the other methods work
 
-milk sum (USACO)
-	figure out why bs and psum isn't working
-	correctly when they theoretically should
-
-lazy segment tree
-	fix propagation so that it
-	goes back up as well as down
-
-fenwick tree
-	add update method
+stick divisions (CSES)
+	it was not that easy
 
 line segment intersection (CSES)
 	find edge case and fix it
-
-exponentiation II (CSES)
-	figure out how to properly binary
-	exponentiate with two levels of exponents
-
-reading books (CSES)
-	need to find a way to compute the closest
-	sum of books that is at least half the
-	total amount of time necessary - dp is
-	likely not an option
 
 distinct value queries (CSES)
 	find alternate way to represent data or
 	make segtree faster
 
-forest queries (CSES)
-	fix 2d range summable segtree
-
 grid paths (CSES, hard one)
 	rewrite recursive section so it only iterates
 	over the array once; should be fast
-
-book shop (CSES)
-	debug knapsack dp
-
-towers (CSES)
-	figure out how to sort and organize better
