@@ -1,6 +1,10 @@
 wormhole sort (USACO
 	try it sometime!
 
+pyramid array (CSES)
+	figure out how to optimally position the biggest
+	element to reduce swapcount
+
 stick divisions (CSES)
 	it was not that easy
 
