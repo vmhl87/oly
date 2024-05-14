@@ -1,36 +1,52 @@
-#include <ext/pb_ds/assoc_container.hpp>
-using namespace __gnu_pbds;
-template<typename T>
-using oset = tree<T, null_type, std::less<T>, rb_tree_tag, tree_order_statistics_node_update>;
-
 #include <iostream>
 #include <array>
+#include <map>
 
 int main(){
+	std::cin.tie(0) -> sync_with_stdio(0);
 	int n, q; std::cin >> n >> q;
-	oset<std::array<int, 2>> s;
+	std::map<int, int> all;
 	int sal[n];
 	for(int i=0; i<n; ++i){
 		std::cin >> sal[i];
-		s.insert({sal[i], i});
+		++all[sal[i]];
 	}
+	std::array<int, 3> query[q];
 	for(int i=0; i<q; ++i){
-		char c; int a, b;
-		std::cin >> c >> a >> b;
-		if(c == '?'){
-			auto x = s.lower_bound({a, -1}),
-				 y = s.lower_bound({b+1, -1});
-			int p1, p2;
-			if(x == s.end()) p1 = s.size();
-			else p1 = s.order_of_key(*x);
-			if(y == s.end()) p2 = s.size();
-			else p2 = s.order_of_key(*y);
-			std::cout << p2 - p1 << '\n';
+		char c; std::cin >> c >> query[i][1] >> query[i][2];
+		query[i][0] = c;
+		if(c == '!' && !all.count(query[i][2]))
+			all[query[i][2]] = 0;
+	}
+	int s = all.size(), tree[s<<1], c = 0;
+	for(auto &a : all){
+		tree[s+c] = a.second;
+		a.second = c++;
+	}
+	for(int i=s-1; i>0; --i) tree[i] = tree[i<<1] + tree[i<<1|1];
+	for(const auto &a : query){
+		if(a[0] == '!'){
+			int v = s+all[sal[a[1]-1]];
+			while(v) --tree[v], v >>= 1;
+			v = s+all[a[2]];
+			while(v) ++tree[v], v >>= 1;
+			sal[a[1]-1] = a[2];
 		}else{
-			--a;
-			s.erase({sal[a], a});
-			s.insert({b, a});
-			sal[a] = b;
+			auto x = all.lower_bound(a[1]),
+				 y = all.lower_bound(a[2]+1);
+			int l, r;
+			if(x == all.end()) l = s;
+			else l = x->second;
+			if(y == all.end()) r = s;
+			else r = y->second;
+			l += s, r += s;
+			int ret = 0;
+			while(l < r){
+				if(l&1) ret += tree[l++];
+				if(r&1) ret += tree[--r];
+				l >>= 1, r >>= 1;
+			}
+			std::cout << ret << '\n';
 		}
 	}
 }
