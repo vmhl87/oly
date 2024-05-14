@@ -1,6 +1,3 @@
-sorting methods (CSES
-	make the other methods work
-
 stick divisions (CSES)
 	it was not that easy
 
