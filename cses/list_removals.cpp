@@ -20,55 +20,49 @@
 */
 
 #include <iostream>
-#include <vector>
-using namespace std;
-
-typedef struct segtree{
-	// each element is a pair storing nonremoved count
-	// and value (only if leaf)
-	vector<pair<int,int>> tree;
-	int n;
-	// propagation is trivial
-	void prop(int i){
-		tree[i].first=tree[i<<1].first+tree[i<<1|1].first;
-	}
-	// because we are using a bottom-up implementation, the
-	// size of the segment tree is known
-	segtree(int len):tree(len*2,make_pair(1,0)),n(len){
-		// find shift amount by finding the leftmost boundary
-		// of the leaves (highest power of 2 less than or equal
-		// to 2n) and subtracting n
-		int sh=1;while(sh<(len<<1|1))sh<<=1;sh>>=1;sh-=len;
-		// input directly into tree - we use the shift here
-		for(int i=0;i<len;++i)
-			cin>>tree[(i+sh)%len+len].second;
-		// propagate rest of tree
-		for(int i=len-1;i>0;--i)prop(i);
-	}
-	// removal of value v at index i (defaults to root)
-	int rem(int v,int i=1){
-		// if the node has a set value, it is a leaf,
-		// so we update the count to 0 and return
-		if(tree[i].second){
-			tree[i].first=0;
-			return tree[i].second;
-		}
-		int ret;
-		// find which child range is correct
-		if(v>tree[i<<1].first)
-			ret=rem(v-tree[i<<1].first,i<<1|1);
-		else ret=rem(v,i<<1);
-		// then propagate and return
-		prop(i);
-		return ret;
-	}
-}segtree;
 
 int main(){
-	int n;cin>>n;
-	segtree m(n);
-	for(int i=0;i<n;i++){
-		int t;cin>>t;
-		cout<<m.rem(t)<<'\n';
+	std::cin.tie(0) -> sync_with_stdio(0);
+
+	int n; std::cin >> n;
+
+	// build segment tree - l = wraparound index
+	int tree[n<<1], l = 1 << std::__lg((n<<1) + 1);
+	// fill with size of subtree at each node
+	for(int i=0; i<n; ++i) tree[i+n] = 1;
+	for(int i=n-1; i>0; --i) tree[i] = tree[i<<1] + tree[i<<1|1];
+	
+	// input values of array
+	int val[n];
+	// we need to shift around because in this bottom up segtree
+	// implementation, there is a wraparound portion that must be
+	// accounted for when retrieving values in order
+	for(int i=0; i<n; ++i) std::cin >> val[(l+i)%n];
+
+	for(int i=0; i<n; ++i){
+		if(i) std::cout << ' ';
+
+		// input position, j = current node index (starts at root)
+		int p, j = 1; std::cin >> p;
+		// repeat until j is a leaf
+		while(j < n){
+			// instead of coming back to update segtree later, we
+			// can just decrement the node right now before we
+			// move down, since this node is guaranteed to be
+			// in the final path, and we won't need it after this.
+			--tree[j];
+			// move down to the left subtree
+			j <<= 1;
+			// if the left subtree is too small to contain the pos
+			// we are looking for, we clip the position to the right
+			// subtree, and increment j to go to the right child
+			if(tree[j] < p) p -= tree[j], ++j;
+		}
+
+		// print out and set this leaf to 0 (it isn't touched in
+		// the while loop because it breaks before that point)
+		std::cout << val[j-n], tree[j] = 0;
 	}
+
+	std::cout << '\n';
 }
