@@ -36,12 +36,13 @@ int crt_n(int a, int b, int c, int d){
 	}
 	int g = gcd(b, d);
 	if(a%g != c%g) return -1;
-	a /= g, b /= g, c /= g, d /= g;
 	if(a == b) a = 0;
 	if(c == d) c = 0;
 
-	long long i1 = inv(b, d) * (long long)c,
-		 	  i2 = inv(d, b) * (long long)a;
+	int g1 = gcd(b, c), g2 = gcd(d, a);
+
+	long long i1 = inv(b/g1, d) * (long long)(c/g1),
+		 	  i2 = inv(d/g2, b) * (long long)(a/g2);
 
 	if(i1 < 0 || i2 < 0) for(;;){}
 
@@ -49,7 +50,7 @@ int crt_n(int a, int b, int c, int d){
 
 	long long o = (long long)b * (long long)d;
 
-	i1 += i2, i1 %= o, i1 *= g;
+	i1 += i2, i1 %= o;
 
 	if(i1 > 1<<30) i1 = -1;
 
@@ -65,7 +66,7 @@ int main(){
 	int n, t; std::cin >> n >> t;
 
 	// ret, EOL, mod
-	int ans[n] = {}, del[n], mod[n] = {};
+	int ans[n] = {}, del[n], mod[n] = {}, parent[n] = {};
 	for(int i=0; i<n; ++i) del[i] = t;
 	std::queue<int> adj[n];
 
@@ -73,12 +74,13 @@ int main(){
 		int r; std::cin >> mod[i];
 
 		for(int j=0; j<mod[i]; ++j)
-			std::cin >> r, adj[i].push(r-1);
+			std::cin >> r, adj[i].push(r-1), parent[r-1] = i+1;
 	}
 
 	for(int i=1; i<n; ++i){
-		int a, b; std::cin >> a >> a >> b;
-		del[a-1] = b;
+		int a, b, c; std::cin >> a >> b >> c;
+		if(parent[a-1] == b) b = a;
+		del[b-1] = c;
 	}
 
 	// index, EOL, a mod b
@@ -94,8 +96,8 @@ int main(){
 		if(adj[u].size())
 			dfs.push({
 				adj[u].front(), std::min(e, del[adj[u].front()]),
-				crt_n(a, b, (mod[u]-adj[u].size()+1)%mod[u], mod[u]),
-				crt_d(a, b, (mod[u]-adj[u].size()+1)%mod[u], mod[u])
+				crt_n(a%b, b, (mod[u]-adj[u].size()+1)%mod[u], mod[u]),
+				crt_d(a%b, b, (mod[u]-adj[u].size()+1)%mod[u], mod[u])
 			}), adj[u].pop();
 		else{
 //			std::cout << "node " << u+1 << " hits every " << a << " mod " << b << " cycles, " <<
@@ -108,16 +110,15 @@ int main(){
 				if((e-1)%b >= a) ++ans[u];
 			}
 			dfs.pop();
-			if(a != -1 && dfs.size())
-				if(e < dfs.top()[1]){
-//					std::cout << "\t\t overflows to node " << dfs.top()[0]+1 << " over interval " <<
-//						e << " to " << dfs.top()[1]-1 << '\n';
-					u = dfs.top()[0];
-					ans[u] += (dfs.top()[1]-1)/b - (e-1)/b;
-					if(a == 0) a = b;
-					if((dfs.top()[1]-1)%b >= a) ++ans[u];
-					if((e-1)%b >= a) --ans[u];
-				}
+			if(a != -1 && dfs.size()){
+//				std::cout << "\t\t overflows to node " << dfs.top()[0]+1 << " over interval " <<
+//					e << " to " << dfs.top()[1]-1 << '\n';
+				u = dfs.top()[0];
+				ans[u] += (dfs.top()[1]-1)/b - (e-1)/b;
+				if(a == 0) a = b;
+				if((dfs.top()[1]-1)%b >= a) ++ans[u];
+				if((e-1)%b >= a) --ans[u];
+			}
 		}
 	}
 
