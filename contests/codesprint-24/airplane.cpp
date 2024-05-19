@@ -1,3 +1,7 @@
+// Lights, Camera, Airplane  -  https://codesprintla24.kattis.com/contests/codesprintla24highschool/problems/lightscameraairplane
+// Long problem; I'll write up the full edi later.
+// Esssentially, we can solve using a DFS and CRT.
+
 #include <iostream>
 #include <cmath>
 #include <array>
@@ -68,7 +72,7 @@ int crt_n(int a, int b, int c, int d){
 	long long i1 = inv(b/g1, d) * (long long)(c/g1),
 		 	  i2 = inv(d/g2, b) * (long long)(a/g2);
 
-	if(i1 < 0 || i2 < 0) for(;;){}
+//	if(i1 < 0 || i2 < 0) for(;;){}
 
 	i1 %= d, i2 %= b, i1 *= b, i2 *= d;
 
@@ -81,6 +85,7 @@ int crt_n(int a, int b, int c, int d){
 	return i1;
 }
 
+/*
 void crt(int a, int b, int c, int d){
 	std::cout << "(" << a << " mod " << b << ") | (" << c << " mod " << d << ") results in (" <<
 		crt_n(a, b, c, d) << " mod " << crt_d(a, b, c, d) << ")\n";
@@ -95,6 +100,7 @@ void testcrt(int t){
 			"\t" << n%b << '|' << b << ", " << n%d << '|' << d << "\n\n";
 	if(t) testcrt(t-1);
 }
+*/
 
 int main(){
 	int n, t; std::cin >> n >> t;
@@ -158,7 +164,7 @@ int main(){
 		sum += ans[i];
 	}
 
-	if(sum < t) for(;;){}
+//	if(sum < t) for(;;){}
 
 	std::cout << '\n';
 }
