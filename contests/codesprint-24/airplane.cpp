@@ -43,6 +43,21 @@
 // switcher - in our example, the modulus of node 3 is (2 mod 2), and
 // the modulus of its switcher pointing to node 4 is (1 mod 3).
 
+
+// How do we then account for paths which go out at some point in time?
+//
+// We can notice that once the path from node c to d goes out, all of
+// the planes that would have passed through d will instead end at c.
+// This occurs over the interval between when the path from c to d goes
+// out, and when the path from c's ancestor to c goes out.
+//
+// And because we now have a way to determine under which turns a plane
+// will pass through any node, this is easy to compute.
+// 
+// Not only that, but if we use that same DFS that we use to merge
+// moduli, we can also use it to calculate for paths going out, online.
+
+
 #include <iostream>
 #include <cmath>
 #include <array>
