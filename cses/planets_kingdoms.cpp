@@ -2,6 +2,8 @@
 #include <stack>
  
 int main(){
+	std::cin.tie(0) -> sync_with_stdio(0);
+
 	int n, m; std::cin >> n >> m;
  
 	std::stack<int> adj[n];
