@@ -4,6 +4,8 @@
 #include <cmath>
 
 int main(){
+	std::cin.tie(0) -> sync_with_stdio(0);
+
 	int n, m; std::cin >> n >> m;
 
 	int a[n], b[n];
