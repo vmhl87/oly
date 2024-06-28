@@ -16,7 +16,7 @@ void test_case(){
 	int depth[n] = {1}, parent[n] = {-1}, at[n] = {}, delta[n] = {}, now = 0;
 
 	int size[n];
-	long long best = (n * (n-1)) / 2;
+	long long best = ((long long)n * (long long)(n-1)) / 2;
 	for(int i=0; i<n; ++i) size[i] = 1;
 
 	std::stack<int> dfs; dfs.push(0);
