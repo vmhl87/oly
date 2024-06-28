@@ -34,7 +34,6 @@ int main(){
 	// distance, count
 	long long dist[n] = {}, mult[n];
 	int min[n], max[n];
-	bool vis[n] = {};
 
 	constexpr int M = 1e9 + 7;
 
