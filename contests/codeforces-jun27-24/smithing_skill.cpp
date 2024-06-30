@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <vector>
 #include <array>
 #include <cmath>
 
@@ -21,44 +22,33 @@ int main(){
 	std::vector<std::array<int, 2>> optimal;
 
 	for(const auto &[delta, cap] : d)
-		if(delta > optimal.back()[0])
-			optimal.push_back({cap, delta});
+		if(!optimal.size() || (delta > optimal.back()[0] && cap < optimal.back()[1]))
+			optimal.push_back({delta, cap});
 
-	std::sort(optimal.front(), optimal.back());
+	int dp[optimal[0][1] + 1], p = optimal.size() - 1;
 
-	int N = 1 << (1 + std::__lg(n - 1));
+	for(int i=0; i<=optimal[0][1]; ++i){
+		// delta = optimal[p][1], necessary = optimal[p][0];
+		// check if we can go to next tool
+		while(p && i >= optimal[p-1][1]) --p;
 
-	std::array<int, 2> seg[N*2];
-
-	for(int i=0; i<n; ++i) seg[i+N][0] = d[i][0], seg[i+N][1] = d[i][1];
-	for(int i=n; i<N; ++i) seg[i+N][0] = 1e7, seg[i+N][1] = 1e7;
-
-	for(int i=N-1; i; --i) seg[i][1] = std::min(seg[i<<1][1], seg[i<<1|1][1]);
+		if(i < optimal.back()[1]) dp[i] = 0;
+		else dp[i] = dp[i - optimal[p][0]] + 1;
+	}
 
 	long long res = 0;
 
 	for(int i=0; i<m; ++i){
-		int c; std::cin >> c;
+		int v; std::cin >> v;
 
-		while(1){
-			// must find el in seg with [1] <= c
-			// fail when global min req too big
-			if(seg[1][1] > c) break;
+		if(v > optimal[0][1]){
+			long long amt = 1 + (v - optimal[0][1])/optimal[0][0];
 
-			int p = 1;
-
-			while(p < N){
-				if(seg[p<<1][1] > c) p = p<<1|1;
-				else p <<= 1;
-			}
-
-			// std::cout << "current: " << c << "\n  choice: " << seg[p][0] << ',' << seg[p][1] << '\n';
-
-			int req = seg[p][1], am = seg[p][0];
-
-			res += 1 + (c - req) / am;
-			c -= (1 + (c - req) / am) * am;
+			v -= amt * optimal[0][0];
+			res += amt;
 		}
+
+		res += dp[v];
 	}
 
 	std::cout << res*2 << '\n';
