@@ -4,6 +4,8 @@
 #include <array>
 #include <cmath>
 
+typedef long long LL;
+
 int main(){
 	std::cin.tie(0) -> sync_with_stdio(0);
 
@@ -36,13 +38,13 @@ int main(){
 		else dp[i] = dp[i - optimal[p][0]] + 1;
 	}
 
-	long long res = 0;
+	LL res = 0;
 
 	for(int i=0; i<m; ++i){
 		int v; std::cin >> v;
 
 		if(v > optimal[0][1]){
-			long long amt = 1 + (v - optimal[0][1])/optimal[0][0];
+			LL amt = 1 + (v - optimal[0][1])/optimal[0][0];
 
 			v -= amt * optimal[0][0];
 			res += amt;
