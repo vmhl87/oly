@@ -1,48 +1,24 @@
-#include <algorithm>
+// subarray sums 2
+// freq map bash - iterate over right bounds and find valid left
+
 #include <iostream>
-#include <vector>
-using namespace std;
+#include <map>
 
-using p=struct p;
-struct p{
-	int i;
-	long long v;
-	bool operator<(const p o)const{
-		if(v==o.v&&o.i>-1&&i>-1)return i<o.i;
-		return v<o.v;
-	}
-	bool operator==(const p o)const{
-		return v==o.v;
-	}
-	bool operator>(const p o)const{
-		if(v==o.v&&o.i>-1&&i>-1)return i>o.i;
-		return v>o.v;
-	}
-};
-
-p mp(long long v,int i){
-	p t;t.v=v;t.i=i;
-	return t;
-}
+typedef long long LL;
 
 int main(){
-	int n;long long x;
-	cin>>n>>x;
-	vector<p> a;
-	a.reserve(n+1);
-	a.push_back(mp(0,0));
-	for(int i=0;i<n;i++){
-		long long t;cin>>t;
-		a.push_back(mp(a[i].v+t,i+1));
-	}
-	sort(a.begin(),a.end());
-	long long ret=0;
-	for(int i=0;i<n;i++){
-		p xp=mp(a[i].v+x,-1);
-		auto lbound=lower_bound(a.begin(),a.end(),xp),
-			ubound=upper_bound(a.begin(),a.end(),xp);
-		long long b2=ubound-upper_bound(lbound,ubound,mp(a[i].v+x,a[i].i));
-		ret+=b2;
-	}
-	cout<<ret<<'\n';
+	int n, x; std::cin >> n >> x;
+
+	LL p[n+1]; p[0] = 0;
+
+	for(int i=0; i<n; ++i)
+		std::cin >> p[i+1], p[i+1] += p[i];
+
+	LL res = 0;
+	std::map<long long, int> count;
+
+	for(int i=0; i<=n; ++i)
+		res += count[p[i]-x], ++count[p[i]];
+
+	std::cout << res << '\n';
 }
