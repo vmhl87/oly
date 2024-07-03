@@ -31,7 +31,7 @@ int main(){
 		}
 
 		// # of subarrays is just distance betwee start end + 1
-		res += (LL)i - (LL)p + 1ll;
+		res += i - p + 1;
 	}
 
 	std::cout << res << '\n';
