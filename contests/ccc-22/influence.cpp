@@ -5,69 +5,72 @@ using LL = long long;
 
 int n, cost[200000], y[200000];
 std::vector<int> adj[200000];
-LL dp[200000][4];  // need+nolight, don't+nolight, need+light, don't+light
+LL dp[200000][4];  // 0: lit, needs external
+				   // 1: lit, sufficient
+				   // 2: unlit, needs
+				   // 3: unlit, sufficient
 
-const int BIG = 2000000000;
+const int BIG = 200000000;
 
 void dfs(int i, int p){
 	for(int x : adj[i]) if(x != p) dfs(x, i);
 
+	dp[i][0] += cost[i], dp[i][1] += cost[i];
+
 	if(y[i]){
-		// if don't light, can only pick child that doesn't need
-		for(int x : adj[i]) if(x != p){
-			dp[i][0] += std::min(dp[x][1], dp[x][3]);
-			dp[i][1] += std::min(dp[x][1], dp[x][3]);
-		}
+		// if lit, can choose any state of child
+		for(int x : adj[i]) if(x != p)
+			dp[i][0] += std::min(std::min(dp[x][0], dp[x][1]),
+								 std::min(dp[x][2], dp[x][3]));
+		dp[i][1] = dp[i][0];
 
-		dp[i][2] += cost[i], dp[i][3] += cost[i];
-
-		// if does light can pick all
-		for(int x : adj[i]) if(x != p){
-			dp[i][2] += std::min(std::min(dp[x][1], dp[x][3]),
-								 std::min(dp[x][0], dp[x][2]));
-			dp[i][3] += std::min(std::min(dp[x][1], dp[x][3]),
-								 std::min(dp[x][0], dp[x][2]));
-		}
+		// if not lit, can only choose 'sufficient' of child
+		for(int x : adj[i]) if(x != p)
+			dp[i][2] += std::min(dp[x][1], dp[x][3]);
+		dp[i][3] = dp[i][2];
 	}else{
+		// if no children, cannot be sufficient
 		if(adj[i].size() - (p == -1 ? 0 : 1) == 0)
 			dp[i][1] = BIG, dp[i][3] = BIG;
-		
-		// if need and don't light, only valid child is don't need and no light
-		for(int x : adj[i]) if(x != p) dp[i][0] += dp[x][1];
 
-		// if don't need but no light, child must not need, have a light
+		// if lit, needs external: can choose any
+		// state of child BESIDES lit+sufficient
+		for(int x : adj[i]) if(x != p)
+			dp[i][0] += std::min(std::min(dp[x][2], dp[x][3]),
+								 dp[x][0]);
+
+		// if lit+sufficient: must be lit by child
+		// which is also sufficient - choose 1
 		int opt = 0;
 		LL delta = 0;
 		for(int x : adj[i]) if(x != p){
-			// pick from any
-			// check if opt
-			if(dp[x][3] <= dp[x][1]) opt = 1;
+			LL curr = std::min(std::min(dp[x][0], dp[x][1]),
+							   std::min(dp[x][2], dp[x][3]));
+			dp[i][1] += curr;
+			if(dp[x][1] == curr) opt = 1;
 			else{
-				LL next = dp[x][3] - dp[x][1];
+				LL next = dp[x][1] - curr;
 				if(delta == 0 || next < delta) delta = next;
 			}
-			dp[i][1] += std::min(dp[x][1], dp[x][3]);
 		}
 		if(!opt) dp[i][1] += delta;
 
-		dp[i][2] += cost[i], dp[i][3] += cost[i];
+		// if not lit and needs lit: firstly all children must
+		// be sufficient, secondly no child can light
+		for(int x : adj[i]) if(x != p)
+			dp[i][2] += dp[x][3];
 
-		// if need and light, no child must light, children can need/not
-		for(int x : adj[i]) if(x != p) dp[i][2] += std::min(dp[x][0], dp[x][1]);
-
-		// if don't need and light, can pick any, must have a light
-		opt = 0;
-		delta = 0;
+		// if not lit and sufficient: all children must be suff
+		// and one child must light
+		opt = 0, delta = 0;
 		for(int x : adj[i]) if(x != p){
-			// pick from any
-			// check if opt
-			if(std::min(dp[x][2], dp[x][3]) <= std::min(dp[x][0], dp[x][1])) opt = 1;
+			LL curr = std::min(dp[x][1], dp[x][3]);
+			dp[i][3] += curr;
+			if(dp[x][1] == curr) opt = 1;
 			else{
-				LL next = std::min(dp[x][2], dp[x][3]) - std::min(dp[x][0], dp[x][1]);
+				LL next = dp[x][1] - curr;
 				if(delta == 0 || next < delta) delta = next;
 			}
-			dp[i][3] += std::min(std::min(dp[x][0], dp[x][1]),
-								 std::min(dp[x][2], dp[x][3]));
 		}
 		if(!opt) dp[i][3] += delta;
 	}
