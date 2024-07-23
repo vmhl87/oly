@@ -1,0 +1,88 @@
+<!--
+    :title CCC 2018 problems
+-->
+
+<pre class=code-color>
+<span class=y>#include</span> <span class=b>&lt;</span><span class=b>iostream</span><span class=b>&gt;</span><br>
+<span class=g>bool</span> cam<span class=b>[</span><span class=y>100</span><span class=b>]</span><span class=b>[</span><span class=y>100</span><span class=b>]</span>;
+<span class=g>char</span> board<span class=b>[</span><span class=y>100</span><span class=b>]</span><span class=b>[</span><span class=y>100</span><span class=b>]</span>;
+<span class=g>int</span> best<span class=b>[</span><span class=y>100</span><span class=b>]</span><span class=b>[</span><span class=y>100</span><span class=b>]</span>, bfs<span class=b>[</span><span class=y>10000</span><span class=b>]</span>, *l, *r;<br>
+<span class=g>bool</span> seen<span class=b>[</span><span class=y>100</span><span class=b>]</span><span class=b>[</span><span class=y>100</span><span class=b>]</span>;
+<span class=g>bool</span> <span class=b>consider</span>(<span class=g>int</span> i, <span class=g>int</span> j, <span class=g>int</span> d){
+    <span class=y>if</span>(best<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span>) <span class=y>return</span> <span class=y>1</span>;<br>
+    <span class=y>if</span>(seen<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span>){
+        board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> = <span class=y>'W'</span>;
+        <span class=y>return</span> <span class=y>1</span>;
+    }<br>
+    <span class=y>if</span>(board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> == <span class=y>'W'</span> || cam<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span>) <span class=y>return</span> <span class=y>1</span>;<br>
+    seen<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> = <span class=y>1</span>;
+    <span class=y>switch</span>(board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span>){
+        <span class=y>case</span> <span class=y>'L'</span>:
+            <span class=y>if</span>(<span class=b>consider</span>(i, j<span class=y>-</span><span class=y>1</span>, d)) board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> = <span class=y>'W'</span>;
+            <span class=y>break</span>;
+        <span class=y>case</span> <span class=y>'R'</span>:
+            <span class=y>if</span>(<span class=b>consider</span>(i, j+<span class=y>1</span>, d)) board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> = <span class=y>'W'</span>;
+            <span class=y>break</span>;
+        <span class=y>case</span> <span class=y>'U'</span>:
+            <span class=y>if</span>(<span class=b>consider</span>(i<span class=y>-</span><span class=y>1</span>, j, d)) board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> = <span class=y>'W'</span>;
+            <span class=y>break</span>;
+        <span class=y>case</span> <span class=y>'D'</span>:
+            <span class=y>if</span>(<span class=b>consider</span>(i+<span class=y>1</span>, j, d)) board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> = <span class=y>'W'</span>;
+            <span class=y>break</span>;
+    }
+    seen<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> = <span class=y>0</span>;<br>
+    <span class=y>if</span>(board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> == <span class=y>'.'</span>) best<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> = d, *r = i*<span class=y>100</span> + j, ++r;<br>
+    <span class=y>return</span> <span class=y>0</span>;
+}<br>
+<span class=g>int</span> <span class=b>main</span>(){
+    <span class=g>int</span> n, m; std::cin &gt;&gt; n &gt;&gt; m;<br>
+    <span class=y>for</span>(<span class=g>int</span> i=<span class=y>0</span>; i&lt;n; ++i) <span class=y>for</span>(<span class=g>int</span> j=<span class=y>0</span>; j&lt;m; ++j)
+        std::cin &gt;&gt; board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span>;<br>
+    l = bfs, r = bfs;<br>
+    <span class=y>for</span>(<span class=g>int</span> i=<span class=y>0</span>; i&lt;n; ++i) <span class=y>for</span>(<span class=g>int</span> j=<span class=y>0</span>; j&lt;m; ++j) <span class=y>if</span>(board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> == <span class=y>'C'</span>){
+        <span class=y>for</span>(<span class=g>int</span> a=<span class=y>0</span>; a&lt;<span class=y>100</span>; ++a){
+            <span class=y>if</span>(board<span class=b>[</span>i+a<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> == <span class=y>'W'</span>) <span class=y>break</span>;
+            <span class=y>if</span>(board<span class=b>[</span>i+a<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> == <span class=y>'.'</span> || board<span class=b>[</span>i+a<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> == <span class=y>'S'</span>) cam<span class=b>[</span>i+a<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> = <span class=y>1</span>;
+        }
+        <span class=y>for</span>(<span class=g>int</span> a=<span class=y>0</span>; a&lt;<span class=y>100</span>; ++a){
+            <span class=y>if</span>(board<span class=b>[</span>i-a<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> == <span class=y>'W'</span>) <span class=y>break</span>;
+            <span class=y>if</span>(board<span class=b>[</span>i-a<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> == <span class=y>'.'</span> || board<span class=b>[</span>i-a<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> == <span class=y>'S'</span>) cam<span class=b>[</span>i-a<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> = <span class=y>1</span>;
+        }
+        <span class=y>for</span>(<span class=g>int</span> a=<span class=y>0</span>; a&lt;<span class=y>100</span>; ++a){
+            <span class=y>if</span>(board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j+a<span class=b>]</span> == <span class=y>'W'</span>) <span class=y>break</span>;
+            <span class=y>if</span>(board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j+a<span class=b>]</span> == <span class=y>'.'</span> || board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j+a<span class=b>]</span> == <span class=y>'S'</span>) cam<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j+a<span class=b>]</span> = <span class=y>1</span>;
+        }
+        <span class=y>for</span>(<span class=g>int</span> a=<span class=y>0</span>; a&lt;<span class=y>100</span>; ++a){
+            <span class=y>if</span>(board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j-a<span class=b>]</span> == <span class=y>'W'</span>) <span class=y>break</span>;
+            <span class=y>if</span>(board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j-a<span class=b>]</span> == <span class=y>'.'</span> || board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j-a<span class=b>]</span> == <span class=y>'S'</span>) cam<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j-a<span class=b>]</span> = <span class=y>1</span>;
+        }
+    }<br>
+    <span class=y>for</span>(<span class=g>int</span> i=<span class=y>0</span>; i&lt;n; ++i) <span class=y>for</span>(<span class=g>int</span> j=<span class=y>0</span>; j&lt;m; ++j) <span class=y>if</span>(board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> == <span class=y>'S'</span>)
+        <span class=y>if</span>(!cam<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span>) best<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> = <span class=y>1</span>, *r = i*<span class=y>100</span> + j, ++r;<br>
+    <span class=y>while</span>(l != r){
+        <span class=g>int</span> i = (*l) / <span class=y>100</span>, j = (*l) % <span class=y>100</span>, d = best<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span>+<span class=y>1</span>; ++l;
+        <span class=b>consider</span>(i+<span class=y>1</span>, j, d), <span class=b>consider</span>(i<span class=y>-</span><span class=y>1</span>, j, d),
+            <span class=b>consider</span>(i, j+<span class=y>1</span>, d), <span class=b>consider</span>(i, j<span class=y>-</span><span class=y>1</span>, d);
+    }<br>
+    <span class=y>for</span>(<span class=g>int</span> i=<span class=y>0</span>; i&lt;n; ++i) <span class=y>for</span>(<span class=g>int</span> j=<span class=y>0</span>; j&lt;m; ++j) <span class=y>if</span>(board<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span> == <span class=y>'.'</span>)
+        std::cout &lt;&lt; best<span class=b>[</span>i<span class=b>]</span><span class=b>[</span>j<span class=b>]</span><span class=y>-</span><span class=y>1</span> &lt;&lt; <span class=y>'\n'</span>;
+}
+</pre>
+
+<pre class=code-color>
+<span class=y>#include</span> <span class=b>&lt;</span><span class=b>iostream</span><span class=b>&gt;</span><br>
+<span class=g>int</span> out<span class=b>[</span><span class=y>1000001</span><span class=b>]</span>;<br>
+<span class=g>int</span> <span class=b>main</span>(){
+    <span class=g>int</span> n; std::cin &gt;&gt; n;<br>
+    out<span class=b>[</span><span class=y>1</span><span class=b>]</span> = <span class=y>1</span>;<br>
+    <span class=y>for</span>(<span class=g>int</span> i=<span class=y>2</span>; i&lt;=n; ++i){
+<span class=r>        // sqrt decomp lmao</span>
+        <span class=y>for</span>(<span class=g>int</span> k=<span class=y>1</span>; k*k&lt;=i; ++k){
+            <span class=y>if</span>(k<span class=y>-</span><span class=y>1</span>) out<span class=b>[</span>i<span class=b>]</span> += out<span class=b>[</span>i/k<span class=b>]</span>;
+            <span class=g>int</span> l = std::<span class=b>max</span>(k, i/(k+<span class=y>1</span>)), r = i/k;
+            out<span class=b>[</span>i<span class=b>]</span> += out<span class=b>[</span>k<span class=b>]</span> * (r - l);
+        }
+    }<br>
+    std::cout &lt;&lt; out<span class=b>[</span>n<span class=b>]</span> &lt;&lt; <span class=y>'\n'</span>;
+}
+</pre>
