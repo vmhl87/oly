@@ -133,7 +133,7 @@ int main(){
 			if(a < b) inroot[a] += inroot[b], inroot[b] = a;
 			else inroot[b] += inroot[a], inroot[a] = b;
 			--incomps;
-	
+
 		// edge is a portal
 		}else{
 			// identical, but with the other variable set
