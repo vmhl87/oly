@@ -1,0 +1,43 @@
+<!--
+    :title some problem
+-->
+
+<pre class=code-color>
+<span class=r>// edu d2 119 E: Replace Numbers  -  https://codeforces.com/contest/1620/problem/E</span><br>
+<span class=y>#include</span> <span class=b>&lt;</span><span class=b>iostream</span><span class=b>&gt;</span>
+<span class=y>#include</span> <span class=b>&lt;</span><span class=b>vector</span><span class=b>&gt;</span>
+<span class=y>#include</span> <span class=b>&lt;</span><span class=b>map</span><span class=b>&gt;</span><br>
+std::vector&lt;<span class=g>int</span>&gt; root;<br>
+<span class=g>int</span> <span class=b>find</span>(<span class=g>int</span> i){
+    <span class=y>if</span>(root<span class=b>[</span>i<span class=b>]</span> &lt; <span class=y>0</span>) <span class=y>return</span> i;
+    <span class=y>return</span> root<span class=b>[</span>i<span class=b>]</span> = <span class=b>find</span>(root<span class=b>[</span>i<span class=b>]</span>);
+}<br>
+<span class=g>int</span> <span class=b>main</span>(){
+    std::cin.<span class=b>tie</span>(<span class=y>0</span>) -&gt; sync_with_stdio(<span class=y>0</span>);<br>
+    <span class=g>int</span> q; std::cin &gt;&gt; q;<br>
+    <span class=g>int</span> idx = <span class=y>0</span>;
+    std::map&lt;<span class=g>int</span>, std::vector&lt;<span class=g>int</span>&gt;&gt; occ;
+    std::map&lt;<span class=g>int</span>, <span class=g>int</span>&gt; back;
+    std::vector&lt;<span class=g>int</span>&gt; arr;<br>
+    <span class=y>while</span>(q--){
+        <span class=g>int</span> t; std::cin &gt;&gt; t;<br>
+        <span class=y>if</span>(t&amp;<span class=y>1</span>){
+            <span class=g>int</span> x; std::cin &gt;&gt; x;<br>
+            <span class=y>if</span>(occ.<span class=b>count</span>(x)) arr.push_back(occ<span class=b>[</span>x<span class=b>]</span>.<span class=b>back</span>());
+            <span class=y>else</span> occ<span class=b>[</span>x<span class=b>]</span>.push_back(idx), arr.push_back(idx), back<span class=b>[</span>idx<span class=b>]</span> = x,
+                ++idx, root.push_back(<span class=y>-</span><span class=y>1</span>);<br>
+        }<span class=y>else</span>{
+            <span class=g>int</span> a, b; std::cin &gt;&gt; a &gt;&gt; b;<br>
+            <span class=y>if</span>(a == b) <span class=y>continue</span>;<br>
+            <span class=y>if</span>(!occ.<span class=b>count</span>(a)) occ<span class=b>[</span>a<span class=b>]</span>.push_back(idx), back<span class=b>[</span>idx<span class=b>]</span> = a,
+                ++idx, root.push_back(<span class=y>-</span><span class=y>1</span>);
+            <span class=y>if</span>(!occ.<span class=b>count</span>(b)) occ<span class=b>[</span>b<span class=b>]</span>.push_back(idx), back<span class=b>[</span>idx<span class=b>]</span> = b,
+                ++idx, root.push_back(<span class=y>-</span><span class=y>1</span>);<br>
+            root<span class=b>[</span>occ<span class=b>[</span>a<span class=b>]</span>.<span class=b>back</span>()<span class=b>]</span> = occ<span class=b>[</span>b<span class=b>]</span>.<span class=b>back</span>();<br>
+            occ<span class=b>[</span>a<span class=b>]</span>.push_back(idx), back<span class=b>[</span>idx<span class=b>]</span> = a, ++idx, root.push_back(<span class=y>-</span><span class=y>1</span>);
+        }
+    }<br>
+    <span class=y>for</span>(<span class=g>int</span> i=<span class=y>0</span>; i&lt;arr.<span class=b>size</span>(); ++i)
+        std::cout &lt;&lt; back<span class=b>[</span><span class=b>find</span>(arr<span class=b>[</span>i<span class=b>]</span>)<span class=b>]</span> &lt;&lt; <span class=y>" \n"</span><span class=b>[</span>i==arr.<span class=b>size</span>()<span class=y>-</span><span class=y>1</span><span class=b>]</span>;
+}
+</pre>
