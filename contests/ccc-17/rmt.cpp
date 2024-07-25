@@ -6,7 +6,7 @@ using LL = long long;
 const int MAXN = 150000;
 
 // split station into sqrtn buckets, store sum of each here
-LL bucket[400];
+LL bucket[600];
 
 // station ctl
 int group[MAXN], at[MAXN], pos[MAXN], shift[MAXN];
@@ -27,7 +27,8 @@ int main(){
 	for(int i=0; i<n; ++i) std::cin >> at[i];
 
 	// build buckets
-	int rn = 0; while(rn*rn < n) ++rn;
+		// int rn = 0; while(rn*rn < n) ++rn;
+	int rn = 256; // optimal bucket size seems to be 256
 	for(int i=0; i<n; ++i) bucket[i/rn] += at[i];
 
 	// compute each station's position in its train line
