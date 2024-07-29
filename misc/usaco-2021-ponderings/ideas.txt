@@ -1,0 +1,155 @@
+dec 1:  [[ c5 greedy should hold ]]
+
+	k = 6, m = 5, n = 2
+
+        x x x     x        x
+	0 . . . 4 . . . 8 . 10 . 12 13
+	4       6       10  8    12 14
+
+	looks like we can split into regions bounded on both sides by nhoj cows:
+	any endpoint region has 1 optimal placement, whereas some interior regions
+	may have 1 or 2 optimal placements. Sort by amount of tastiness gained,
+	and pick the highest n. If < n placements, rest are 0.
+
+	easy nlog
+
+dec 2:  [[ c2 some ideas ]]
+	
+	n = 5, m = 2
+
+	1 -> 2
+	4 -> 5
+
+	opt: 2 -> 3, 3 -> 4  =>  cost 2
+
+	n = 5, m = 3
+
+	1 -> 2 -> 3
+	4 -> 5
+
+	opt: 3 -> 4  =>  cost 1
+
+	some connected components thing?
+
+dec 3:  [[ previously solved ]]
+
+jan 1:  [[ previously solved ]]
+
+jan 2:  [[ c3 impl unclear ]]
+
+	n = 8, q = 2
+
+          3
+     22  2-2
+	1--11---
+	  ++++ 
+	++++
+
+	ignore the erasure: how is answer calculated?
+	use mountain-like construction, and for each color determine the number of
+	continous spans of at least that height, and sum up
+	
+	when erasure exists, see how many endpoints adds/subtracts. looks like psum bash
+
+	n + q hopefully
+
+jan 3:  [[ c4 unconf pattern ]]
+	
+	might be naive, but looks like only a few types of patterning exist
+
+		CCC.C.C.CCC       C.C.C.C.C.C
+		...C.C.C...       C.C.C.C.C.C
+		CCC.C.C.CCC       .C.C.C.C.C.
+		...C.C.C...       C.C.C.C.C.C
+		CCC.C.C.CCC       .C.C.C.C.C.
+		...C.C.C...       C.C.C.C.C.C
+		CCC.C.C.CCC       C.C.C.C.C.C
+	
+	(each row is alternate, or each column is alternate)
+
+	seems that we can simply sweep horizontal and vertical and determine
+	optimal beauty for each?
+
+	ex:        horiz:     vert:
+
+	3 3 1 1    C C . .    C . C .
+	1 1 3 1    . . C C    C . C .
+	3 3 1 1    C C . .    C . C .
+	1 1 3 3    . . C C    C . C .
+	           = 22       = 16
+
+	n^2 trivial
+
+feb 1:  [[ c5 proved greedy ]]
+
+	.
+	C  =>  0
+
+	.C
+	C.  =>  0
+
+	.C
+	CC  =>  0
+
+	.C
+	CCc  =>  1
+	.C
+
+	.C.
+	CCC  =>  0
+	.C.
+
+	.C.
+	CCC  =>  0
+	.CC
+
+	.Cc.
+	CCCC  =>  1
+	.CC.
+
+	.Cc.
+	CCCC  =>  2
+	.CCC
+	..c.
+	
+	..c..
+	.Ccc.
+	CCCCC  =>  4
+	.CCC.
+	..c..
+
+	seems like simple simulation. here is why:
+	say that a cow has 3 neighbors. because we cannot remove a cow, the only
+	action we can do is add a new cow. how many ways for that? only 1.
+	so mantain some sort of neighbor counting thing and for each cow added
+	determine which next to add, etc.
+
+feb 2:  [[ c5 only err is off by one ]]
+
+	seems like we determine which 12-year blocks don't have any ancestors in
+	them, and then select the k-1 longest free segments to skip
+
+	easy nlog
+
+feb 3:  [[ c4 hard to impl ]]
+
+	because of bound on n, do a sweep line and store all n^2 possible horizontal
+	ranges for each row, and propagate - should work
+
+	n^3 passes
+
+open 1:  [[ c1 no ideas ]]
+
+	looks like some sort of bruteforce, idk
+
+open 2:  [[ c5 complexity only issue ]]
+
+	could be another bruteforce - determine all possible sums out of the 7
+	that correspond to the n integers, and see if work
+
+open 3:  [[ c3 unproved greedy ]]
+
+	sort and then greedily process or something like that I think
+	maybe binary search on answer if possible? validator looks complicated
+	could try and do some spread thing because that should be optimally
+	efficient for packing - not sure

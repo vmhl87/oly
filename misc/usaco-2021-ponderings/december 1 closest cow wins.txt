@@ -1,0 +1,87 @@
+[]
+
+-   Overview
+-   Training
+-   Contests
+-   History
+-   Staff
+-   Resources
+
+USACO 2021 December Contest, Silver
+
+Problem 1. Closest Cow Wins
+
+Return to Problem List
+
+Contest has ended.
+
+[]
+
+Log in to allow submissions in analysis mode
+
+English (en) Armenian (hy) French (fr) Russian (ru) Spanish (es) Chinese
+(zh)
+
+Farmer John owns a long farm along the highway that can be considered
+somewhat like a one-dimensional number line. Along the farm, there are
+$K$ grassy patches ($1 \leq K \leq 2\cdot 10^5$); the $i$-th patch is
+located at position $p_i$ and has an associated tastiness value $t_i$
+($0\le t_i\le 10^9$). Farmer John's nemesis, Farmer Nhoj, has already
+situated his $M$ cows ($1 \leq M \leq 2\cdot 10^5$) at locations $f_1
+\ldots f_M$. All $K+M$ of these locations are distinct integers in the
+range $[0,10^9]$.
+
+Farmer John needs to pick $N$ ($1\le N\le 2\cdot 10^5$) locations (not
+necessarily integers) for his cows to be located. These must be distinct
+from those already occupied by the cows of Farmer Nhoj, but it is
+possible for Farmer John to place his cows at the same locations as
+grassy patches.
+
+Whichever farmer owns a cow closest to a grassy patch can claim
+ownership of that patch. If there are two cows from rival farmers
+equally close to the patch, then Farmer Nhoj claims the patch.
+
+Given the locations of Farmer Nhoj's cows and the locations and
+tastiness values of the grassy patches, determine the maximum total
+tastiness Farmer John's cows can claim if optimally positioned.
+
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line contains $K$, $M$, and $N$.
+
+The next $K$ lines each contain two space-separated integers $p_i$ and
+$t_i$.
+
+The next $M$ lines each contain a single integer $f_i$.
+
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+An integer denoting the maximum total tastiness. Note that the answer to
+this problem can be too large to fit into a 32-bit integer, so you
+probably want to use 64-bit integers (e.g., "long long"s in C or C++).
+
+SAMPLE INPUT:
+
+    6 5 2
+    0 4
+    4 6
+    8 10
+    10 8
+    12 12
+    13 14
+    2
+    3
+    5
+    7
+    11
+
+SAMPLE OUTPUT:
+
+    36
+
+If Farmer John places cows at positions $11.5$ and $8$ then he can claim
+a total tastiness of $10+12+14=36$.
+
+Problem credits: Brian Dean
+
+Contest has ended. No further submissions allowed.
