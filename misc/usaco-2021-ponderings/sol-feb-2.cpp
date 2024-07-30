@@ -6,7 +6,7 @@ int anc[70000], gaps[70000];
 
 int main(){
 	int n, k; std::cin >> n >> k;
-	for(int i=0; i<n; ++i) std::cin >> anc[i];
+	for(int i=0; i<n; ++i) std::cin >> anc[i], anc[i] *= -1;
 	std::sort(anc, anc+n);
 
 	for(int i=1; i<n; ++i)
