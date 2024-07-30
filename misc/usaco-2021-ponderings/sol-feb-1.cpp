@@ -1,10 +1,9 @@
-#include <iostream>
+// Direct simulation - if a cow has 3 neighbors, there is only one
+// possible place to add a new cow so that the previously satisfied
+// cow no longer has 3 neighbors. If new cow now has 3 neighbors,
+// or causes nearby cow to have, then recurse. All deterministic.
 
-// example:
-//
-//   .1.
-//   2..
-//   .3.
+#include <iostream>
 
 int board[3001][3001], cost;
 
