@@ -49,7 +49,7 @@ jan 2:  [[ c3 impl unclear ]]
 	use mountain-like construction, and for each color determine the number of
 	continous spans of at least that height, and sum up
 	
-	when erasure exists, see how many endpoints adds/subtracts. looks like psum bash
+	when erasure exists, see how many endpoints adds/subtracts. looks like psum
 
 	n + q hopefully
 
