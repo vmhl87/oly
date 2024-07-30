@@ -15,7 +15,7 @@ int main(){
 	std::sort(gaps, gaps+n-1);
 
 	int rem = 0;
-	for(int i=0; i<k; ++i) rem += gaps[n-2-i];
+	for(int i=1; i<k; ++i) rem += gaps[n-1-i];
 
 	std::cout << 12 * ((anc[n-1]/12) - (anc[0]/12) + 1 - rem) << '\n';
 }
