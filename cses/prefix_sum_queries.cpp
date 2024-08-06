@@ -1,87 +1,72 @@
-#include <iostream>
-#include <vector>
-using namespace std;
+// Prefix Sum Queries  -  https://cses.fi/problemset/task/2166/
+//
+// If we operate on the prefix sum array, this problem reduces
+// to range updates and range queries. Each point update translates
+// into an addition on a range of the prefix sums starting at that
+// point, going to the end, and range query is trivial.
+//
+// Implemented with sqrt bucket rather than lazy segtree.
 
-namespace leg{
-	vector<int> tree;
-	vector<int> lazy;
-	int n;
-	void prop(int i){
-		tree[i]=max(tree[i<<1]+lazy[i<<1],tree[i<<1|1]+lazy[i<<1|1]);
-	}
-	void push(int i){
-		if(i<1)return;
-		push(i>>1);
-		if(i<n){
-			lazy[i<<1]+=lazy[i];
-			lazy[i<<1|1]+=lazy[i];
-		}
-		tree[i]+=lazy[i];
-		lazy[i]=0;
-		if(i<n)prop(i);
-	}
-	void init(vector<int> v){
-		n=v.size();
-		tree.resize(n<<1);
-		lazy.resize(n<<1);
-		for(int i=0;i<n;++i)tree[i+n]=v[i];
-		for(int i=n-1;i>0;--i)prop(i);
-	}
-	void set(int l,int r,int i){
-		l+=n;r+=n;
-		while(l<r){
-			if(l&1){
-				lazy[l++]+=i;
-				prop(l>>1);
-			}
-			if(r&1){
-				lazy[--r]+=i;
-				prop(r>>1);
-			}
-			l>>=1;r>>=1;
-		}
-		while(l){
-			l>>=1;
-			prop(l);
-		}
-	}
-	int at(int i){
-		i+=n;
-		push(i);
-		return tree[i];
-	}
-	int range(int l,int r){
-		l+=n;r+=n;
-		push(l);push(r-1);
-		int ret=tree[l]+lazy[l];
-		while(l<r){
-			if(l&1)ret=max(ret,tree[l]+lazy[l++]);
-			if(r&1)ret=max(ret,tree[--r]+lazy[r]);
-			l>>=1;r>>=1;
-		}
-		return ret;
-	}
+#include <iostream>
+
+using LL = long long;
+const LL sz = 256, ct = 790, SMALL = -1LL<<62;
+
+// raw values - must store for delta computation
+int v[200001];
+// prefixes, buckets {max, lazy add}
+LL a[205000], b[800][2];
+
+void push(int i){
+	if(b[i][1]) for(int j=0; j<sz; ++j) a[j+i*sz] += b[i][1];
+	b[i][1] = 0;
 }
 
 int main(){
-	int n,q;cin>>n>>q;
-	int a[n];for(int i=0;i<n;++i)cin>>a[i];
-	vector<int> v(n+1);v[0]=0;
-	for(int i=0;i<n;++i){
-		v[i+1]=v[i]+a[i];
+	std::cin.tie(0) -> sync_with_stdio(0);
+
+	int n, q; std::cin >> n >> q, ++n;
+
+	// setup buckets
+	for(int i=0; i<ct; ++i) b[i][0] = SMALL;
+	for(int i=1; i<n; ++i){
+		std::cin >> v[i], a[i] = a[i-1]+v[i];
+		b[i/sz][0] = std::max(b[i/sz][0], a[i]);
 	}
-	for(int i:v)cout<<i<<' ';cout<<'\n';
-	leg::init(v);
+
 	while(q--){
-		int t,b,c;cin>>t>>b>>c;
+		int t; std::cin >> t;
+
+		// update
 		if(t&1){
-			b--;c-=a[b];a[b]+=c;
-			leg::set(b+1,n+1,c);
-//			for(int i=0;i<n+1;++i)cout<<leg::at(i)<<' ';cout<<'\n';
+			int k, u; std::cin >> k >> u, u -= v[k], v[k] += u;
+
+			push(k/sz);
+
+			// reprocess end bucket
+			for(int i=k; i/sz==k/sz; ++i) a[i] += u;
+			b[k/sz][0] = SMALL;
+			for(int i=0; i<sz; ++i) b[k/sz][0] = std::max(b[k/sz][0], a[i+sz*(k/sz)]);
+
+			// and others
+			for(int i=1+k/sz; i<ct; ++i) b[i][0] += u, b[i][1] += u;
+
+		// range query
 		}else{
-			c++;
-			cout<<max(0,leg::range(b,c)-leg::at(b-1))<<'\n';
-			for(int i=0;i<n+1;++i)cout<<leg::tree[i+n+1]<<' ';cout<<'\n';
+			int l, r; std::cin >> l >> r, --l;
+
+			push(l/sz), push(r/sz);
+			LL max = SMALL;
+			if(l/sz == r/sz) for(int i=l; i<=r; ++i) max = std::max(max, a[i]);
+			else{
+				for(int i=1+l/sz; i<r/sz; ++i) max = std::max(max, b[i][0]);
+				for(int i=l; i/sz==l/sz; ++i) max = std::max(max, a[i]);
+				for(int i=sz*(r/sz); i<=r; ++i) max = std::max(max, a[i]);
+			}
+
+			// asking for prefix sum inside [a,b]; this corresponds to maximum
+			// global prefix sum ending between a,b minus the offset of a
+			std::cout << max-a[l] << '\n';
 		}
 	}
 }

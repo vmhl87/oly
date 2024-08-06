@@ -1,3 +1,6 @@
+-- status --
+Ii* *i* *** i*i
+
 dec 1:  [[ c5 greedy should hold ]]
 
 	k = 6, m = 5, n = 2
