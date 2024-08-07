@@ -1,7 +1,7 @@
 -- status --
 Ii* *i* *** i*i
 
-dec 1:  [[ c5 greedy should hold ]]
+dec 1:  [[ c4 greedy might hold ]]
 
 	k = 6, m = 5, n = 2
 
@@ -56,7 +56,7 @@ jan 2:  [[ c3 impl unclear ]]
 
 	n + q hopefully
 
-jan 3:  [[ c4 unconf pattern ]]
+jan 3:  [[ solved ]]
 	
 	might be naive, but looks like only a few types of patterning exist
 
@@ -83,7 +83,7 @@ jan 3:  [[ c4 unconf pattern ]]
 
 	n^2 trivial
 
-feb 1:  [[ c5 proved greedy ]]
+feb 1:  [[ solved ]]
 
 	.
 	C  =>  0
@@ -127,14 +127,14 @@ feb 1:  [[ c5 proved greedy ]]
 	so mantain some sort of neighbor counting thing and for each cow added
 	determine which next to add, etc.
 
-feb 2:  [[ c5 only err is off by one ]]
+feb 2:  [[ solved ]]
 
 	seems like we determine which 12-year blocks don't have any ancestors in
 	them, and then select the k-1 longest free segments to skip
 
 	easy nlog
 
-feb 3:  [[ c4 hard to impl ]]
+feb 3:  [[ solved ]]
 
 	because of bound on n, do a sweep line and store all n^2 possible horizontal
 	ranges for each row, and propagate - should work
@@ -145,7 +145,7 @@ open 1:  [[ c1 no ideas ]]
 
 	looks like some sort of bruteforce, idk
 
-open 2:  [[ c5 complexity only issue ]]
+open 2:  [[ solved ]]
 
 	could be another bruteforce - determine all possible sums out of the 7
 	that correspond to the n integers, and see if work
