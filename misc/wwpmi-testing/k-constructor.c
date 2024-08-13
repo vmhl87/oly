@@ -13,7 +13,7 @@ long long f(long long n, long long k){
 }
 
 int main(){
-	long long target = 1000000000LL, sum = target;
+	long long target = 10000000LL, sum = target;
 
 	for(long long i=2; i<=target; ++i) sum += f(target, i);
 

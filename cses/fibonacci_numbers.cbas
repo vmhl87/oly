@@ -1,0 +1,59 @@
+#include <iframe>
+
+@cgmain
+
+static int M =  1000000007;
+
+struct mat
+    i64[4] val
+end
+
+method mat:from(int a, int b, int c, int d):
+    this.val[0] = a; this.val[1] = b;
+    this.val[2] = c; this.val[3] = d;
+end
+
+method mat:mul(mat* m):
+    i64[4] next;
+    @m int i j x;
+    for(i=0; i<4; ++i) next[i] = 0 end
+    for(i=0; i<2; ++i)
+        for(j=0; j<2; ++j)
+            for(x=0; x<2; ++x)
+                next[i+i+j] = next[i+i+j] +
+                    m.val[i+i+x]*this.val[x+x+j];
+            end
+        end
+    end
+    for(i=0; i<4; ++i) this.val[i] = next[i]%M end
+end
+
+struct vec
+    i64[2] val
+end
+
+method vec:from(int a, int b):
+    this.val[0] = a; this.val[1] = b;
+end
+
+method vec:mul(mat* m):
+    i64[2] next;
+    next[0] = this.val[0]*m.val[0] + this.val[1]*m.val[2];
+    next[1] = this.val[0]*m.val[1] + this.val[1]*m.val[3];
+    this.val[0] = next[0]%M; this.val[1] = next[1]%M;
+end
+
+fn pub main -> int:
+    i64 n; @poll n;
+    mat m; vec v;
+    m:from(0, 1, 1, 1);
+    v:from(0, 1);
+
+    while(n)
+        if(n&1) v:mul(m) end
+        m:mul(m);
+        n = n/2;
+    end
+
+    @fmt v.val[0];
+end
