@@ -1,0 +1,40 @@
+#include <iframe>
+#include <bfs>
+#include <vec>
+
+@cgmain
+
+@vec[int][100000] adj;
+int[100000] indeg;
+
+method inline @bfs[int]:cons(int curr):
+    u64 i;
+    for(i=0; i!=adj[curr].sz; ++i)
+        if(--indeg[adj[curr]:at(i)] == 0)
+            this:push(adj[curr]:at(i))
+        end
+    end
+end
+
+fn pub main -> int:
+    @m int n, m; @poll n m;
+    for(i=0; i!=n; ++i) adj[i]:ctor() end
+
+    for(i=0; i!=m; ++i)
+        @m int a, b; @poll a b;
+        adj[a-1]:push(b-1);
+        ++indeg[b-1];
+    end
+
+    @bfs[int] q;
+
+    for(i=0; i!=n; ++i) if(indeg[i] == 0) q:push(i) end end
+
+    q:spin();
+
+    if(q.d.sz == n)
+        for(i=0; i!=n; ++i)
+            @raw 1+q.d:at(i) " \n"[i==n-1];
+        end
+    else @fmt "IMPOSSIBLE" end
+end

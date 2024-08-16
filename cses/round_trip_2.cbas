@@ -1,0 +1,50 @@
+#include <iframe>
+#include <vec>
+
+@cgmain
+
+@vec[int][100000] adj;
+@m bool[100000] instack, vis;
+int[100000] par;
+
+fn dfs(int i, int p):
+    vis[i] = 1;
+    instack[i] = 1;
+    u64 j;
+    for(j=0; j!=adj[i].sz; ++j)
+        int cons = adj[i]:at(j);
+        if(vis[cons])
+            if(instack[cons])
+                @vec[int] path;
+                path:push(cons);
+                while(i != cons)
+                    path:push(i);
+                    i = par[i];
+                end
+                path:push(cons);
+                @fmt path.sz;
+                for(i=path.sz-1; i>=0; --i)
+                    @raw 1+path:at(i) " \n"[i==0];
+                end
+                exit(0);
+            end
+        else
+            par[cons] = i;
+            dfs(cons, i);
+        end
+    end
+    instack[i] = 0;
+end
+
+fn pub main -> int:
+    @m int n, m; @poll n m;
+    for(i=0; i!=n; ++i) adj[i]:ctor() end
+    for(i=0; i!=m; ++i)
+        @m int a, b; @poll a b;
+        adj[a-1]:push(b-1);
+    end
+
+    for(i=0; i!=n; ++i) if(!vis[i]) dfs(i, -1) end end
+
+    @fmt "IMPOSSIBLE";
+end
