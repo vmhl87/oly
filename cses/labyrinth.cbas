@@ -1,0 +1,75 @@
+#include <iframe>
+
+@cgmain
+
+struct cell
+    byte at
+    cell* from
+    bool vis
+    @m int i, j, depth;
+end
+
+method inline cell:dir -> byte:
+    if(this.i > this.from.i) return 'U'
+    elif(this.i < this.from.i) return 'D'
+    elif(this.j > this.from.j) return 'L'
+    else return 'R' end
+end
+
+cell[1000000] map;
+cell*[1000100] bfs;
+@m cell** l, r;
+@m int n, m;
+
+fn inline at(int i, int j) -> cell*: return map+i*1000+j end
+
+fn inline cons(int i, int j):
+    if(at(i,j).at == '#') return end
+    if(at(i,j).vis) return end
+    at(i,j).vis = 1;
+    (r++)[0] = at(i,j);
+    at(i,j).from = l[0];
+    at(i,j).depth = l[0].depth+1;
+    //@fmt l[0].i l[0].j "->" i j;
+end
+
+fn inline prop:
+    if(l[0].at == 'A') r=++l return
+    else
+        @m int i=l[0].i, j=l[0].j;
+        if(i) cons(i-1, j) end
+        if(j) cons(i, j-1) end
+        if(i<n-1) cons(i+1, j) end
+        if(j<m-1) cons(i, j+1) end
+        ++l;
+    end
+end
+
+fn pub main -> int:
+    @poll n m;
+
+    cell* start; l=bfs; r=bfs;
+
+    for(i=0; i!=n; ++i)
+        u64 j;
+        for(j=0; j!=m; ++j)
+            @poll at(i,j).at;
+            at(i,j).i = i;
+            at(i,j).j = j;
+            if(at(i,j).at == 'B')
+                (r++)[0] = at(i,j);
+            end
+        end
+    end
+
+    while(l != r) prop end
+
+    if((r-1)[0].at == 'A')
+        --l;
+        @fmt "YES"; @fmt l[0].depth
+        while(l[0].at != 'B')
+            @raw l[0]:dir();
+            l[0] = l[0].from;
+        end @fmt
+    else @fmt "NO" end
+end

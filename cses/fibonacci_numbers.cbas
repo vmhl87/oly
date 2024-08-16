@@ -15,7 +15,7 @@ end
 
 method mat:mul(mat* m):
     i64[4] next;
-    @m int i j x;
+    @m int i, j, x;
     for(i=0; i<4; ++i) next[i] = 0 end
     for(i=0; i<2; ++i)
         for(j=0; j<2; ++j)

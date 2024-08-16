@@ -1,0 +1,20 @@
+#include <iframe>
+
+@cgmain
+
+fn pub main -> int:
+    int[10] val;
+
+    int i;
+    for(i=0; i<10; ++i) @poll val[i] end
+
+    @m int v=8 ans=-1 x; @poll x;
+    for(i=0; i<4; ++i)
+        if(v >= 10 || val[v] >= x)
+            ans = v;
+            v = v - (v&-v)/2;
+        else v = v + (v&-v)/2 end
+    end
+
+    @fmt ans;
+end

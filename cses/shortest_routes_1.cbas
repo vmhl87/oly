@@ -1,0 +1,44 @@
+#include <iframe>
+
+@cgmain
+
+class vec
+    @m int* to, cost;
+    uint sz
+end
+
+method inline vec:ctor:
+    @alloc this.to;
+    @alloc this.cost;
+    this.sz = 0;
+end
+
+method inline vec:push(int next, int cost):
+    this.to[this.sz] = next;
+    this.cost[this.sz] = cost;
+    ++this.sz;
+    @realloc this.to this.sz;
+    @realloc this.cost this.sz;
+end
+
+method inline vec:fmt:
+    int i;
+    for(i=0; i<this.sz; ++i)
+        @raw "(" this.to[i] ", " this.cost[i] ") ";
+    end
+end
+
+vec[100000] adj;
+
+fn pub main -> int:
+    @m int n, m; @poll n m;
+
+    for(i=0; i<n; ++i) adj[i]:ctor() end
+
+    for(i=0; i<m; ++i)
+        @m int a, b, c @poll a b c; --a; --b;
+        adj[a]:push(b, c);
+    end
+
+    for(i=0; i<n; ++i) @fmt i ":" adj[i] end
+end

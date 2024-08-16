@@ -5,31 +5,30 @@
 int[200000] a;
 ll[400002] p;
 
-fn mx(ll a, ll b) -> ll: if(a>b) return a else return b end end
-
 fn pub main -> int:
-    @m int n min max i; @poll n min max;
-    for(i=0; i<n; ++i) @poll a[i]; end
+    @m int n, min, max, i; @poll n min max;
+    for(i=0; i<n; ++i) @poll a[i] end
 
-    // build segtree
     for(i=0; i<n; ++i) p[i+2+n] = p[i+1+n] + a[i] end
     for(i=n; i; --i) p[i] = @max(p[i<<1], p[i<<1|1]) end
 
     ll best = p[min+n+1];
 
     for(i=0; i<=n; ++i)
-        // max from i to [i+min..i+max] on segtree
-        @m int l = i+min+n+1 r = i+max+n+2;
+        @m int l = i+min+n+1, r = i+max+n+2;
+
         if(l>=n+n+2) break end
         if(r>n+n+2) r=n+n+2 end
+
         ll curr = p[l];
         while(l<r)
             if(l&1) curr = @max(curr, p[l++]) end
             if(r&1) curr = @max(curr, p[--r]) end
             l = l/2; r = r/2;
         end
+
         curr = curr - p[i+n+1];
-        best = @max best curr;
+        best = @max(best, curr);
     end
 
     @fmt best;
