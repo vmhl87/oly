@@ -1,5 +1,8 @@
+// we can literally just simulate this one
+
 #include <iostream>
 
+// build into c[] with limits at r[]
 int r[8], c[8], n, k;
 
 void recurse(int depth, int sum){
