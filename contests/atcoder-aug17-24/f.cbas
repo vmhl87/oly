@@ -1,0 +1,33 @@
+// polynomial hash on the frequency array
+// will experiment with giving distinct primes
+
+#include <iframe>
+
+@cgmain
+
+@m int[200000] a, b;
+@m ll[200001] pa, pb, po;
+@m ll p = 200003, m = 1000000007;
+
+fn pub main -> int:
+    @m int n, q; @poll n q;
+    for(i=0; i<n; ++i) @poll a[i]; --a[i] end
+    for(i=0; i<n; ++i) @poll b[i]; --b[i] end
+    po[0] = 1;
+    for(i=1; i<n; ++i) po[i] = (po[i-1]*p)%m end
+
+    for(i=0; i<n; ++i)
+        pa[i+1] = (pa[i]+po[a[i]])%m;
+        pb[i+1] = (pb[i]+po[b[i]])%m;
+    end
+
+    for(i=0; i<q; ++i)
+        @m int la, ra, lb, rb; @poll la ra lb rb;
+        if(ra-la != rb-lb) @fmt "No" continue end
+        @m ll ha = pa[ra]-pa[la-1], hb = pb[rb]-pb[lb-1];
+        if(ha < 0) ha = ha + m end
+        if(hb < 0) hb = hb + m end
+        if(ha == hb) @fmt "Yes"
+        else @fmt "No" end
+    end
+end

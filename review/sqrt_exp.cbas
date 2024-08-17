@@ -1,0 +1,27 @@
+#include <iframe>
+
+@cgmain
+
+ll[2<<15] a;
+ll[2<<15] b;
+
+@m int p, m;
+
+fn inline precomp:
+    a[0] = 1; b[0] = 1;
+    for(i=1; i<2<<15; ++i) a[i] = (a[i-1]*p)%m end
+    for(i=1; i<2<<15; ++i) b[i] = (b[i-1]*a[32767])%m end
+end
+
+fn inline pow(int i) -> int:
+    return a[i&32767] * b[i>>15] % m
+end
+
+fn pub main -> int:
+    @poll p m; precomp;
+
+    @fmt pow(13) ln
+         pow(3242) ln
+         pow(13426) ln
+         pow(234253234);
+end
