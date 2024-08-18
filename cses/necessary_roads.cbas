@@ -1,0 +1,44 @@
+#include <iframe>
+#include <vec>
+#include <pii>
+
+@cgmain
+
+@vec[int][100000] adj;
+@m int[100000] depth, delt;
+bool[100000] vis;
+@vec[pii] bridge;
+int sum;
+
+fn dfs(int i, int p):
+    vis[i] = 1;
+    int j;
+    for(j=0; j!=adj[i].sz; ++j)
+        int cons = adj[i]:at(j);
+        if(cons == p) continue end
+        if(vis[cons])
+            if(depth[i] > depth[cons])
+                ++delt[i]; --delt[cons];
+            end
+        else
+            delt[i] = delt[i] + sum; sum = 0;
+            depth[cons] = depth[i]+1;
+            dfs(cons, i);
+        end
+    end
+    sum = sum + delt[i];
+    if(sum == 0 && p > -1) bridge:push(mp(i+1, p+1)) end
+end
+
+fn pub main -> int:
+    @m int n, m; @poll n m;
+    for(i=0; i!=m; ++i)
+        @m int a, b; @poll a b; --a; --b;
+        adj[a]:push(b); adj[b]:push(a);
+    end
+
+    dfs(0, -1);
+
+    @fmt bridge.sz;
+    for(i=0; i!=bridge.sz; ++i) @fmt bridge:at(i) end
+end

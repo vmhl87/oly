@@ -7,11 +7,11 @@
 @vec[int][100000] adj;
 int[100000] indeg;
 
-method inline @bfs[int]:cons(int curr):
+method inline @bfs[int]:cons(int top):
     u64 i;
-    for(i=0; i!=adj[curr].sz; ++i)
-        if(--indeg[adj[curr]:at(i)] == 0)
-            this:push(adj[curr]:at(i))
+    for(i=0; i!=adj[top].sz; ++i)
+        if(--indeg[adj[top]:at(i)] == 0)
+            this:push(adj[top]:at(i))
         end
     end
 end

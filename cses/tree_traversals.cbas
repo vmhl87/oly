@@ -1,0 +1,39 @@
+#include <iframe>
+
+@cgmain
+
+@m int[100000] pre, in, rin, left, right;
+
+// process the subtree marked by [prel..prer)
+// in preorder and [inl..inr) in inorder:
+fn subtree(int prel, int prer, int inl, int inr) -> int:
+    // leaf nodes still call subtree, but with empty range
+    if(prel==prer) return -1 end
+
+    // first node in preorder subarray is by definition
+    // the root one. we then find where in the inorder
+    // traversal it exists, because that is its "split".
+    @m int root = pre[prel], split = rin[root];
+
+    // compute ranges of left, right subtrees. can be empty
+    left[root] = subtree(prel+1, prel+1+(split-inl), inl, split);
+    right[root] = subtree(prel+1+(split-inl), prer, split+1, inr);
+
+    return root;
+end
+
+// recursively print out postorder
+fn dfs(int i):
+    if(left[i] != -1) dfs(left[i]) end
+    if(right[i] != -1) dfs(right[i]) end
+    @raw i+1 sp
+end
+
+fn pub main -> int:
+    int n; @poll n;
+    for(i=0; i!=n; ++i) @poll pre[i]; --pre[i] end
+    for(i=0; i!=n; ++i) @poll in[i]; --in[i]; rin[in[i]] = i end
+
+    // chain both calls.. lol
+    dfs(subtree(0, n, 0, n)); @fmt;
+end

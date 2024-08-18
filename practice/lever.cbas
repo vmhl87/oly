@@ -1,0 +1,30 @@
+#include <iframe>
+#include <str>
+
+@cgmain
+
+fn pub main -> int:
+    str s; @poll s;
+    int m = 0; while(s:at(m) != '^') ++m end
+
+    @m ll sum = 0, diff = 1;
+
+    for(i=m-1; i>=0; --i)
+        if(fmt_is_digit(s:at(i)))
+            sum = sum + (s:at(i)-'0') * diff;
+        end
+        ++diff;
+    end
+
+    diff = 1;
+    for(i=m+1; i<s.sz; ++i)
+        if(fmt_is_digit(s:at(i)))
+            sum = sum - (s:at(i)-'0') * diff;
+        end
+        ++diff;
+    end
+
+    if(sum==0) @fmt "balance"
+    elif(sum>0) @fmt "left"
+    else @fmt "right" end
+end
