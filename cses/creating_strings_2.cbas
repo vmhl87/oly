@@ -1,0 +1,39 @@
+#include <iframe>
+#include <str>
+
+@cgmain
+
+int m = 1000000007;
+ll[1000001] fact;
+int[26] count;
+
+fn inline inv(ll i) -> ll:
+    ll res = 1;
+    int p = m-2;
+    while(p)
+        if(p&1) res = res * i % m end
+        i = i * i % m;
+        p = p / 2;
+    end
+    return res;
+end
+
+fn pub main -> int:
+    fact[0] = 1;
+    for(i=1; i<1000001; ++i)
+        fact[i] = fact[i-1] * i % m;
+    end
+
+    str s; @poll s;
+
+    ll res = fact[s.sz];
+    for(i=0; i!=s.sz; ++i)
+        ++count[s.s[i]-'a'];
+    end
+
+    for(i=0; i!=26; ++i)
+        res = res * inv(fact[count[i]]) % m
+    end
+
+    @fmt res;
+end

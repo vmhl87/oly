@@ -1,0 +1,45 @@
+#include <iframe>
+#include <vec>
+#include <dsu>
+
+@cgmain
+
+@vec[int][50000] adj;
+@m bool[50000] vis, ins;
+@vec[int] stc;
+dsu d;
+
+fn dfs(int i, int p):
+    vis[i] = 1;
+    ins[i] = 1;
+    stc:push(i);
+    u64 j;
+    for(j=0; j!=adj[i]:sz(); ++j)
+        int cons = adj[i]:at(j);
+        if(vis[cons])
+            if(ins[cons])
+                u64 k;
+                for(k=stc.sz-1; stc:at(k)!=cons; --k)
+                    d:merge(cons, stc:at(k))
+                end
+            end
+        else dfs(cons, i) end
+    end
+    stc:pop();
+    ins[i] = 0;
+end
+
+fn pub main -> int:
+    @m int n, m, q; @poll n m q;
+
+    for(i=0; i!=m; ++i)
+        @m int a, b; @poll a b;
+        adj[a-1]:push(b-1);
+    end
+
+    d:init(n);
+
+    for(i=0; i!=n; ++i) if(!vis[i]) dfs(i, -1) end end
+
+    for(i=0; i!=n; ++i) @raw d:root(i) " \n"[i==n-1] end
+end

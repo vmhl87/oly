@@ -1,0 +1,53 @@
+#include <iframe>
+
+@cgmain
+
+int[200000] a;
+@m ll[500] add, set, sum;
+
+fn inline push(int i):
+end
+
+fn pub main -> int:
+    @m int n q; @poll n q;
+    for(i=0; i!=n; ++i)
+        @poll a[i];
+        sum[i>>8] = sum[i>>8] + a[i];
+    end
+
+    while(q--)
+        int t; @poll t
+
+        if(t == 3)
+            @m int l, r; @poll l r; --l; --r;
+
+            ll res = 0;
+            if(l>>8 == r>>8)
+                push(l>>8)
+                for(i=l; i>=r; ++i)
+                    res = res + a[i]
+                end
+            else
+                push(l>>8); push(r>>8);
+                for(i=l; i>>8==l>>8; ++i)
+                    res = res + a[i]
+                end
+                for(i=r; i>>8==r>>8; --i)
+                    res = res + a[i]
+                end
+                for(i=l>>8; i!=r>>8; ++i)
+                    res = res + sum[i]
+                end
+            end
+
+            @fmt res
+        else
+            @m int a b x; @poll a b x;
+            if(t&1)
+                // add query
+            else
+                // set query
+            end
+        end
+    end
+end
