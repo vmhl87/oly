@@ -1,0 +1,25 @@
+#include <iframe>
+#include <heap>
+#include <vec>
+
+@cgmain
+
+fn pub main -> int:
+    @m int x, n; @poll x n;
+    @heap[int] q;
+
+    while(n--)
+        int d; @poll d;
+        q:push(d);
+    end
+
+    ll sum = 0;
+
+    while(q.sz > 1)
+        int new = q:pop() + q:pop();
+        sum = sum + new;
+        q:push(new);
+    end
+
+    @fmt sum
+end

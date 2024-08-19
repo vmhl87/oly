@@ -1,0 +1,33 @@
+#include <iframe>
+#include <str>
+
+@cgmain
+
+fn pub main -> int:
+    str s; @poll s;
+    @m char* l = s.s, r = l, bl, br;
+    @m int best = 0, now = 1;
+
+    while(r[0] != 0)
+        ++r;
+        if(l != s.s && (l-1)[0] == r[0]) --l; now = now + 2;
+        else l = r; now = 1; end
+        if(now > best) best = now; bl = l; br = r end
+    end
+
+    now = 2; l = s.s; r = l+1;
+    while(r[0] != 0)
+        if(now > best) best = now; bl = l; br = r end
+        if(r[0] != l[0]) ++l; ++r
+        else
+            ++r;
+            if(l != s.s && (l-1)[0] == r[0]) --l; now = now + 2;
+            else l = r; now = 2; end
+            if(now > best) best = now; bl = l; br = r end
+        end
+    end
+
+    char* i;
+    for(i=bl; i!=br; ++i) @raw i[0] end
+    @fmt br[0]
+end
