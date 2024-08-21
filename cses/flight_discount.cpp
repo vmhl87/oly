@@ -1,3 +1,9 @@
+// First considered some sort of MST, but that isn't
+// optimal for single point -> point. Instead used dijkstra
+// to compute distance from start to every node, and from
+// every node to end. Then, consider for every edge the
+// cost of using the discount on that edge.
+
 #include <iostream>
 #include <vector>
 #include <queue>
