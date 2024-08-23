@@ -1,10 +1,11 @@
 #include <iframe>
 
 @cgmain
+@multi
 
 @m int[200000] a, b;
 
-fn testcase:
+fn test:
     int n; @poll n;
     for(i=0; i!=n; ++i) @poll a[i] end
     for(i=0; i!=n; ++i) @poll b[i] end
@@ -15,9 +16,4 @@ fn testcase:
         end
     end
     @fmt "yes"
-end
-
-fn pub main -> int:
-    int t; @poll t;
-    while(t--) testcase end
 end

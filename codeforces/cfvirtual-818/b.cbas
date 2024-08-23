@@ -1,8 +1,9 @@
 #include <iframe>
 
 @cgmain
+@multi
 
-fn testcase:
+fn test:
     @m int n, k, r, c; @poll n k r c; --r; --c;
     for(i=0; i!=n; ++i)
         int j;
@@ -11,9 +12,4 @@ fn testcase:
         end
         @raw ln
     end
-end
-
-fn pub main -> int:
-    int t; @poll t;
-    while(t--) testcase end
 end

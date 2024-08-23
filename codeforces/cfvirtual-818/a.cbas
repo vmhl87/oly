@@ -1,15 +1,11 @@
 #include <iframe>
 
 @cgmain
+@multi
 
-fn pub test_case:
+fn pub test:
     int n; @poll n;
     // either x, 2x {x odd} or x, 3x {x ndiv 3} or x,x
     int res = n/2 + n/3;
     @fmt res+res+n;
-end
-
-fn pub main -> int:
-    int t; @poll t;
-    while(t--) test_case end
 end
