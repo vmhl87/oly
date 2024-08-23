@@ -1,0 +1,23 @@
+#include <iframe>
+
+@cgmain
+
+@m int[200000] a, b;
+
+fn testcase:
+    int n; @poll n;
+    for(i=0; i!=n; ++i) @poll a[i] end
+    for(i=0; i!=n; ++i) @poll b[i] end
+    for(i=0; i!=n; ++i)
+        int x = i+1; if(x==n) x=0 end
+        if(a[i] > b[i] || (a[i] < b[i] && b[i] > b[x] + 1))
+            @fmt "no" return
+        end
+    end
+    @fmt "yes"
+end
+
+fn pub main -> int:
+    int t; @poll t;
+    while(t--) testcase end
+end

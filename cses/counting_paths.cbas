@@ -1,0 +1,72 @@
+#include <iframe>
+#include <vec>
+
+@cgmain
+
+@vec[int][200000] adj;
+@m int[200000] jmp, par, dep, ans;
+
+fn dfs(int i, int p):
+    int j;
+    for(j=0; j!=adj[i].sz; ++j) if(adj[i].d[j] != p)
+        if(dep[i]+dep[jmp[jmp[i]]] == 2*dep[jmp[i]])
+            jmp[adj[i].d[j]] = jmp[jmp[i]];
+        else jmp[adj[i].d[j]] = i end
+        par[adj[i].d[j]] = i;
+        dep[adj[i].d[j]] = dep[i] + 1;
+        dfs(adj[i].d[j], i);
+    end end
+end
+
+@vec[int][200000] path;
+
+fn inline addpath(int l, int r): path[r]:push(l) end
+
+int[200000] dt;
+int cur;
+
+fn dfs2(int i, int p):
+    int j;
+    for(j=0; j!=adj[i].sz; ++j) if(adj[i].d[j] != p)
+        int tmp = cur; cur = 0;
+        dfs2(adj[i].d[j], i);
+        cur = cur + tmp;
+    end end
+    for(j=0; j!=path[i].sz; ++j) ++cur; --dt[path[i].d[j]] end
+    ans[i] = ans[i] + cur;
+    cur = cur + dt[i];
+end
+
+fn pub main -> int:
+    @m int n, m; @poll n m;
+
+    for(i=1; i!=n; ++i)
+        @m int a, b; @poll a b; --a; --b;
+        adj[a]:push(b); adj[b]:push(a);
+    end
+
+    dfs(0, -1);
+
+    while(m--)
+        @m int a, b; @poll a b; --a; --b;
+        @m int oa=a, ob=b;
+
+        if(dep[a]<dep[b]) a = a^b; b = b^a; a = a^b end
+
+        while(dep[a]>dep[b])
+            if(dep[jmp[a]]<dep[b]) a = par[a];
+            else a = jmp[a] end
+        end
+
+        while(a != b)
+            if(jmp[a]==jmp[b]) a = par[a]; b = par[b];
+            else a = jmp[a]; b = jmp[b] end
+        end
+
+        addpath(a, oa); addpath(b, ob); --ans[a];
+    end
+
+    dfs2(0, -1);
+
+    for(i=0; i!=n; ++i) @raw ans[i] " \n"[i==n-1] end
+end
