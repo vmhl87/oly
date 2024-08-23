@@ -6,24 +6,18 @@
 
 @m ll[100001] fact, invfact;
 
-fn inv(ll i) -> ll:
-    int p = M-2;
+fn inline inv(ll i) -> ll:
     ll res = 1;
-    for(0; p; p = p/2)
-        if(p&1) res = res * i % M end
+    for(j=M-2; j; j = j/2)
+        if(j&1) res = res * i % M end
         i = i * i % M
     end
     return res;
 end
 
 fn nck(int n, int k) -> ll:
-    ll res = invfact[k] * invfact[n-k] % M;
-    res = res * fact[n] % M;
-    return res;
-end
-
-fn inline nsetbits(int n, int i) -> int:
-    return nck(n, i);
+    ll num = invfact[k] * invfact[n-k] % M;
+    return num * fact[n] % M;
 end
 
 fn pub main -> int:
@@ -35,7 +29,7 @@ fn pub main -> int:
     end
     int res = 0;
     for(i=0; i<=k&&i<=n; ++i)
-        res = (res + nsetbits(n, i)) % M
+        res = (res + nck(n, i)) % M
     end
     @fmt res
 end
