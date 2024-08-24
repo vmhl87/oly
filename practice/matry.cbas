@@ -1,0 +1,29 @@
+// Matryoshkas  -  https://codeforces.com/contest/1790/problem/D
+
+#include <iframe>
+#include <map>
+
+@cgmain
+@multi
+
+fn inline test:
+    int n; @poll n;
+    @map[int int] freq;
+    
+    while(n--)
+        int a; @poll a;
+        freq:set(a, freq:get(a)+1);
+    end
+
+    @m int res=0, last=-1, h=0;
+    @map[int int]* iter;
+
+    for(iter=freq:first(); iter!=0; iter=iter:right())
+        if(iter.x.a != last+1) res = res + iter.x.b
+        elif(iter.x.b > h) res = res + iter.x.b-h end
+
+        last = iter.x.a; h = iter.x.b;
+    end
+
+    @fmt res
+end
