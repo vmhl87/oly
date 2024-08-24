@@ -1,0 +1,19 @@
+#include <iframe>
+
+@cgmain
+@multi
+
+fn inline test:
+    @m int n, all=0;
+    @poll n;
+    for(i=0; i!=n; ++i)
+        int a; @poll a;
+        all = all ^ a;
+    end
+    if(n&1)
+        @fmt all
+    else
+        if(all == 0) @fmt 0
+        else @fmt -1 end
+    end
+end

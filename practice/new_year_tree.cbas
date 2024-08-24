@@ -1,0 +1,101 @@
+// New Year Tree  -  https://codeforces.com/contest/620/problem/E
+
+#include <iframe>
+#include <math>
+#include <vec>
+
+@cgmain
+
+@m int[400000] c, first, last;
+@vec[int][400000] adj;
+@vec[int] tour;
+
+fn dfs(int i, int p):
+    first[i] = tour.sz; tour:push(i);
+
+    int j;
+    for(j=0; j!=adj[i].sz; ++j) if(adj[i].d[j] != p)
+        dfs(adj[i].d[j], i);
+    end end
+
+    last[i] = tour.sz-1;
+end
+
+ll[1600000] tree;
+bool[1600000] lazy;
+
+fn build(int i, int l, int r):
+    if(l==r) tree[i] = 1 << c[tour.d[l]]
+    else
+        int m = (l+r)/2;
+        build(i*2, l, m);
+        build(i*2+1, m+1, r);
+        tree[i] = tree[i*2] | tree[i*2+1];
+    end
+end
+
+fn inline push(int i):
+    if(lazy[i])
+        lazy[i] = 0;
+        lazy[i*2] = 1;
+        lazy[i*2+1] = 1;
+        tree[i*2] = tree[i];
+        tree[i*2+1] = tree[i];
+    end
+end
+
+fn range(int l, int r, int i, int lb, int rb) -> ll:
+    if(l>r) return 0
+    elif(l==lb&&r==rb) return tree[i]
+    else
+        push(i);
+        int m = (lb+rb)/2;
+        return range(l, @min(r, m), i*2, lb, m) |
+               range(@max(l, m+1), r, i*2+1, m+1, rb);
+    end
+end
+
+fn inline popc(ll i) -> int:
+    int res; @inline_C "$res = __builtin_popcountll($i);"
+    return res;
+end
+
+fn set(int l, int r, int i, int lb, int rb, int v):
+    if(l>r) return
+    elif(l==lb&&r==rb) tree[i] = 1 << v; lazy[i] = 1;
+    else
+        push(i);
+        int m = (lb+rb)/2;
+        set(l, @min(r, m), i*2, lb, m, v);
+        set(@max(l, m+1), r, i*2+1, m+1, rb, v);
+        tree[i] = tree[i*2] | tree[i*2+1];
+    end
+end
+
+fn pub main -> int:
+    @m int n, m; @poll n m;
+
+    for(i=0; i!=n; ++i) @poll c[i] end
+    for(i=1; i!=n; ++i)
+        @m int a, b; @poll a b; --a; --b;
+        adj[a]:push(b); adj[b]:push(a);
+    end
+
+    dfs(0, -1);
+    build(1, 0, n-1);
+
+    while(m--)
+        int t; @poll t;
+
+        if(t==1)
+            @m int v, o; @poll v o; --v;
+            set(first[v], last[v], 1, 0, n-1, o);
+        elif(t==2)
+            int v; @poll v; --v;
+            @fmt popc(range(first[v], last[v], 1, 0, n-1));
+        else
+            int v; @poll v; --v;
+            @fmt range(first[v], last[v], 1, 0, n-1);
+        end
+    end
+end

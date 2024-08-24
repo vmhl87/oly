@@ -1,0 +1,47 @@
+#include <iframe>
+#include <set>
+#include <vec>
+
+@cgmain
+@multi
+
+fn inline check(int k, int a, int b, int c) -> bool:
+    b = b - k;
+    ll det = ((ll)b*(ll)b) - 4*(ll)a*(ll)c;
+    if(det < 0) return 0
+    elif(b < 0) return 1
+    else return -1 end
+end
+
+fn inline test:
+    @m int n, m; @poll n m;
+    @set[int] seen;
+    @vec[int] lines;
+
+    for(i=0; i!=n; ++i)
+        int k; @poll k;
+        if(seen:find(k) == 0)
+            seen:add(k);
+            lines:push(k);
+        end
+    end
+
+    lines:sort();
+
+    while(m--)
+        @m int a, b, c; @poll a b c;
+        @m int l=0, r=lines.sz-1;
+
+        while(l<r)
+            int m = (l+r+1)/2;
+            bool res = check(lines.d[m], a, b, c);
+            if(res == 0) l = m; break
+            elif(res > 0) r = m-1
+            else l = m end
+        end
+
+        if(check(lines.d[l], a, b, c) == 0)
+            @fmt "YES" ln lines.d[l]
+        else @fmt "NO" end
+    end
+end

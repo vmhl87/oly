@@ -1,0 +1,19 @@
+#include <iframe>
+#include <vec>
+
+@cgmain
+@multi
+
+fn inline test:
+    int n; @poll n;
+    @vec[byte] s;
+    while(n--) byte b; @poll b; s:push(b) end
+    int j=0; byte best='z';
+    for(i=0; i!=s.sz; ++i)
+        if(s.d[i] < best) best = s.d[i]; j = i;
+        elif(s.d[i] == best) j = i end
+    end
+    @raw best;
+    for(i=0; i!=s.sz; ++i) if(i != j) @raw s.d[i] end end
+    @fmt
+end
