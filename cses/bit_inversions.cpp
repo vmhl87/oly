@@ -46,10 +46,11 @@ int main(){
 	for(int i=N-1; i; --i) prop(i);
 
 	for(int i=0; i<m; ++i){
-		int a; std::cin >> a, a += N-1;
-		in[a] = pre[a] = post[a] = all[i] = all[i] ^ 1;
-		vin[a] = vpre[a] = vpost[a] = vall[i] = vall[i] ^ 1;
-		a >>= 1; for(; a; a >>= 1) prop(a);
+		int a; std::cin >> a, --a;
+		s[a] = (s[a] == '1' ? '0' : '1');
+		in[a+N] = pre[a+N] = post[a+N] = all[a+N] = (s[a] == '1');
+		vin[a+N] = vpre[a+N] = vpost[a+N] = vall[a+N] = (s[a] == '0');
+		a = (a+N)/2; for(; a; a >>= 1) prop(a);
 		std::cout << std::max(in[1], vin[1]) << " \n"[i==m-1];
 	}
 }
