@@ -1,0 +1,24 @@
+#include <iframe>
+#include <set>
+
+@cgmain
+
+int[200000] a;
+
+fn pub main -> int:
+    @set[int] s;
+    @m int n, k; @poll n k
+    for(i=0; i!=n; ++i) @poll a[i] end
+    for(i=0; i!=k; ++i) s:add(a[i]) end
+
+    @raw s:order((k-1)/2).x;
+
+    for(i=0; i+k!=n; ++i)
+        s:del(a[i]);
+        s:add(a[i+k]);
+
+        @raw sp s:order((k-1)/2).x;
+    end
+
+    @fmt
+end
