@@ -1,0 +1,30 @@
+// the binary search here is kind of wonky because
+// I had to make early exit to avoid overflows
+
+#include <iframe>
+
+@cgmain
+
+int[200000] v;
+
+fn pub main -> int:
+    @m int n, t; @poll n t;
+    for(i=0; i!=n; ++i) @poll v[i] end
+
+    @m ll l=0, r=1<<61;
+
+    while(l<r)
+        ll m = (l+r)/2;
+
+        ll sum = 0;
+        for(i=0; i!=n; ++i)
+            if(t-sum <= m/v[i]) sum = t break end
+            sum = sum + m/v[i]
+        end
+
+        if(sum<t) l = m+1
+        else r = m end
+    end
+
+    @fmt l
+end
