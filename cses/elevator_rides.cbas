@@ -1,0 +1,37 @@
+#include <iframe>
+
+@cgmain
+
+int[20] a;
+
+fn pub main -> int:
+    @m int n, x; @poll n x;
+    for(i=0; i!=n; ++i) @poll a[i] end
+    @m int sz=n, res=0;
+
+    for(0; sz; ++res)
+        @m ll best=0, idx;
+        for(i=0; i!=1<<20; ++i)
+            ll sum = 0;
+            for(j=0; j!=20; ++j)
+                if(i & (1<<j))
+                    sum = sum + a[j]
+                end
+            end
+            if(sum <= x && sum > best)
+                best = sum;
+                idx = i;
+            end
+        end
+        for(i=0; i!=20; ++i)
+            if(idx & (1<<i))
+                @raw a[i] sp;
+                a[i] = 0;
+                --sz;
+            end
+        end
+        @fmt
+    end
+
+    @fmt res
+end

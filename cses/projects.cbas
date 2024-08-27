@@ -1,0 +1,46 @@
+#include <iframe>
+#include <math>
+#include <cmp>
+#include <pii>
+
+@cgmain
+
+@m int[200000] a, b, p;
+pii[200000] proj;
+int n;
+
+fn best(int l) -> ll:
+    if(l == n) return 0 end
+
+    ll res = 0;
+
+    int i;
+    for(i=l; i!=n&&proj[i].a==proj[l].a; ++i)
+        @m int d=l, u=n;
+        while(d<u)
+            int m = (d+u)/2;
+            if(proj[m].a < b[proj[i].b])
+                d = m+1
+            else u = m end
+        end
+        res = @max(res, p[proj[i].b]+best(d));
+    end
+
+    res = @max(res, best(i));
+
+    return res;
+end
+
+fn pub main -> int:
+    @poll n;
+
+    for(i=0; i!=n; ++i)
+        @poll a[i] b[i] p[i];
+        proj[i].a = a[i];
+        proj[i].b = i;
+    end
+
+    @sort proj n;
+
+    @fmt best(0);
+end
