@@ -1,0 +1,21 @@
+#include <iframe>
+#include <cmp>
+
+@cgmain
+
+ll[200000] a;
+
+fn pub main -> int:
+    int n; ll x; @poll n x;
+    for(i=0; i!=n; ++i) @poll a[i] end
+    @sort a n;
+
+    @m int p1 = 0, p2 = n-1, res = 0;
+
+    while(p1 <= p2)
+        if(a[p1]+a[p2] > x) ++res; --p2
+        else ++res; ++p1; --p2 end
+    end
+
+    @fmt res
+end
