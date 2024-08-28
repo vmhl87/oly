@@ -1,0 +1,53 @@
+// pretty cool problem!
+// notice that each pair of children represents an edge
+// in the connectivity graph. each connected component
+// must go to the same location, so this problem reduces
+// to knapsack: notice here that though # of components
+// is bounded by N, # of distinct sizes among comps is
+// bounded by sqrt(N). therefore this approach works.
+
+#include <iframe>
+#include <map>
+#include <dsu>
+
+@cgmain
+
+bool[100001] vis;
+int[100001] decay;
+
+fn pub main -> int:
+    @m int n, m; @poll n m;
+    dsu d; d:init(n);
+
+    while(m--)
+        @m int a, b; @poll a b;
+        d:merge(a-1, b-1);
+    end
+
+    // standard frequency map. I don't yet have increment
+    // or decrement utilities, but might add later.
+    @map[int int] sz;
+    for(i=0; i!=n; ++i)
+        if(d.root[i] < 0)
+            sz:set(-d.root[i], sz:get(-d.root[i])+1)
+        end
+    end
+
+    vis[0] = 1;
+
+    @map[int int]* iter = sz:last();
+
+    for(0; iter!=0; iter=iter:left())
+        // "offset" aka component size, # of comps
+        @m int off=iter.x.a, count=iter.x.b;
+        for(i=0; i<=n; ++i)
+            if(vis[i]) decay[i] = count;
+            elif(i-off>=0&&decay[i-off])
+                decay[i] = decay[i-off]-1; vis[i] = 1;
+            else decay[i] = 0 end
+        end
+    end
+
+    for(i=0; i!=n; ++i) @raw vis[i+1] end
+    @fmt
+end

@@ -1,0 +1,35 @@
+#include <iframe>
+#include <math>
+
+@cgmain
+
+int[400000] tree;
+
+fn inline prop(int i):
+    tree[i] = @min(tree[i<<1], tree[i<<1|1]);
+end
+
+fn inline rmq(int l, int r):
+    l = l + n; r = r + n;
+    int res = tree[l++];
+    while(l<r)
+        if(l&1) res = @min(res, tree[l++]) end
+        if(r&1) res = @min(res, tree[--r]) end
+        l = l/2; r = r/2;
+    end
+    return res;
+end
+
+fn pub main -> int:
+    int n; @poll n;
+    for(i=0; i!=n; ++i) @poll tree[i+n] end
+    for(i=n-1; i; --i) prop(i) end
+
+    ll best = 0;
+
+    for(i=0; i!=n; ++i)
+        @m int l=i, r=n-1;
+    end
+
+    @fmt best;
+end
