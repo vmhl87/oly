@@ -1,0 +1,51 @@
+#include <iframe>
+#include <set>
+#include <pii>
+
+@cgmain
+
+ll[5000] a;
+@m int[5000] next, prev;
+
+fn pub main -> int:
+    int n; @poll n;
+    for(i=0; i!=n; ++i) @poll a[i] end
+    next[n-1] = -1; prev[0] = -1;
+    for(i=1; i!=n; ++i)
+        next[i-1] = i;
+        prev[i] = i-1;
+    end
+
+    @set[pll] best;
+
+    for(i=1; i!=n; ++i)
+        best:add(mpll(a[i-1]+a[i], i-1));
+    end
+
+    ll res = 0;
+
+    while(best.sz)
+        // @fmt best best.sz;
+        @set[pll]* iter = best:first();
+        res = res + iter.x.a; i = iter.x.b;
+        best:del(mpll(a[i]+a[next[i]], i));
+        if(prev[i] != -1)
+            best:del(mpll(a[prev[i]]+a[i], prev[i]));
+        end
+        ll t = a[i]+a[next[i]];
+        if(next[next[i]] != -1)
+            best:del(mpll(a[next[i]]+a[next[next[i]]], next[i]));
+            prev[next[next[i]]] = i;
+            next[i] = next[next[i]];
+        else next[i] = -1 end
+        a[i] = t;
+        if(prev[i] != -1)
+            best:add(mpll(a[prev[i]]+a[i], prev[i]));
+        end
+        if(next[i] != -1)
+            best:add(mpll(a[i]+a[next[i]], i));
+        end
+    end
+
+    @fmt res
+end

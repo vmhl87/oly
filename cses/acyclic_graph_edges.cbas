@@ -1,0 +1,13 @@
+#include <iframe>
+
+@cgmain
+
+fn pub main -> int:
+    int n; @poll n n;
+
+    while(n--)
+        @m int a, b; @poll a b;
+        if(a>b) a = a^b; b = b^a; a = a^b end
+        @fmt a b;
+    end
+end

@@ -1,0 +1,27 @@
+#include <iframe>
+#include <heap>
+
+@cgmain
+
+@m int[200000] deg, seq;
+
+fn pub main -> int:
+    int n; @poll n;
+    for(i=0; i!=n-2; ++i)
+        @poll seq[i];
+        ++deg[--seq[i]];
+    end
+
+    @heap[int] q;
+    for(i=0; i!=n; ++i)
+        if(!deg[i]) q:push(i) end
+    end
+
+    for(i=0; i!=n-2; ++i)
+        @fmt seq[i]+1 q:top()+1; q:pop();
+        if(!--deg[seq[i]]) q:push(seq[i]) end
+    end
+
+    i=q:top(); q:pop();
+    @fmt i+1 q:top()+1
+end
