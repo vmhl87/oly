@@ -1,0 +1,30 @@
+#include <iframe>
+#include <vec>
+
+@cgmain
+
+@vec[int][200000] adj;
+int[200000] ans;
+
+fn dfs(int i, int p):
+    int j;
+    for(j=0; j!=adj[i].sz; ++j)
+        dfs(adj[i].d[j], i);
+        ans[i] = ans[i] + 1 + ans[adj[i].d[j]];
+    end
+end
+
+fn pub main -> int:
+    int n; @poll n;
+
+    for(i=1; i!=n; ++i)
+        int a; @poll a;
+        adj[a-1]:push(i);
+    end
+
+    dfs(0, -1);
+
+    for(i=0; i!=n; ++i)
+        @raw ans[i] " \n"[i==n-1]
+    end
+end

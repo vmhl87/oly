@@ -1,0 +1,36 @@
+#include <iframe>
+#include <math>
+#include <vec>
+
+@cgmain
+
+@vec[int][200000] adj;
+@m int[200000] yes, no;
+
+fn dfs(int i, int p):
+    int delta = 0;
+    int j;
+    for(j=0; j!=adj[i].sz; ++j) if(adj[i].d[j] != p)
+        dfs(adj[i].d[j], i);
+        no[i] = no[i] + @max(yes[adj[i].d[j]], no[adj[i].d[j]]);
+        yes[i] = yes[i] + @max(yes[adj[i].d[j]], no[adj[i].d[j]]);
+        int cand = no[adj[i].d[j]] - @max(yes[adj[i].d[j]], no[adj[i].d[j]]) + 1;
+        if(cand > delta) delta = cand end
+    end end
+    yes[i] = yes[i] + delta;
+end
+
+fn pub main -> int:
+    int n; @poll n;
+
+    for(i=1; i!=n; ++i)
+        @m int a, b; @poll a b;
+        adj[a-1]:push(b-1);
+        adj[b-1]:push(a-1);
+    end
+
+    dfs(0, -1);
+
+    int ans = @max(yes[0], no[0]);
+    @fmt ans
+end
