@@ -5,15 +5,13 @@
 
 @vec[int][100000] adj;
 @vec[int] leaf;
-int at;
 
 fn dfs(int i, int p):
-    ++at;
-    if(adj[i].sz == 1) leaf:push(at) end
+    if(adj[i].sz == 1) leaf:push(i) end
 
     int j;
     for(j=0; j!=adj[i].sz; ++j)
-        if(adj[i].d[j] != p) dfs(adj[i].d[j], i); ++at end
+        if(adj[i].d[j] != p) dfs(adj[i].d[j], i) end
     end
 end
 
@@ -26,10 +24,17 @@ fn pub main -> int:
     
     for(i=0; i!=n; ++i) if(adj[i].sz == 1) dfs(i, -1) break end end
 
-    @fmt leaf at
+    // the greedy I missed the first time around is that by connecting
+    // each leaf with the diametrically opposite one, we satisfy all
+    // inter-webs and stuff
 
-    for(i=1; i!=leaf.sz; ++i)
-        @raw leaf:at(i)-leaf:at(i-1) sp
+    @fmt (leaf.sz+1)/2
+
+    for(i=0; i!=leaf.sz/2; ++i)
+        @fmt leaf:at(i)+1 leaf:at(i+leaf.sz/2)+1
     end
-    @fmt at-leaf:at(leaf.sz-1)
+
+    if(leaf.sz&1)
+        @fmt leaf:at(0)+1 leaf:at(leaf.sz-1)+1
+    end
 end
