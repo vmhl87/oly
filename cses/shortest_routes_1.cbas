@@ -1,44 +1,37 @@
 #include <iframe>
+#include <heap>
+#include <vec>
+#include <pii>
 
 @cgmain
 
-class vec
-    @m int* to, cost;
-    uint sz
-end
-
-method inline vec:ctor:
-    @alloc this.to;
-    @alloc this.cost;
-    this.sz = 0;
-end
-
-method inline vec:push(int next, int cost):
-    this.to[this.sz] = next;
-    this.cost[this.sz] = cost;
-    ++this.sz;
-    @realloc this.to this.sz;
-    @realloc this.cost this.sz;
-end
-
-method inline vec:fmt:
-    int i;
-    for(i=0; i<this.sz; ++i)
-        @raw "(" this.to[i] ", " this.cost[i] ") ";
-    end
-end
-
-vec[100000] adj;
+@vec[pii][100000] adj;
+ll[100000] dist;
+bool[100000] vis;
 
 fn pub main -> int:
     @m int n, m; @poll n m;
 
-    for(i=0; i<n; ++i) adj[i]:ctor() end
-
     for(i=0; i<m; ++i)
-        @m int a, b, c @poll a b c; --a; --b;
-        adj[a]:push(b, c);
+        @m int a, b, c @poll a b c;
+        adj[a-1]:push(mpii(b-1, c));
     end
 
-    for(i=0; i<n; ++i) @fmt i ":" adj[i] end
+    @heap[pll] q;
+
+    q:push(mpll(0, 0));
+
+    while(q.sz)
+        @m ll d=q:top().a, x=q:top().b; q:pop();
+        if(vis[x]) continue end
+        vis[x] = 1; dist[x] = d;
+
+        for(i=0; i!=adj[x].sz; ++i)
+            q:push(mpll(d+adj[x].d[i].b, adj[x].d[i].a))
+        end
+    end
+
+    for(i=0; i!=n; ++i)
+        @raw dist[i] " \n"[i==n-1]
+    end
 end

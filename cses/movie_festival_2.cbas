@@ -1,0 +1,46 @@
+#include <iframe>
+#include <set>
+#include <cmp>
+#include <pii>
+
+@cgmain
+
+class mov
+    int a
+    int b
+    int i
+end
+
+method mov:fmt: @raw "(" this.a sp this.b ")" end
+method mov:poll: this.a = fmt_poll_int; this.b = fmt_poll_int end
+method mov:cmp(mov o) -> int: return this.a-o.a end
+method mov:rev: j = this.a; this.a = this.b; this.b = j end
+
+mov[2e5] a;
+bool[2e5] take;
+
+fn pub main -> int:
+    @m int n, k; @poll n k;
+    for(i=0; i!=n; ++i) @poll a[i]; a[i].i = i end
+    @sort a n;
+    for(i=0; i!=n; ++i) a[i]:rev() end
+
+    int res = 0;
+
+    @set[mov] taken;
+
+    for(i=0; i!=n; ++i)
+        while(taken.sz && taken:first().x.a<=a[i].b)
+            taken:del(taken:first().x);
+        end
+        if(taken.sz != k)
+            taken:add(a[i]);
+            ++res;
+        elif(taken.sz && a[i].a<=taken:last().x.a)
+            taken:del(taken:last().x);
+            taken:add(a[i]);
+        end
+    end
+
+    @fmt res
+end

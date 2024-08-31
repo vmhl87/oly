@@ -1,0 +1,32 @@
+#include <iframe>
+#include <heap>
+#include <vec>
+#include <pii>
+
+@cgmain
+
+@vec[pii][100000] adj;
+@vec[ll][100000] ans;
+
+fn pub main -> int:
+    @m int n, m, k; @poll n m k;
+    while(m--)
+        @m int a, b, c; @poll a b c;
+        adj[a-1]:push(mpii(b-1, c));
+    end
+
+    @heap[pll] q; q:push(mpll(0, 0));
+
+    while(q.sz)
+        ll cost = q:top().a;
+        int x = q:top().b;
+        q:pop();
+        if(ans[x].sz == k) continue end
+        ans[x]:push(cost);
+        for(i=0; i!=adj[x].sz; ++i)
+            q:push(mpll(cost+adj[x].d[i].b, adj[x].d[i].a))
+        end
+    end
+
+    for(i=0; i!=k; ++i) @raw ans[n-1]:at(i) " \n"[i==k-1] end
+end

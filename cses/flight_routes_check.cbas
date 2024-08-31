@@ -1,0 +1,47 @@
+#include <iframe>
+#include <vec>
+
+@cgmain
+
+@vec[int][1e5] adj;
+@vec[int][1e5] bdj;
+@m bool[1e5] av, bv;
+
+fn dfs(int i):
+    av[i] = 1;
+    int j;
+    for(j=0; j!=adj[i].sz; ++j)
+        if(!av[adj[i].d[j]]) dfs(adj[i].d[j]) end
+    end
+end
+
+fn dfs2(int i):
+    bv[i] = 1;
+    int j;
+    for(j=0; j!=bdj[i].sz; ++j)
+        if(!bv[bdj[i].d[j]]) dfs2(bdj[i].d[j]) end
+    end
+end
+
+fn pub main -> int:
+    @m int n, m; @poll n m;
+    while(m--)
+        @poll i j;
+        adj[i-1]:push(j-1);
+        bdj[j-1]:push(i-1);
+    end
+
+    dfs(0); dfs2(0);
+
+    for(i=1; i!=n; ++i)
+        if(!av[i])
+            @fmt "NO" ln 1 i+1;
+            return 0
+        elif(!bv[i])
+            @fmt "NO" ln i+1 1;
+            return 0
+        end
+    end
+
+    @fmt "YES"
+end

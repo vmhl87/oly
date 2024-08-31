@@ -1,0 +1,31 @@
+#include <iframe>
+#include <vec>
+
+@cgmain
+
+#define M 1000000007
+
+@vec[int][100000] adj;
+bool[100000] done;
+ll[100000] ans;
+int n;
+
+fn dfs(int i) -> ll:
+    if(done[i]) return ans[i] end
+    ll res = i==n-1;
+    int j;
+    for(j=0; j!=adj[i].sz; ++j)
+        res = (res + dfs(adj[i].d[j])) % M
+    end
+    ans[i] = res; done[i] = 1;
+    return res;
+end
+
+fn pub main -> int:
+   int m; @poll n m;
+    while(m--)
+        @poll i j; adj[i-1]:push(j-1)
+    end
+
+    @fmt dfs(0)
+end
