@@ -1,0 +1,71 @@
+#include <iframe>
+#include <vec>
+// #include <set>
+
+@cgmain
+
+@vec[int][1e6] adj;
+bool[1e6] vis;
+byte[1e6] map;
+
+fn inline cor(int x, int y) -> int: return x+y*1000 end
+fn inline get(int x, int y) -> byte*: return map+cor(x, y) end
+
+fn dfs(int i):
+    vis[i] = 0;
+    int j;
+    for(j=0; j!=adj[i].sz; ++j) if(vis[adj[i].d[j]])
+        dfs(adj[i].d[j])
+    end end
+end
+
+fn pub main -> int:
+    @m int n, m; @poll n m;
+
+    for(i=0; i!=n; ++i)
+        for(j=0; j!=m; ++j)
+            @poll get(j, i)[0]
+        end
+    end
+
+    for(i=0; i!=n; ++i)
+        for(j=0; j!=m; ++j)
+            if(get(j, i)[0] == '.')
+                if(j && get(j-1, i)[0] == '.')
+                    adj[cor(j, i)]:push(cor(j-1, i));
+                    adj[cor(j-1, i)]:push(cor(j, i));
+                end
+                if(i && get(j, i-1)[0] == '.')
+                    adj[cor(j, i)]:push(cor(j, i-1));
+                    adj[cor(j, i-1)]:push(cor(j, i));
+                end
+                vis[cor(j, i)] = 1;
+            end
+        end
+    end
+
+    int res = 0;
+
+//    @set[int] s;
+
+    for(i=0; i!=n; ++i)
+        for(j=0; j!=m; ++j)
+            if(vis[cor(j, i)])
+                ++res;
+//                s:add(cor(j, i));
+                dfs(cor(j, i));
+            end
+        end
+    end
+
+//    for(i=0; i!=n; ++i)
+//        for(j=0; j!=n; ++j)
+//            if(s:find(cor(j, i)) != 0)
+//                @raw "\e[32m" end
+//            @raw get(j, i)[0] "\e[0m"
+//        end
+//        @fmt
+//    end
+
+    @fmt res;
+end

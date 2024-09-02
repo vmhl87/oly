@@ -1,0 +1,108 @@
+#include <iframe>
+#include <bfs>
+#include <pii>
+
+@cgmain
+
+class node
+    int x
+    int y
+    char c
+    int state
+    node* from
+end
+
+method node:fmt:
+    if(this.state == 1) @raw "\e[31m" end
+    if(this.state == 2) @raw "\e[32m" end
+    @raw this.c "\e[0m"
+end
+
+node[1e6] board;
+
+fn get(int x, int y) -> node*: return board+y*1000+x end
+
+@bfs[pii] q;
+@m int n, m;
+
+method inline @bfs[pii]:cons(pii top):
+    if(top.a == 0 || top.b == 0 || top.a == m-1 || top.b == n-1)
+        if(get(top.a, top.b).state == 2)
+            @fmt "YES";
+            @vec[byte] path;
+            while(get(top.a, top.b).from != 0)
+                node* f = get(top.a, top.b).from;
+                if(f.x < top.a) path:push('R') end
+                if(f.y < top.b) path:push('D') end
+                if(f.x > top.a) path:push('L') end
+                if(f.y > top.b) path:push('U') end
+                top.a = f.x; top.b = f.y;
+            end
+            @fmt path.sz
+            for(i=path.sz-1; i>=0; --i) @raw path:at(i) end @fmt;
+            exit(0);
+        end
+    end
+
+    if(top.a && !get(top.a-1, top.b).state && get(top.a-1, top.b).c == '.')
+        get(top.a-1, top.b).state = get(top.a, top.b).state;
+        get(top.a-1, top.b).from = get(top.a, top.b);
+        this:push(mpii(top.a-1, top.b));
+//        @fmt "<" top;
+    end
+    if(top.b && !get(top.a, top.b-1).state && get(top.a, top.b-1).c == '.')
+        get(top.a, top.b-1).state = get(top.a, top.b).state;
+        get(top.a, top.b-1).from = get(top.a, top.b);
+        this:push(mpii(top.a, top.b-1));
+//        @fmt "^" top;
+    end
+    if(top.a<m-1 && !get(top.a+1, top.b).state && get(top.a+1, top.b).c == '.')
+        get(top.a+1, top.b).state = get(top.a, top.b).state;
+        get(top.a+1, top.b).from = get(top.a, top.b);
+        this:push(mpii(top.a+1, top.b));
+//        @fmt ">" top;
+    end
+    if(top.b<n-1 && !get(top.a, top.b+1).state && get(top.a, top.b+1).c == '.')
+        get(top.a, top.b+1).state = get(top.a, top.b).state;
+        get(top.a, top.b+1).from = get(top.a, top.b);
+        this:push(mpii(top.a, top.b+1));
+//        @fmt "v" top;
+    end
+end
+
+pii start;
+
+method node:poll:
+    this.c = fmt_poll_byte
+    if(this.c == 'M')
+        this.state = 1;
+        q:push(mpii(this.x, this.y));
+    elif(this.c == 'A')
+        this.state = 2;
+        start.a = this.x; start.b = this.y;
+    end
+end
+
+fn pub main -> int:
+    @poll n m;
+
+    for(i=0; i!=n; ++i)
+        for(j=0; j!=m; ++j)
+            get(j, i).x = j;
+            get(j, i).y = i;
+            @poll get(j, i)
+        end
+    end
+
+    q:push(start);
+    q:spin();
+
+//    for(i=0; i!=n; ++i)
+//        for(j=0; j!=m; ++j)
+//            @raw get(j, i)
+//        end
+//        @raw ln
+//    end
+
+    @fmt "NO"
+end
