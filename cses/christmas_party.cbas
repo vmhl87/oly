@@ -1,0 +1,19 @@
+#include <iframe>
+
+@cgmain
+
+#define M 1000000007
+
+fn pub main -> int:
+    int n; @poll n;
+    ll res=n==0; j=1;
+
+    for(i=n; i>1; --i)
+        res = (res + j*(1-2*(i&1))) % M;
+        j = j*i % M;
+    end
+
+    if(res<0) res = res + M end
+
+    @fmt res
+end
