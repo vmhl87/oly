@@ -1,0 +1,63 @@
+#include <iframe>
+#include <math>
+#include <map>
+#include <str>
+
+@cgmain
+
+int[52] tree;
+bool[52] active;
+
+#define M 1000000009
+
+fn inline hash -> ull:
+    @m ull cl=0, p=1000861;
+    int diff = tree[1];
+    for(j=0; j!=26; ++j) if(active[j+26])
+        cl = (cl + (p*(tree[j+26]-diff) % M)) % M;
+        p = p*1000861 % M;
+    end end
+    ull res = cl<<31;
+    cl=0; p=200003;
+    for(j=0; j!=26; ++j) if(active[j+26])
+        cl = (cl + (p*(tree[j+26]-diff) % M)) % M;
+        p = p*200003 % M;
+    end end
+    return res+cl;
+end
+
+fn inline prop(int i):
+    if(active[i*2]&active[i*2+1])
+        active[i] = 1;
+        tree[i] = @min(tree[i*2], tree[i*2+1]);
+    elif(active[i*2])
+        active[i] = 1;
+        tree[i] = tree[i*2];
+    elif(active[i*2+1])
+        active[i] = 1;
+        tree[i] = tree[i*2+1];
+    else active[i] = 0 end
+end
+
+fn inline cv(int i) -> ll: return (i*(ll)(i-1))/2 end
+
+fn pub main -> int:
+    str s; @poll s;
+    for(i=0; i!=s.sz; ++i) active[s.s[i]-'a'+26]=1 end
+    for(i=25; i; --i) prop(i) end
+
+    @map[ull int] m; m:set(0, 1);
+
+    for(i=0; i!=s.sz; ++i)
+        ++tree[s.s[i]-'a'+26];
+        for(j=(s.s[i]-'a'+26)/2; j; j=j/2) prop(j) end
+        m:set(hash, m:get(hash)+1);
+    end
+
+    ll res = 0;
+    @map[ull int]* iter;
+    for(iter=m:first(); iter!=0; iter=iter:right())
+        if(iter.x.b>1) res = res + cv(iter.x.b) end
+    end
+    @fmt res
+end
