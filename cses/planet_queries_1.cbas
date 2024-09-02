@@ -1,0 +1,27 @@
+#include <iframe>
+
+@cgmain
+
+int[6e6] root;
+
+fn inline get(int i, int j) -> int: return root[i*30+j] end
+fn inline set(int i, int j, int v): root[i*30+j] = v end
+
+fn pub main -> int:
+    @m int n, q; @poll n q;
+    for(i=0; i!=n; ++i) @poll root[i*30]; --root[i*30] end
+
+    for(i=1; i!=30; ++i) for(j=0; j!=n; ++j)
+        set(j, i, get(get(j, i-1), i-1));
+    end end
+
+    while(q--)
+        @m int x, k; @poll x k; --x;
+
+        for(i=0; i!=30; ++i) if(k & (1<<i))
+            x = get(x, i);
+        end end
+
+        @fmt x+1
+    end
+end
