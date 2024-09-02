@@ -23,7 +23,7 @@ fn inline hash -> ull:
         cl = (cl + (p*(tree[j+26]-diff) % M)) % M;
         p = p*200003 % M;
     end end
-    return res+cl;
+    return res^cl;
 end
 
 fn inline prop(int i):
