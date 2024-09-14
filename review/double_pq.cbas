@@ -1,0 +1,130 @@
+#include <iiframe>
+
+// BEGINTEMPLATE
+
+#include <iframe_template.hbas>
+#include <idsl/stdlib/vec.hbas>
+
+@template heap2 [
+    @globalscope
+        class NAME
+            @vec[int] minheap
+            @vec[int] maxheap
+            @vec[int] minidx
+            @vec[int] maxidx
+            @vec[TYPE] obj
+            u64 sz
+        end
+
+        method codegen NAME:ctor:
+            this.minheap:ctor();
+            this.maxheap:ctor();
+            this.minidx:ctor();
+            this.maxidx:ctor();
+            this.obj:ctor();
+            this.sz = 0;
+        end
+
+        method codegen NAME:dtor:
+            this.minheap:dtor();
+            this.maxheap:dtor();
+            this.minidx:dtor();
+            this.maxidx:dtor();
+            this.obj:dtor();
+            this.sz = 0;
+        end
+
+        method codegen NAME:fmt:
+            @raw "(" this.obj sp this.minheap sp this.maxheap ")"
+        end
+
+        method codegen NAME:_minheap(u64 i) -> TYPE:
+            return this.obj.d[this.minheap.d[i]];
+        end
+
+        method codegen NAME:pushminheap(u64 i):
+            if(!this.minheap.sz) this.minheap:push(0) end
+            u64 j = this.minheap.sz/2;
+            this.minidx.d[i] = this.minheap.sz;
+            this.minheap:push(i);
+            for(0; j; j=j/2)
+                if(this:_minheap(j) > this:_minheap(j*2))
+                    this.minheap.d[j] = this.minheap.d[j*2] ^ this.minheap.d[j];
+                    this.minheap.d[j*2] = this.minheap.d[j] ^ this.minheap.d[j*2];
+                    this.minheap.d[j] = this.minheap.d[j*2] ^ this.minheap.d[j];
+                    this.minidx.d[this.minheap.d[j]] = j;
+                    this.minidx.d[this.minheap.d[j*2]] = j*2;
+                end
+                if(j*2+1 < this.minheap.sz)
+                    if(this:_minheap(j) > this:_minheap(j*2+1))
+                        this.minheap.d[j] = this.minheap.d[j*2+1] ^ this.minheap.d[j];
+                        this.minheap.d[j*2+1] = this.minheap.d[j] ^ this.minheap.d[j*2+1];
+                        this.minheap.d[j] = this.minheap.d[j*2+1] ^ this.minheap.d[j];
+                        this.minidx.d[this.minheap.d[j]] = j;
+                        this.minidx.d[this.minheap.d[j*2+1]] = j*2+1;
+                    end
+                end
+            end
+        end
+
+        method codegen NAME:_maxheap(u64 i) -> TYPE:
+            return this.obj.d[this.maxheap.d[i]];
+        end
+
+        method codegen NAME:pushmaxheap(u64 i):
+            if(!this.maxheap.sz) this.maxheap:push(0) end
+            u64 j = this.maxheap.sz/2;
+            this.maxidx.d[i] = this.maxheap.sz;
+            this.maxheap:push(i);
+            for(0; j; j=j/2)
+                if(this:_maxheap(j) < this:_maxheap(j*2))
+                    this.maxheap.d[j] = this.maxheap.d[j*2] ^ this.maxheap.d[j];
+                    this.maxheap.d[j*2] = this.maxheap.d[j] ^ this.maxheap.d[j*2];
+                    this.maxheap.d[j] = this.maxheap.d[j*2] ^ this.maxheap.d[j];
+                    this.maxidx.d[this.maxheap.d[j]] = j;
+                    this.maxidx.d[this.maxheap.d[j*2]] = j*2;
+                end
+                if(j*2+1 < this.maxheap.sz)
+                    if(this:_maxheap(j) < this:_maxheap(j*2+1))
+                        this.maxheap.d[j] = this.maxheap.d[j*2+1] ^ this.maxheap.d[j];
+                        this.maxheap.d[j*2+1] = this.maxheap.d[j] ^ this.maxheap.d[j*2+1];
+                        this.maxheap.d[j] = this.maxheap.d[j*2+1] ^ this.maxheap.d[j];
+                        this.maxidx.d[this.maxheap.d[j]] = j;
+                        this.maxidx.d[this.maxheap.d[j*2+1]] = j*2+1;
+                    end
+                end
+            end
+        end
+
+        method codegen NAME:push(TYPE t):
+            this.obj:push(t);
+            this.minidx:push(0);
+            this.maxidx:push(0);
+            this:pushminheap(this.sz);
+            this:pushmaxheap(this.sz);
+            ++this.sz;
+        end
+
+        method codegen NAME:front -> TYPE:
+            return this.obj.d[this.minheap.d[1]];
+        end
+
+        method codegen NAME:back -> TYPE:
+            return this.obj.d[this.maxheap.d[1]];
+        end
+    end
+]
+
+// ENDTEMPLATE
+
+@cgmain
+
+fn pub main -> int:
+    @fmt "hello world"
+
+    @heap2[int] q;
+
+    q:push(13); q:push(7);
+
+    @fmt "all:" q ln "front:" q:front() ln "back:" q:back();
+end

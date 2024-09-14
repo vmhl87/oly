@@ -1,0 +1,73 @@
+#include <iframe>
+#include <heap>
+#include <str>
+#include <vec>
+
+@cgmain
+
+str s;
+
+class ptr
+    int front
+    int back
+end
+
+method ptr:next: ++this.back; if(this.back==s.sz) this.back=0 end end
+
+method ptr:cmp(ptr o) -> int:
+    @m byte b1 = s:at(this.back), b2 = s:at(o.back);
+    if(b1<b2) return -1
+    elif(b1>b2) return 1
+    else return 0 end
+end
+
+method ptr:fmt:
+    int i;
+    for(i=this.front; i!=this.back; ++i)
+        if(i==s.sz) i=-1 continue end
+        @raw s:at(i)
+    end
+    @raw s:at(this.back)
+end
+
+@heap[ptr] choice;
+
+fn pub main -> int:
+    @line s;
+
+    for(i=0; i!=s.sz; ++i)
+        ptr t; t.front=i; t.back=i;
+        choice:push(t);
+    end
+
+    for(j=0; j!=s.sz; ++j)
+        if(choice.sz == 1) break end
+
+        ptr best; best := choice:top();
+
+        @vec[ptr] add;
+
+        while(choice.sz&&choice:top():cmp(best)==0)
+            add:push(choice:top());
+            choice:pop();
+        end
+
+        choice:dtor();
+
+        while(add.sz)
+            add:back():next();
+            choice:push(add:back());
+            add:pop();
+        end
+    end
+
+    j = choice:top().front;
+
+    for(i=j; 1; 1)
+        @raw s:at(i)
+        if(++i==s.sz) i=0 end
+        if(i==j) break end
+    end
+
+    @fmt
+end
