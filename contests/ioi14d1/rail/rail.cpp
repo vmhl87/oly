@@ -63,7 +63,8 @@ void findLocation(int N, int first, int location[], int stype[]){
 		if(d1 - 2*cls(ldx) == d2 - (location[rdx]-location[ldx])){
 			stype[i] = 1;
 			location[i] = location[rdx] - d2;
-			ldx = i;
+			// wait maybe this is bug
+			if(location[i] < location[ldx]) ldx = i;
 		// right of rdx
 		}else if(d2 - 2*cls(rdx) == d1 - (location[rdx]-location[ldx])){
 			stype[i] = 2;

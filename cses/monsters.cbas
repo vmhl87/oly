@@ -1,6 +1,6 @@
-#include <iframe>
-#include <bfs>
-#include <pii>
+#include <iiframe>
+#include <ibfs>
+#include <ipii>
 
 @cgmain
 
@@ -25,7 +25,7 @@ fn get(int x, int y) -> node*: return board+y*1000+x end
 @bfs[pii] q;
 @m int n, m;
 
-method inline @bfs[pii]:cons(pii top):
+method @bfs[pii]:cons(pii top):
     if(top.a == 0 || top.b == 0 || top.a == m-1 || top.b == n-1)
         if(get(top.a, top.b).state == 2)
             @fmt "YES";
@@ -83,7 +83,7 @@ method node:poll:
     end
 end
 
-fn pub main -> int:
+fn pub main:
     @poll n m;
 
     for(i=0; i!=n; ++i)
