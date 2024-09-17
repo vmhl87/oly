@@ -1,0 +1,35 @@
+-- START @ 6:30 --
+
+6:48 p2 looks doable with some segtrees
+
+7:07 got the range combiner I think
+
+7:46 first submission to p2 (WA)
+
+7:48 resub with bounds fixed (WA)
+
+7:58 resub with fix for range combination (61 pts, RTE big case)
+
+8:00 resub with bounds (AC)
+
+9:26 finish n^2 for p1 (8, oversight in search)
+
+9:42 fixup ordering, submit (30, RTE from bounds)
+
+9:56 fix another ordering (30 again)
+
+10:00 yet another ordering (30 AGAIN)
+
+10:14 attempt (no difference)
+
+10:20 try for partials on C - some component merge stuff
+
+10:42 submit for C (WA)
+
+11:03 revise approach (42 pts, RTE big case)
+
+11:05 see if passes w/ bounds increase (42 pts, TLE big case)
+
+11:15 give up and try to fight with p1 for some more
+
+-- END @ 11:30 --
