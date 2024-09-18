@@ -1,0 +1,45 @@
+--- START @ 6:45 ---
+
+6:47 read thru p1 and seems doable
+
+6:54 start p1
+
+7:03 writeup trivial case for p1 (forgot edge case)
+
+7:05 submit (still WA sub 3)
+
+7:08 submit with edge case fixed (no)
+
+7:09 fixed now? (still no)
+
+7:13 hopefully this works (20 pts, subt 1-3)
+
+7:21 wrote up next set of tc (get subt 4, sketchy logic so yeah)
+
+7:23 fixed maybe (55 pts, subt 1-6)
+
+7:34 finished full sol? (subt 7, none others)
+
+7:35 corrected wrong mod (subt 1-9, TLE last)
+
+7:39 binary exp (AC)
+
+7:42 uhh what i do now :notlikeduck:
+
+7:59 start working on p2
+
+8:24 p2 subt 234 sol (35 pts, subt 234)
+
+8:40 submit w/ small case solver (subt 1-4 ac)
+
+9:00 ykw ill just bruteforce p3 small case because what else
+
+9:18 submit p3 subt 1 (7 pts ac)
+
+9:52 after thinking about p2 for a while, maybe do some ordering approach?
+
+9:59 i claim that i am screwed on p3
+
+10:09 i tentatively claim that i am also screwed on p2
+
+10:32 yeah im screwed on p2 lmao
