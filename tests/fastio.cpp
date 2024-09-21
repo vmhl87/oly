@@ -31,7 +31,7 @@ struct fastio{
 		if(line_buffer && c == '\n') write();
 	}
 
-	fastio &operator<<(unsigned int i){
+	fastio &operator<<(unsigned i){
 		char buf[11];
 		uint32_t sz = 0;
 		do buf[sz++] = '0' + i%10, i /= 10;
@@ -40,7 +40,7 @@ struct fastio{
 		return *this;
 	}
 
-	fastio &operator<<(int i){
+	fastio &operator<<(signed i){
 		if(i<0) write_char('-'), i = -i;
 		char buf[11];
 		uint32_t sz = 0;
@@ -97,7 +97,9 @@ struct fastio{
 
 	inline void read(){
 		stdin_pos = 0;
-		fgets(stdin_buffer, buffer_size, stdin);
+		// EOF counts as newline, kind of scuffed
+		if(!fgets(stdin_buffer, buffer_size, stdin))
+			stdin_buffer[0] = '\n', stdin_buffer[1] = 0;
 	}
 
 	inline char peek_char(){
@@ -124,9 +126,9 @@ struct fastio{
 
 	inline void flush_stdin() { while(is_whitespace(peek_char())) read_char(); }
 
-	fastio &operator>>(int &i){
+	fastio &operator>>(signed &i){
 		flush_stdin();
-		int sign = 1;
+		signed sign = 1;
 		if(peek_char() == '-') read_char(), sign = -1;
 		uint32_t build = 0;
 		while(is_digit(peek_char())) build = build*10 + read_char()-'0';
@@ -134,7 +136,7 @@ struct fastio{
 		return *this;
 	}
 
-	fastio &operator>>(unsigned int &i){
+	fastio &operator>>(unsigned &i){
 		flush_stdin();
 		uint32_t build = 0;
 		while(is_digit(peek_char())) build = build*10 + read_char()-'0';
