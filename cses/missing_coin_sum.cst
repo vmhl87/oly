@@ -1,0 +1,13 @@
+#include <iiframe>
+#include <icmp>
+
+@cgmain
+
+int[5] a;
+
+fn inline main:
+    int n; @poll n;
+    for(i=0; i<n; ++i) @poll a[i] end
+    @sort a n;
+    @fmt a;
+end
