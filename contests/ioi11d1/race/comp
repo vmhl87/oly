@@ -1,0 +1,1 @@
+g++ grader.cpp race.cpp -o run -O2

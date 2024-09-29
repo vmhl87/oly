@@ -1,0 +1,1 @@
+g++ grader.cpp garden.cpp -o run -O2
