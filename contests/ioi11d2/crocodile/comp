@@ -1,0 +1,1 @@
+g++ grader.cpp crocodile.cpp -o run -O2

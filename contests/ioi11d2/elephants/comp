@@ -1,0 +1,1 @@
+g++ grader.cpp elephants.cpp -o run -O2

@@ -1,0 +1,45 @@
+-- START @ 15:00 --
+
+3:09  work out small cases on A
+
+3:13  start writing tree case on A
+
+3:15  maybe graph case works when decomp to MST
+
+3:16  wait maybe not
+
+3:17  oh maybe it is some sort of multisource almost-bfs
+
+3:25  submit small case A (subtask 1 AC)
+
+3:26  start working on degree-thing for A
+
+3:31  no this doesnt work
+
+3:32  uh no wait it might
+
+3:33  hmmm
+
+3:54  submit spfa-like solution for A (subtask 2 AC)
+
+3:55  resub with subtask 3 bounds (AC)
+
+4:09  might as well bruteforce B
+
+4:19  submit bruteforce B (AC subt 1,2 TLE subt 3)
+
+4:28  better const fact
+
+4:41  hopefully better const (50 pts AC subt 1,2,3)
+
+5:25  3 subtask for C (51 pts subt 1,2,3)
+
+6:30  hopefully 4 subt C (81 pts subt 1,2,3,4)
+
+6:39  theoretically ratio 15 C (82 pts subt 1,2,3,4 partial 5)
+
+6:50  surely B is doable
+
+7:21  so cooked
+
+-- END @ 20:00 --

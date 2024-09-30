@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# I love shell scripts <3
+
+s=$(grep SPLIT both.cpp -n | sed "s/:\/\///" | awk '{print $1}')
+
+head both.cpp -n $s
+head both.cpp -n $s | xclip -i -selection clipboard
+
+read a
+
+tail both.cpp -n $(($(cat both.cpp | wc -l) - $s))
+tail both.cpp -n $(($(cat both.cpp | wc -l) - $s)) | xclip -i -selection clipboard
