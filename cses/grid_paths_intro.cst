@@ -1,0 +1,80 @@
+#include <iframe>
+
+@cgmain
+
+byte[49] path;
+bool[81] vis;
+
+// 2d array wrappers yap yap yap remind me to
+// properly implement in C* someday
+
+fn inline set(int i, int j, bool v):
+    vis[i*9+j] = v
+end
+
+fn inline get(int i, int j) -> bool:
+    return vis[i*9+j]
+end
+
+// bruteforce with a few improvements
+fn dfs(int i, int j, int s) -> int:
+    if(s==48) return i==7 && j==1 end
+
+    // notice that around the current cell (i, j),
+    // there can only be one "section" of unvisited
+    // cells in the ring of 8 cells around it. If
+    // there are multiple sections, then at some of
+    // those will necessarily be unvisitable.
+    int swap = 0;
+    if(get(i-1, j-1) ^ get(i-1, j)) ++swap end
+    if(get(i-1, j) ^ get(i-1, j+1)) ++swap end
+    if(get(i-1, j+1) ^ get(i, j+1)) ++swap end
+    if(get(i, j+1) ^ get(i+1, j+1)) ++swap end
+    if(get(i+1, j+1) ^ get(i+1, j)) ++swap end
+    if(get(i+1, j) ^ get(i+1, j-1)) ++swap end
+    if(get(i+1, j-1) ^ get(i, j-1)) ++swap end
+    if(get(i, j-1) ^ get(i-1, j-1)) ++swap end
+    if(swap>2) return 0 end
+
+    set(i, j, 0);
+
+    int res = 0;
+    byte c = path[s];
+
+    // thing
+    if((c == '?' || c == 'D') && get(i+1, j))
+        res = res + dfs(i+1, j, s+1);
+    end
+
+    if((c == '?' || c == 'R') && get(i, j+1))
+        res = res + dfs(i, j+1, s+1);
+    end
+
+    if((c == '?' || c == 'U') && get(i-1, j))
+        res = res + dfs(i-1, j, s+1);
+    end
+
+    if((c == '?' || c == 'L') && get(i, j-1))
+        res = res + dfs(i, j-1, s+1);
+    end
+
+    set(i, j, 1);
+
+    return res;
+end
+
+fn inline main:
+    @poll path;
+
+    // got lazy, instead of handling boundary
+    // conditions properly I instead just made
+    // the board size 9x9 and marked all edge
+    // cells as unvisitable
+    for(i=1; i<8; ++i)
+        for(j=1; j<8; ++j)
+            set(i, j, 1);
+        end
+    end
+
+    @fmt dfs(1, 1, 0);
+end
