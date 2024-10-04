@@ -18,8 +18,7 @@ fn inline main:
 
     for(i=0; i<8; ++i)
         for(j=0; j<8; ++j)
-            @raw 1 + ((order[i*8+j]+o) & 63) sp;
-        end
-        @fmt;
+            @raw 1 + ((order[i<<3|j]+o) & 63) sp;
+        end @fmt
     end
 end
