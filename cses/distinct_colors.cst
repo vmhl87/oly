@@ -1,0 +1,67 @@
+#include <iframe>
+#include <vec>
+#include <map>
+
+#define nx adj[i].d[j]
+
+@cgmain
+
+@vec[int][2e5] adj;
+@m int[2e5] c, res;
+int n;
+
+//\\// inverted segtree
+    int[4e5] tree;
+
+    fn inline add(int l, int r):
+        l=l+n; r=r+n;
+        while(l<r)
+            if(l&1) ++tree[l++] end
+            if(r&1) ++tree[--r] end
+            l=l/2; r=r/2;
+        end
+    end
+
+    fn inline get(int i) -> int:
+        int res = 0;
+        for(i=i+n; i; i=i/2) res = res + tree[i] end
+        return res;
+    end
+
+//\\// euler tour
+    @map[int int] lastoc;
+    int pos;
+
+    fn inline upd(int c):
+        add(lastoc:get(c), pos+1);
+        lastoc:set(c, pos+1);
+    end
+
+    fn inline query(int l) -> int:
+        return get(l);
+    end
+
+    fn dfs(int i, int p):
+        upd(c[i]);
+
+        @m int base=pos++, j;
+        for(j=0; j<adj[i].sz; ++j) if(nx!=p)
+            dfs(nx, i);
+        end end
+
+        res[i] = query(base);
+    end
+
+fn inline main:
+    @poll n;
+    for(i=0; i<n; ++i) @poll c[i] end
+    for(i=1; i<n; ++i)
+        @m int a, b; @poll a b;
+        adj[a-1]:push(b-1);
+        adj[b-1]:push(a-1);
+    end
+
+    dfs(0, -1);
+
+    for(i=0; i<n; ++i) @raw res[i] " \n"[i==n-1] end
+end

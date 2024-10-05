@@ -6,7 +6,7 @@
 @cgmain
 
 @vec[int][2e5] adj;
-@m int n, k;
+@m int n, k1, k2;
 
 bool[2e5] vis;
 
@@ -69,15 +69,16 @@ fn divide(int i):
 
     vis[i] = 1;
 
-    if(count(i, -1) >= k)
+    if(count(i, -1) >= k2)
         int j;
-        for(j=0; j<=k; ++j) final[j] = 0 end
+        for(j=0; j<=k2; ++j) final[j] = 0 end
 
         for(j=0; j<adj[i].sz; ++j) if(!vis[nxt])
             maxd = 0;
 
             depths(nxt, i, 1);
 
+            // UPD
             int l;
             for(l=0; l<=maxd; ++l)
                 if(l+l>k) break end
@@ -92,7 +93,8 @@ fn divide(int i):
 
         ++final[0];
 
-        for(j=0; j+j<=k; ++j)
+        // UPD
+        for(j=0; j+j<=k2; ++j)
             res = res + final[j]*final[k-j] * (1 + (j+j!=k))
         end
 
@@ -103,7 +105,7 @@ fn divide(int i):
 end
 
 fn inline main:
-    @poll n k;
+    @poll n k1 k2;
 
     for(i=1; i<n; ++i)
         @m int a, b; @poll a b;
