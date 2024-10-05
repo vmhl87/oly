@@ -7,6 +7,7 @@
 
 @vec[int][2e5] adj;
 @m int n, k1, k2;
+ll res;
 
 bool[2e5] vis;
 
@@ -48,41 +49,46 @@ bool[2e5] vis;
         return pick(i, -1, sz);
     end
 
-ll[2e5+1] build;
-ll[2e5+1] final;
-int maxd;
-ll res;
+// divide and conquer
+    ll[2e5+1] build;
+    ll[2e5+1] final;
+    int maxd;
 
-fn depths(int i, int p, int d):
-    if(maxd < d) maxd = d end
-    if(d > k) return end
-    ++build[d];
+    fn depths(int i, int p, int d):
+        if(maxd < d) maxd = d end
+        if(d > k2) return end
+        ++build[d];
 
-    int j;
-    for(j=0; j<adj[i].sz; ++j) if(nxt!=p && !vis[nxt])
-        depths(nxt, i, d+1);
-    end end
-end
-
-fn divide(int i):
-    i = centroid(i);
-
-    vis[i] = 1;
-
-    if(count(i, -1) >= k2)
         int j;
-        for(j=0; j<=k2; ++j) final[j] = 0 end
+        for(j=0; j<adj[i].sz; ++j) if(nxt!=p && !vis[nxt])
+            depths(nxt, i, d+1);
+        end end
+    end
 
+    fn divide(int i):
+        i = centroid(i);
+
+        vis[i] = 1;
+
+        int sz=count(i, -1);
+        if(sz > k2) sz = k2 end
+        if(sz < k1) return end
+
+        int j;
         for(j=0; j<adj[i].sz; ++j) if(!vis[nxt])
-            maxd = 0;
+            maxd = 0; depths(nxt, i, 1);
 
-            depths(nxt, i, 1);
-
-            // UPD
             int l;
-            for(l=0; l<=maxd; ++l)
-                if(l+l>k) break end
-                res = res - build[l]*build[k-l] * (1 + (l+l!=k))
+            ll r = 0;
+            for(l=k1; l<=maxd; ++l) r = r + build[l] end
+            for(l=0; l<k1; ++l)
+                res = res - build[l]*r;
+                r = r - build[k2-l];
+                r = r + build[k1-l-1];
+            end
+            for(l=k1; l<=maxd; ++l)
+                res = res - build[l]*r;
+                r = r - build[k2-l];
             end
 
             for(l=0; l<=maxd; ++l)
@@ -93,16 +99,24 @@ fn divide(int i):
 
         ++final[0];
 
-        // UPD
-        for(j=0; j+j<=k2; ++j)
-            res = res + final[j]*final[k-j] * (1 + (j+j!=k))
+        ll r = 0;
+        for(j=k1; j<=sz; ++j) r = r + final[j] end
+        for(j=0; j<k1; ++j)
+            res = res + final[j]*r;
+            r = r - final[k2-j];
+            r = r + final[k1-j-1];
         end
+        for(j=k1; j<=sz; ++j)
+            res = res + final[j]*r;
+            r = r - final[k2-j];
+        end
+
+        for(j=0; j<=sz; ++j) final[j] = 0 end
 
         for(j=0; j<adj[i].sz; ++j) if(!vis[nxt])
             divide(nxt);
         end end
     end
-end
 
 fn inline main:
     @poll n k1 k2;
@@ -111,6 +125,13 @@ fn inline main:
         @m int a, b; @poll a b;
         adj[a-1]:push(b-1);
         adj[b-1]:push(a-1);
+    end
+
+    // extreme cheese
+    if(k1==1 && k2==n)
+        res = n; res = res * (n-1);
+        @fmt res/2;
+        return;
     end
 
     divide(0);
