@@ -11,7 +11,7 @@ ll[500*500] ans;
 fn inline get(int x, int y) -> ll: return ans[x*500+y] end
 fn inline set(int x, int y, ll v): ans[x*500+y] = v end
 
-fn pub main -> int:
+fn inline main:
     @m int n, m, o; @poll n m o;
     while(m--)
         @m int a, b, c; @poll a b c;
@@ -19,9 +19,8 @@ fn pub main -> int:
         adj[b-1]:push(mpii(a-1, c));
     end
 
-    @heap[pll] q;
-
     for(i=0; i!=n; ++i)
+        @heap[pll] q;
         q:push(mpll(1, i));
         while(q.sz)
             ll cost = q:top().a;
@@ -29,9 +28,9 @@ fn pub main -> int:
             q:pop();
             if(get(i, x)) continue end
             set(i, x, cost);
-            for(j=0; j!=adj[x].sz; ++j)
+            for(j=0; j!=adj[x].sz; ++j) if(!get(i, adj[x].d[j].a))
                 q:push(mpll(cost+adj[x].d[j].b, adj[x].d[j].a))
-            end
+            end end
         end
     end
 
