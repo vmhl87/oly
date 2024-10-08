@@ -1,41 +1,101 @@
-#include <iframe>
-#include <heap>
-#include <vec>
-#include <pii>
+// wait this doesn't work
+// mst is not always best
+// for some reasons
+
+#include <iiframe>
+#include <icmp>
+#include <ipii>
+#include <idsu>
+#include <ivec>
+
+#define nxt adj[i].d[j]
 
 @cgmain
 
-@vec[pii][500] adj;
-ll[500*500] ans;
+class edge
+    int a
+    int b
+    int c
+end
 
-fn inline get(int x, int y) -> ll: return ans[x*500+y] end
-fn inline set(int x, int y, ll v): ans[x*500+y] = v end
+method inline edge:poll:
+    @poll this.a this.b this.c;
+    --this.a; --this.b;
+end
+
+method inline edge:cmp(edge o) -> int:
+    if(this.c > o.c) return 1
+    elif(this.c < o.c) return -1
+    else return 0 end
+end
+
+edge[250000] e;
+dsu d;
+
+@vec[pii][500] adj;
+int[500*10] binlift;
+ll[500] depth;
+bool[500] vis;
+
+fn inline get(int i, int d) -> int:
+    return binlift[i*10 + d] end
+
+fn inline set(int i, int d, int v) -> int:
+    binlift[i*10 + d] = v end
+
+fn inline lca(int a, int b) -> int:
+    if(depth[a] < depth[b]) return lca(b, a) end
+
+    int j;
+    for(j=9; j-1; --j) if(depth[get(a, j)] >= depth[b])
+        a = get(a, j) end end
+
+    if(a == b) return a end
+
+    for(j=9; j-1; --j) if(get(a, j) != get(b, j))
+        a = get(a, j); b = get(b, j) end end
+
+    return get(a, 0)
+end
+
+fn dfs(int i, int p):
+    set(i, 0, p);
+    vis[i] = 1;
+
+    int j;
+    for(j=0; j<adj[i].sz; ++j) if(!vis[nxt.a])
+        depth[nxt.a] = depth[i] + nxt.b;
+        dfs(nxt.a, i) end end
+end
+
+method inline edge:proc:
+    if(d:root(this.a) != d:root(this.b))
+        d:merge(this.a, this.b);
+        adj[this.a]:push(mpii(this.b, this.c));
+        adj[this.b]:push(mpii(this.a, this.c));
+    end
+end
 
 fn inline main:
-    @m int n, m, o; @poll n m o;
-    while(m--)
-        @m int a, b, c; @poll a b c;
-        adj[a-1]:push(mpii(b-1, c));
-        adj[b-1]:push(mpii(a-1, c));
-    end
+    @m int n, m, q; @poll n m q;
+    for(i=0; i<m; ++i) @poll e[i] end
 
-    for(i=0; i!=n; ++i)
-        @heap[pll] q;
-        q:push(mpll(1, i));
-        while(q.sz)
-            ll cost = q:top().a;
-            int x = q:top().b;
-            q:pop();
-            if(get(i, x)) continue end
-            set(i, x, cost);
-            for(j=0; j!=adj[x].sz; ++j) if(!get(i, adj[x].d[j].a))
-                q:push(mpll(cost+adj[x].d[j].b, adj[x].d[j].a))
-            end end
-        end
-    end
+    @sort e m;
 
-    while(o--)
-        @m int a, b; @poll a b;
-        @fmt get(a-1, b-1)-1
+    d:init(n);
+    for(i=0; i<m; ++i) e[i]:proc() end
+
+    for(i=0; i<n; ++i) if(!vis[i])
+        dfs(i, i) end end
+
+    for(i=1; i<10; ++i) for(j=0; j<n; ++j)
+        set(j, i, get(get(j, i-1), i-1)) end end
+
+    while(q--)
+        @m int a, b; @poll a b; --a; --b;
+        if(d:root(a) == d:root(b))
+            int l = lca(a, b);
+            @fmt depth[a] + depth[b] - 2*depth[l]
+        else @fmt -1 end
     end
 end
