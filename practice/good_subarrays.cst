@@ -8,11 +8,13 @@ int[1e5+1] ps;
 fn inline test:
     int n; @poll n;
 
+    // build psum
     for(i=0; i<n; ++i)
         byte a; @poll a;
         ps[i+1] = ps[i] + a - '0' - 1;
     end
 
+    // this is the dictionary
     @map[int int] ct;
     ll res = 0;
 

@@ -1,101 +1,49 @@
-// wait this doesn't work
-// mst is not always best
-// for some reasons
-
-#include <iiframe>
-#include <icmp>
-#include <ipii>
-#include <idsu>
-#include <ivec>
-
-#define nxt adj[i].d[j]
+#include <iframe>
 
 @cgmain
 
-class edge
-    int a
-    int b
-    int c
+ll[500*500] dist;
+@m int n, m, q;
+
+fn inline set(int i, int j, ll v):
+    dist[i*500+j] = v;
+    dist[j*500+i] = v;
 end
 
-method inline edge:poll:
-    @poll this.a this.b this.c;
-    --this.a; --this.b;
-end
+fn inline get(int i, int j) -> ll:
+    return dist[i*500+j] end
 
-method inline edge:cmp(edge o) -> int:
-    if(this.c > o.c) return 1
-    elif(this.c < o.c) return -1
-    else return 0 end
-end
-
-edge[250000] e;
-dsu d;
-
-@vec[pii][500] adj;
-int[500*10] binlift;
-ll[500] depth;
-bool[500] vis;
-
-fn inline get(int i, int d) -> int:
-    return binlift[i*10 + d] end
-
-fn inline set(int i, int d, int v) -> int:
-    binlift[i*10 + d] = v end
-
-fn inline lca(int a, int b) -> int:
-    if(depth[a] < depth[b]) return lca(b, a) end
-
-    int j;
-    for(j=9; j-1; --j) if(depth[get(a, j)] >= depth[b])
-        a = get(a, j) end end
-
-    if(a == b) return a end
-
-    for(j=9; j-1; --j) if(get(a, j) != get(b, j))
-        a = get(a, j); b = get(b, j) end end
-
-    return get(a, 0)
-end
-
-fn dfs(int i, int p):
-    set(i, 0, p);
-    vis[i] = 1;
-
-    int j;
-    for(j=0; j<adj[i].sz; ++j) if(!vis[nxt.a])
-        depth[nxt.a] = depth[i] + nxt.b;
-        dfs(nxt.a, i) end end
-end
-
-method inline edge:proc:
-    if(d:root(this.a) != d:root(this.b))
-        d:merge(this.a, this.b);
-        adj[this.a]:push(mpii(this.b, this.c));
-        adj[this.b]:push(mpii(this.a, this.c));
-    end
+fn inline good(int i, int j, int k) -> bool:
+    if(get(i, k) < 0 || get(k, j) < 0)
+        return 0 end
+    if(get(i, j) < 0) return 1 end
+    return get(i, j) > get(i, k) + get(k, j);
 end
 
 fn inline main:
-    @m int n, m, q; @poll n m q;
-    for(i=0; i<m; ++i) @poll e[i] end
+    @poll n m q;
+    for(i=0; i<n; ++i) for(j=0; j<n; ++j)
+        set(i, j, -1) end end
+    for(i=0; i<n; ++i) set(i, i, 0) end
 
-    @sort e m;
+    while(m--)
+        int c; @poll i j c; --i; --j;
+        if(get(i, j) > c || get(i, j) == -1)
+            set(i, j, c) end
+    end
 
-    d:init(n);
-    for(i=0; i<m; ++i) e[i]:proc() end
-
-    for(i=0; i<n; ++i) if(!vis[i])
-        dfs(i, i) end end
-
-    for(i=1; i<10; ++i) for(j=0; j<n; ++j)
-        set(j, i, get(get(j, i-1), i-1)) end end
+    int k;
+    for(k=0; k<n; ++k)
+        for(i=0; i<n; ++i)
+            for(j=0; j<n; ++j)
+                if(good(i, j, k))
+                    set(i, j, get(i, k) + get(k, j));
+                end
+            end
+        end
+    end
 
     while(q--)
-        @m int a, b; @poll a b; --a; --b;
-        if(d:root(a) == d:root(b))
-            int l = lca(a, b);
-            @fmt depth[a] + depth[b] - 2*depth[l]
-        else @fmt -1 end
+        @poll i j @fmt get(i-1, j-1)
     end
 end

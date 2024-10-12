@@ -1,0 +1,112 @@
+#include <iframe>
+#include <vec>
+
+@cgmain
+
+ll[300*300] dist;
+int n;
+
+fn inline set(int i, int j, ll v):
+    dist[i*300+j] = v;
+    dist[j*300+i] = v;
+end
+
+fn inline get(int i, int j) -> ll:
+    return dist[i*300+j] end
+
+fn inline tset(int i, int j, ll v):
+    if(get(i, j) < 0 || get(i, j) > v)
+        set(i, j, v)
+    end
+end
+
+fn inline fix(int k):
+    @m int i, j;
+    for(i=0; i<n; ++i)
+        for(j=0; j<n; ++j)
+            if(get(i, k) >= 0 && get(k, j) >= 0)
+                if(get(i, j) < 0)
+                    set(i, j, get(i, k) + get(k, j))
+                elif(get(i, j) > get(i, k) + get(k, j))
+                    set(i, j, get(i, k) + get(k, j))
+                end
+            end
+        end
+    end
+end
+
+class edge
+    int u
+    int v
+    int c
+end
+
+method inline edge:add:
+    tset(this.u, this.v, this.c);
+    fix(this.u); fix(this.v);
+end
+
+method inline edge:del:
+    set(this.u, this.v, -1);
+end
+
+method inline edge:poll:
+    @poll this.u this.v this.c;
+    set(--this.u, --this.v, this.c);
+end
+
+edge[5e4] e;
+
+class qry
+    int t
+    int x
+    int y
+end
+
+method inline qry:poll:
+    @poll this.t;
+    if(this.t&1)
+        @poll this.x;
+        e[--this.x]:del();
+    else
+        @poll this.x this.y;
+        --this.x; --this.y;
+    end
+end
+
+method inline qry:get -> ll:
+    return get(this.x, this.y)
+end
+
+qry[2e5] qr;
+
+fn inline main:
+    @m int m, q; @poll n m q;
+
+    for(i=0; i<n; ++i)
+        for(j=0; j<n; ++j)
+            set(i, j, -1) end
+        set(i, i, 0) end
+
+    for(i=0; i<m; ++i)
+        @poll e[i] end
+
+    i=q;
+    while(q--) @poll qr[q] end
+    q=i;
+
+    for(i=0; i<n; ++i)
+        fix(i) end
+
+    @vec[ll] res;
+
+    for(i=0; i<q; ++i)
+        if(qr[i].t&1)
+            e[qr[i].x]:add();
+        else
+            res:push(qr[i]:get());
+        end
+    end
+
+    while(res.sz) @fmt res:back(); res:pop() end
+end
