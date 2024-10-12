@@ -1,0 +1,47 @@
+#include <iframe>
+#include <vec>
+#include <bfs>
+
+#define nxt adj[top].d[j]
+
+@cgmain
+
+@vec[int][1e5] adj;
+bool[1e5] vis;
+int[1e5] root;
+
+method inline @bfs[int]:cons(int top):
+    for(j=0; j<adj[top].sz; ++j) if(!vis[nxt])
+        this:push(nxt);
+        root[nxt] = top;
+        vis[nxt] = 1;
+    end end
+end
+
+fn inline main:
+    @m int n, m; @poll n m;
+
+    for(i=0; i<m; ++i)
+        @m int u, v; @poll u v;
+        adj[--u]:push(--v);
+        adj[v]:push(u);
+    end
+
+    @bfs[int] q;
+    q:push(0);
+    q:spin();
+
+    if(vis[n-1])
+        @vec[int] res;
+        for(i=n-1; i; i=root[i])
+            res:push(i) end
+
+        @raw res.sz+1 ln 1 sp;
+        while(res.sz)
+            @raw res:back()+1 " \n"[res.sz==1];
+            res:pop();
+        end
+    else
+        @fmt "IMPOSSIBLE"
+    end
+end

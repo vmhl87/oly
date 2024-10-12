@@ -1,0 +1,71 @@
+#include <iframe>
+#include <math>
+#include <set>
+
+@cgmain
+
+int[2e5] a;
+
+fn inline main:
+    @m int n, k; @poll n k;
+    for(i=0; i<n; ++i) @poll a[i] end
+
+    @set[int] hi;
+    @set[int] lo;
+
+    for(i=0; i<k; ++i) hi:add(a[i]) end
+    int mid = hi:first().d; hi:idel(hi:first());
+    while(hi.sz > k/2)
+        lo:add(mid); mid = hi:first().d; hi:idel(hi:first());
+    end
+
+    ll cost = 0;
+    for(i=0; i<k; ++i)
+        cost = cost + @abs(a[i] - mid)
+    end
+
+    @raw cost;
+
+    for(i=0; i+k<n; ++i)
+        if(a[i+k] > mid) hi:add(a[i+k])
+        else lo:add(a[i+k]) end
+        cost = cost + @abs(a[i+k] - mid);
+
+        if(a[i] > mid)
+            hi:del(a[i]);
+            cost = cost - (a[i] - mid);
+        elif(a[i] < mid)
+            lo:del(a[i]);
+            cost = cost - (mid - a[i]);
+        elif(hi.sz)
+            ll diff = hi:first().d - mid;
+            hi:idel(hi:first());
+            cost = cost + diff*(lo.sz - hi.sz - 1);
+            mid = mid + diff;
+        else
+            ll diff = mid - lo:last().d;
+            lo:idel(lo:last());
+            cost = cost + diff*(hi.sz - lo.sz - 1);
+            mid = mid - diff;
+        end
+
+        while(hi.sz > k/2)
+            ll diff = hi:first().d - mid;
+            hi:idel(hi:first());
+            cost = cost + diff*(lo.sz - hi.sz);
+            lo:add(mid);
+            mid = mid + diff;
+        end
+
+        while(hi.sz < k/2)
+            ll diff = mid - lo:last().d;
+            lo:idel(lo:last());
+            cost = cost + diff*(hi.sz - lo.sz);
+            hi:add(mid);
+            mid = mid - diff;
+        end
+
+        @raw sp cost;
+
+    end@fmt
+end
