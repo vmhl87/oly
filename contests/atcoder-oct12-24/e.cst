@@ -1,0 +1,67 @@
+#include <iframe>
+
+@cgmain
+
+@m int[501*501] dp, nxt;
+
+fn inline get(int i, int j) -> int:
+    return dp[i*501+j] end
+
+fn inline set(int i, int j, int v):
+    if(i >= 501 || j >= 501) return end
+    if(nxt[i*501+j] > v)
+        nxt[i*501+j] = v
+    end
+end
+
+fn inline init:
+    int i;
+    for(i=0; i<501*501; ++i)
+        nxt[i] = 101 end
+end
+
+fn inline swap:
+    int i;
+    for(i=0; i<501*501; ++i)
+        dp[i] = nxt[i] end
+end
+
+@m int[100] a, b;
+
+fn inline main:
+    int n; @poll n;
+
+    int sum = 0;
+    for(i=0; i<n; ++i)
+        @poll a[i] b[i];
+        sum = sum + b[i];
+    end
+
+    if(sum%3) @fmt -1 return end
+
+    sum = sum/3;
+
+    for(i=0; i<501*501; ++i)
+        dp[i] = 101 end
+    dp[0] = 0;
+
+    for(i=0; i<n; ++i)
+        init();
+
+        @m int x, y;
+        for(x=0; x<=sum; ++x)
+            for(y=0; y<=sum; ++y)
+                int v = get(x, y);
+                set(x+b[i], y, v+(a[i]!=1));
+                set(x, y+b[i], v+(a[i]!=2));
+                set(x, y, v+(a[i]!=3));
+            end
+        end
+
+        swap();
+    end
+
+    int v = get(sum, sum);
+    if(v > 100) @fmt -1
+    else @fmt v end
+end
