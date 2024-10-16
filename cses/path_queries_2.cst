@@ -1,0 +1,155 @@
+#include <iframe>
+#include <math>
+#include <vec>
+
+#define all j=0;j<adj[i].sz;++j
+#define nxt adj[i].d[j]
+
+@cgmain
+
+@vec[int][2e5] adj;
+@m int[2e5] v, hv, sz, idx, dep;
+
+//\\// binlift
+    int[2e5*18] lift;
+
+    fn inline get(int i, int d) -> int:
+        return lift[i*18+d] end
+
+    fn inline set(int i, int d, int v):
+        lift[i*18+d] = v end
+
+    fn inline lca(int a, int b) -> int:
+        if(dep[a] < dep[b])
+            i = a; a = b; b = i
+        end
+
+        for(i=17; i>=0; --i)
+            if(dep[get(a, i)] >= dep[b])
+                a = get(a, i) end
+        end
+
+        if(a != b)
+            for(i=17; i>=0; --i)
+                if(get(a, i) != get(b, i))
+                    a = get(a, i);
+                    b = get(b, i);
+                end
+            end
+
+            return get(a, 0);
+        end
+
+        return a
+    end
+
+fn dfs(int i, int p):
+    idx[i] = -1;
+    hv[i] = -1;
+    sz[i] = 1;
+
+    set(i, 0, i);
+
+    int j;
+    for(all) if(nxt!=p)
+        dep[nxt] = dep[i] + 1;
+        dfs(nxt, i);
+        set(nxt, 0, i);
+        sz[i] = sz[i] + sz[nxt];
+    end end
+
+    for(all) if(nxt!=p && sz[nxt] >= sz[i]/2)
+        hv[i] = nxt break end end
+end
+
+//\\// segtree
+    int[4e5] tree;
+
+    fn inline upd(int i, int v):
+        i = i + 2e5;
+        tree[i] = v;
+        i = i/2;
+
+        for(0; i; i=i/2)
+            tree[i] = @max(tree[i*2], tree[i*2-1])
+        end
+    end
+
+    fn inline max(int l, int r) -> int:
+        int res = tree[l+(int)2e5];
+
+        l = l + 2e5 + 1;
+        r = r + 2e5 + 1;
+
+        while(l < r)
+            if(l&1) res = @max(res, tree[l++]) end
+            if(r&1) res = @max(res, tree[--r]) end
+
+            l = l/2;
+            r = r/2;
+        end
+
+        return res;
+    end
+
+int[2e5] jmp;
+int now;
+
+fn fill(int i, int x, int p):
+    idx[i] = now++;
+    tree[(int)2e5+idx[i]] = v[i];
+    jmp[i] = x;
+
+    if(hv[i] >= 0) fill(hv[i], x, i) end
+
+    int j;
+    for(all) if(nxt!=p && nxt!=hv[i])
+        fill(nxt, nxt, i) end end
+end
+
+fn inline q(int a, int b) -> int:
+    int res = v[a];
+
+    while(jmp[a] != jmp[b])
+        res = @max(res, max(idx[jmp[a]], idx[a]));
+        a = get(jmp[a], 0);
+    end
+
+    return @max(res, max(idx[b], idx[a]));
+end
+
+fn inline main:
+    @m int n, q; @poll n q;
+    for(i=0; i<n; ++i) @poll v[i] end
+
+    for(i=1; i<n; ++i)
+        @m int u, v; @poll u v;
+        adj[u-1]:push(v-1);
+        adj[v-1]:push(u-1);
+    end
+
+    dfs(0, 0);
+
+    for(i=1; i<18; ++i) for(j=0; j<n; ++j)
+        set(j, i, get(get(j, i-1), i-1))
+    end end
+
+    fill(0, 0, 0);
+
+    for(i=2e5-1; i; --i)
+        tree[i] = @max(tree[i*2], tree[i*2+1])
+    end
+
+    while(q--)
+        @m int a, b, c; @poll a b c;
+
+        if(a&1)
+            upd(idx[--b], c);
+            v[b] = c;
+        else
+            a = lca(--b, --c);
+            int res = @max(q(b, a), q(c, a));
+            @raw res " \n"[q==0];
+        end
+    end
+end

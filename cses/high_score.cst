@@ -1,0 +1,86 @@
+#include <iframe>
+#include <heap>
+#include <vec>
+#include <pii>
+
+#define next j=0;j<adj[t].sz;++j
+#define nxt adj[t].d[j]
+
+@cgmain
+
+@vec[pii][2500] adj;
+@vec[pii][2500] bdj;
+
+@heap[pll] q;
+int[2500] ct;
+ll[2500] dist;
+bool[2500] in;
+
+bool[2500] a;
+bool[2500] b;
+
+fn dfs1(int i):
+    a[i] = 1;
+    int j;
+    for(j=0; j<adj[i].sz; ++j)
+        if(!a[adj[i].d[j].a])
+            dfs1(adj[i].d[j].a);
+        end
+    end
+end
+
+fn dfs2(int i):
+    b[i] = 1;
+    int j;
+    for(j=0; j<bdj[i].sz; ++j)
+        if(!b[bdj[i].d[j].a])
+            dfs2(bdj[i].d[j].a);
+        end
+    end
+end
+
+class spfa
+    int sz
+end
+
+spfa s;
+
+method inline spfa:push(int x):
+    if(!a[x] || !b[x]) return end
+    if(in[x]) return end
+    ++this.sz; in[x] = 1;
+    if(ct[x]++ > 2500) @fmt -1; exit(0) end
+    q:push(mpll(-dist[x], x));
+end
+
+method inline spfa:pop -> int:
+    int res = q:top().b; q:pop();
+    --this.sz; in[res] = 0;
+    return res;
+end
+
+fn inline main:
+    @m int n, m; @poll n m;
+
+    while(m--)
+        @m int a, b, c; @poll a b c;
+        adj[a-1]:push(mpii(b-1, c));
+        bdj[b-1]:push(mpii(a-1, c));
+    end
+
+    for(i=1; i<n; ++i) dist[i] = -1e16 end
+
+    dfs1(0); dfs2(n-1);
+
+    s:push(0);
+
+    while(s.sz)
+        int t = s:pop();
+        for(next) if(dist[nxt.a] < dist[t] + nxt.b)
+            dist[nxt.a] = dist[t] + nxt.b;
+            s:push(nxt.a);
+        end end
+    end
+
+    @fmt dist[n-1];
+end

@@ -1,0 +1,78 @@
+#include <iframe>
+#include <math>
+#include <vec>
+
+#define all j=0;j<adj[i].sz;++j
+#define nxt adj[i].d[j]
+
+@cgmain
+
+@vec[int][2e5] adj;
+int[2e5] d;
+int n;
+
+//\\// euler tour
+    int[8e5] tree;
+    @m int[2e5] first, last;
+    int idx;
+
+    fn inline visit(int i):
+        tree[(int)4e5+idx] = d[i];
+
+        if(first[i] == 0) first[i] = idx end
+        last[i] = idx++;
+    end
+
+    fn inline build:
+        for(i=4e5-1; i; --i)
+            tree[i] = @min(tree[i*2], tree[i*2+1])
+        end
+    end
+
+    fn inline rmq(int l, int r) -> int:
+        int res = tree[(int)4e5+l];
+
+        l = l + 4e5 + 1;
+        r = r + 4e5 + 1;
+
+        while(l<r)
+            if(l&1) res = @min(res, tree[l++]) end
+            if(r&1) res = @min(res, tree[--r]) end
+            l = l/2;
+            r = r/2;
+        end
+
+        return res;
+    end
+
+    fn inline lca(int a, int b) -> int:
+        return rmq(@min(first[a], first[b]), @max(last[a], last[b]))
+    end
+
+fn dfs(int i, int p):
+    visit(i);
+
+    int j;
+    for(all) if(nxt!=p)
+        d[nxt] = d[i] + 1;
+        dfs(nxt, i);
+        visit(i);
+    end end
+end
+
+fn inline main:
+    int q; @poll n q;
+
+    for(i=1; i<n; ++i)
+        @m int u, v; @poll u v;
+        adj[--u]:push(--v);
+        adj[v]:push(u);
+    end
+
+    dfs(0, 0); build;
+
+    while(q--)
+        @poll i j; --i; --j;
+        @fmt d[i] + d[j] - lca(i, j)*2;
+    end
+end

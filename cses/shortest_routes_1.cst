@@ -1,0 +1,65 @@
+#include <iframe>
+#include <vec>
+#include <pii>
+
+#define nxt adj[t].d[j]
+
+@cgmain
+
+@vec[pii][1e5] adj;
+bool[1e5] inq;
+ll[1e5] dist;
+
+class rdq
+    @vec[int] v
+    uint sz
+end
+
+method inline rdq:ctor: this.v:ctor(); this.sz = 0 end
+
+method inline rdq:push(int i):
+    if(inq[i]) return end
+    inq[i] = 1;
+    this.v:push(i);
+    ++this.sz;
+end
+
+method inline rdq:pop -> int:
+    ll idx; @emit"$idx = rand();";
+    idx = idx % this.sz; --this.sz;
+    int res = this.v.d[idx]; inq[res] = 0;
+    this.v.d[idx] = this.v:back(); this.v:pop();
+    return res;
+end
+
+fn inline main:
+    @m int n, m; @poll n m;
+
+    for(i=0; i<m; ++i)
+        @m int a, b, c; @poll a b c;
+        adj[a-1]:push(mpii(b-1, c));
+    end
+
+    for(i=0; i<n; ++i)
+        dist[i] = 1e15
+    end
+
+    rdq q;
+    q:push(0);
+    dist[0] = 0;
+
+    while(q.sz)
+        int t = q:pop();
+
+        for(j=0; j<adj[t].sz; ++j)
+            if(dist[nxt.a] > dist[t] + nxt.b)
+                dist[nxt.a] = dist[t] + nxt.b;
+                q:push(nxt.a);
+            end
+        end
+    end
+
+    for(i=0; i<n; ++i)
+        @raw dist[i] " \n"[i==n-1]
+    end
+end
