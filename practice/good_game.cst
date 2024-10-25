@@ -1,0 +1,142 @@
+#include <iframe>
+#include <vec>
+
+@cgmain
+
+class move
+    int idx
+    int t
+end
+
+method move:fmt: @fmt this.idx this.t end
+
+move[1] _tmp;
+fn mmov(int idx, int t) -> move*:
+    _tmp[0].idx = idx; _tmp[0].t = t;
+    return _tmp end
+
+method inline @vec[move]:out:
+    @fmt this.sz;
+    int i;
+    for(i=0; i<this.sz; ++i)
+        @raw this.d[i] end
+end
+
+class node
+    int t
+    int len
+    int idx
+    int next
+    int prev
+end
+
+method inline node:poll:
+    this.len = 1;
+    byte c; @poll c;
+    if(c=='A') this.t = 0
+    else this.t = 1 end end
+
+//\\// linked list stuff
+    node[1e6] seq;
+    int n;
+
+    method node:contract:
+        if(this.next != n)
+            seq[this.next]:contract();
+            if(this.t == seq[this.next].t)
+                this.len = seq[this.next].len+1;
+                this.next = seq[this.next].next
+            end
+        end
+    end
+
+    method node:rev:
+        if(this.next != n)
+            seq[this.next]:rev();
+            seq[this.next].prev = this.idx;
+        end
+    end
+
+    method node:chain:
+        @raw "(";
+        if(this.t) @raw "B" else @raw "A" end
+        @raw this.idx sp this.len ")";
+
+        if(this.next == n)
+            @raw ln
+        else
+            @raw " -> ";
+            seq[this.next]:chain();
+        end
+    end
+
+//\\// segtree
+    int[2e6] tree;
+
+    fn inline build:
+        for(i=0; i<n; ++i)
+            tree[i+n] = i+1
+        end
+    end
+
+    fn inline realidx(int i) -> int:
+        int res = 0;
+        for(i=i+n; i; i=i/2)
+            res = res + tree[i]
+        end
+        return res;
+    end
+
+    fn inline shift(int i, int v):
+        i = i+n;
+        int j = n+n;
+        while(i<j)
+            if(i&1) tree[i] = tree[i] - v; ++i end
+            if(j&1) --j; tree[j] = tree[j] - v end
+            i=i/2; j=j/2;
+        end
+    end
+
+fn inline main:
+    @poll n;
+
+    for(i=0; i<n; ++i)
+        @poll seq[i];
+        seq[i].idx = i;
+        seq[i].next = i+1;
+        seq[i].prev = i-1;
+    end
+
+    build;
+
+    seq[0]:contract();
+    seq[0]:rev();
+
+    @vec[move] res;
+
+    int p=0;
+    while(p!=n)
+        if(seq[p].len == 1)
+            p = seq[p].next
+        else
+            shift(p+1, seq[p].len);
+            while(seq[p].len > 1)
+                if(seq[p].len == 3)
+                    res:push(mmov(realidx(p), 3))
+                else
+                    res:push(mmov(realidx(p), 2))
+                end
+                seq[p].len = seq[p].len - 2;
+            end
+            p = seq[p].prev;
+            if(p<0) break end
+            if(seq[seq[p].next].next != n)
+                int other = seq[seq[p].next].next;
+                seq[p].len = seq[p].len + seq[other].len;
+                seq[p].next = seq[other].next;
+            end
+        end
+    end
+
+    res:out();
+end
