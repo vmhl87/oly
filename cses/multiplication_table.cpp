@@ -1,15 +1,15 @@
 #include <iostream>
 
+using ll = long long;
+
 int main(){
-	int n; std::cin >> n;
+	ll n; std::cin >> n;
 
-	// diag = n numbers
-	// pick the (n+1)/2 element
-	// its shift is determined by
-	//     ((n+1)/2 - 1)/2
-	// and then compute
-	
-	int shift = ((n+1)/2 - 1)/2;
+	ll left = 1 + (n*n)/2;
 
-	std::cout << (long long)(n-shift)*(long long)(shift+1) << '\n';
+	for(ll i=1; i<=n*n; ++i)
+		for(ll j=1; j*j<=i; ++j)
+			if(i%j == 0 && i/j <= n)
+				if((left -= 2-(j*j==i)) <= 0)
+					std::cout << i << '\n', exit(0);
 }

@@ -1,70 +1,44 @@
 #include <iostream>
-#include <stack>
- 
-int main(){
-	std::cin.tie(0) -> sync_with_stdio(0);
+#include <vector>
 
-	int n, m; std::cin >> n >> m;
- 
-	std::stack<int> adj[n];
- 
-	while(m--){
-		int a, b; std::cin >> a >> b;
-		adj[a-1].push(b-1);
-	}
- 
-	int root[n]; for(int i=0; i<n; ++i) root[i] = i;
- 
-	int stack[n], len = 0;
-	bool vis[n] = {}, instack[n] = {};
-	int isc[n] = {};
-	
-	for(int i=0; i<n; ++i) if(!vis[i]){
-		stack[0] = i, len = 1, ++isc[root[i]], instack[i] = 1;
+std::vector<int> adj[100000];
 
-		int sm = 1;
- 
-		while(len){
-			int t = stack[len-1];
- 
-			if(adj[t].size()){
-				int next = adj[t].top(); adj[t].pop();
- 
-				if(vis[next]){
-					if(isc[root[next]]) for(int j=len-1; root[stack[j]] != root[next]; --j)
-						--isc[root[stack[j]]], root[stack[j]] = root[next], ++isc[root[next]];
- 
-				}else if(instack[next]){
-					for(int j=len-1; root[stack[j]] != root[next]; --j)
-						--isc[root[stack[j]]], root[stack[j]] = root[next], ++isc[root[next]];
- 
-				}else ++isc[root[next]], instack[next] = 1, stack[len++] = next, ++sm;
- 
-			}else vis[t] = 1, --isc[root[t]], instack[t] = 0, --len, --sm;
+int loc[100000], low[100000], pos=1;
+std::vector<int> s;
+bool in[100000];
+
+int k[100000], ki;
+
+void dfs(int i){
+	loc[i] = low[i] = pos++;
+
+	s.push_back(i);
+	in[i] = 1;
+
+	for(int x : adj[i])
+		if(!loc[x]) dfs(x), low[i] = std::min(low[i], low[x]);
+		else if(in[x]) low[i] = std::min(low[i], loc[x]);
+
+	if(low[i] == loc[i]){
+		++ki;
+		int v = -1;
+		while(v != i){
+			v = s.back();
+			k[v] = ki, in[v] = 0;
+			s.pop_back();
 		}
 	}
- 
-	// for(int i : root) std::cout << i << ' '; std::cout << '\n';
- 
-	int which[n] = {}, count = 0;
- 
-	for(int i=0; i<n; ++i){
-		int f = i;
+}
 
-		while(which[f] == 0 && root[f] != f) f = root[f];
-
-		if(which[f] == 0) which[f] = ++count;
-
-		which[i] = which[f];
+int main(){
+	int n, m; std::cin >> n >> m;
+	while(m--){
+		int a, b; std::cin >> a >> b;
+		adj[a-1].push_back(b-1);
 	}
- 
-	std::cout << count << '\n';
- 
-	for(int i=0; i<n; ++i){
-		if(i) std::cout << ' ';
- 
-		std::cout << which[i];
-	}
- 
-	std::cout << '\n';
+
+	for(int i=0; i<n; ++i) if(!loc[i]) dfs(i);
+
+	std::cout << ki << '\n';
+	for(int i=0; i<n; ++i) std::cout << k[i] << " \n"[i==n-1];
 }
