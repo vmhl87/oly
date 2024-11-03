@@ -4,13 +4,12 @@
 const int maxn = 2e5;
 
 std::vector<int> adj[maxn];
-int heavy[maxn], jmp[20][maxn], dep[maxn];
+int heavy[maxn], jmp[maxn], dep[maxn];
 
 int dfs(int i, int p){
 	int sum = 1, best = 0, idx = 0;
 	for(int x : adj[i]) if(x != p){
-		jmp[0][x] = i;
-		dep[x] = dep[i] + 1;
+		jmp[x] = i, dep[x] = dep[i] + 1;
 		int part = dfs(x, i);
 		if(part > best) best = part, idx = x;
 		sum += part;
@@ -20,22 +19,7 @@ int dfs(int i, int p){
 	return sum;
 }
 
-int lca(int a, int b){
-	if(dep[b] > dep[a]) std::swap(b, a);
-
-	for(int i=19; i>=0; --i)
-		if(dep[jmp[i][a]] >= dep[b])
-			a = jmp[i][a];
-
-	if(a == b) return a;
-
-	for(int i=19; i>=0; --i)
-		if(jmp[i][a] != jmp[i][b])
-			a = jmp[i][a], b = jmp[i][b];
-
-	return jmp[0][a];
-}
-
+int rmq[maxn*2], v[maxn], n;
 int idx[maxn], top[maxn], pos;
 
 void dfs2(int i, int p, int o){
@@ -48,8 +32,6 @@ void dfs2(int i, int p, int o){
 	for(int x : adj[i]) if(x != p && x != heavy[i]-1)
 		dfs2(x, i, x);
 }
-
-int rmq[maxn*2], v[maxn], n;
 
 void set(int i, int v){
 	rmq[i+n] = v;
@@ -67,10 +49,15 @@ int range(int l, int r){
 	return res;
 }
 
-int climb(int lo, int hi){
-	if(top[lo] == top[hi]) return range(idx[hi], idx[lo]);
-	return std::max(range(idx[top[lo]], idx[lo]),
-			climb(jmp[0][top[lo]], hi));
+int query(int a, int b){
+	int res = 0;
+	while(top[a] != top[b]){
+		if(dep[top[b]] > dep[top[a]]) std::swap(a, b);
+		res = std::max(res, range(idx[top[a]], idx[a]));
+		a = jmp[top[a]];
+	}
+	if(dep[b] > dep[a]) std::swap(a, b);
+	return std::max(res, range(idx[b], idx[a]));
 }
 
 int main(){
@@ -88,20 +75,13 @@ int main(){
 
 	dfs(0, 0), dfs2(0, 0, 0);
 
-	for(int i=1; i<20; ++i)
-		for(int j=0; j<n; ++j)
-			jmp[i][j] = jmp[i-1][jmp[i-1][j]];
-
 	for(int i=0; i<n; ++i) rmq[n+idx[i]] = v[i];
 	for(int i=n-1; i; --i) rmq[i] = std::max(rmq[i*2], rmq[i*2+1]);
 
 	while(q--){
 		int t, a, b; std::cin >> t >> a >> b;
 
-		if(t&1) set(idx[a-1], b);
-		else{
-			int c = lca(--a, --b);
-			std::cout << std::max(climb(a, c), climb(b, c)) << " \n"[q==0];
-		}
+		if(t&1) set(idx[--a], b);
+		else std::cout << query(--a, --b) << " \n"[q==0];
 	}
 }
