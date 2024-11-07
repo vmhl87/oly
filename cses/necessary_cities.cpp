@@ -4,27 +4,30 @@
 std::vector<int> adj[100000], res;
 bool vis[100000];
 
-int end[100000], now;
+int end[100000], dep[100000], now;
 
 void dfs(int i, int p){
 	vis[i] = 1;
 
-	int count = 0, total = i != p, diff = 0;
+	int count = i != p, diff = 0;
 	for(int x : adj[i]) if(x != p)
 		if(!vis[x]){
 			int t = now; now = 0;
-			dfs(x, i), ++total;
+			dep[x] = dep[i] + 1;
+			dfs(x, i);
 			now -= end[i], end[i] = 0;
 			if(!now) ++count;
 			now += t;
-		}else{
+		}else if(dep[x] < dep[i]){
 			++end[x];
-			++now;
+			++diff;
 		}
 
 	now -= end[i];
 
-	if(count && total > 1) res.push_back(i);
+	if(count > 1) res.push_back(i);
+	
+	now += diff;
 }
 
 int main(){
