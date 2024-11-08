@@ -1,7 +1,5 @@
 #include <unordered_set>
 #include <iostream>
-#include <queue>
-#include <array>
 
 struct board{
 	int v[9];
