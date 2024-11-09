@@ -31,7 +31,7 @@ int main(){
 		for(int k=0; k<n; ++k) if(j&(1<<k)){
 			if(k==0 && j==1) continue;
 			ll res = 0;
-			for(int x=0; x<n; ++x) if(j&(1<<x)) if(adj[x][k])
+			for(int x=0; x<n; ++x) if(j&(1<<x))
 				res += adj[x][k]*way[j^(1<<k)][x];
 			way[j][k] = res % MOD;
 		}
