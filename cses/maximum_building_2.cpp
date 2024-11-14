@@ -20,14 +20,13 @@ int main(){
 			e[i][j] = k;
 		}
 
-	for(int i=0; i<n; ++i){
+	for(int i=0; i<n; ++i)
 		for(int l=0; l<m; ++l){
 			for(int r=l; r<e[i][l]; ++r)
 				++c[r-l][i-b[l][r]];
 			for(int r=e[i][l]; r<m; ++r)
 				b[l][r] = i+1;
 		}
-	}
 
 	for(int i=0; i<m; ++i)
 		for(int j=n, p=0; j>=0; --j)
