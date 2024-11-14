@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <iostream>
-#include <cstring>
 #include <vector>
 #include <array>
 #include <queue>
@@ -19,6 +18,8 @@ int main(){
 		adj[--a].push_back({--b, c});
 		bdj[b].push_back({a, c});
 	}
+	
+	for(int i=1; i<n; ++i) dep[i] = 1e18;
  
 	std::priority_queue<std::array<ll, 2>> djk;
 	djk.push({0, 0});
@@ -33,23 +34,19 @@ int main(){
 			djk.push({r-c, x}), dep[x] = dep[t]+c;
 	}
  
+	int over = 1; rem[n-1] = 1;
 	djk.push({dep[n-1], n-1});
 	std::vector<int> res;
-	int over = 1; rem[n-1] = 1;
  
 	while(djk.size()){
 		ll r = djk.top()[0], t = djk.top()[1]; djk.pop();
 
-		//if(vis2[t]) continue;
-		//vis2[t] = 1;
- 
-		//if(!(over -= rem[t])) res.push_back(t+1);
-
 		--over;
 		if(--rem[t]) continue;
 		if(!over) res.push_back(t+1);
+		vis2[t] = 1;
  
-		for(const auto &[x, c] : bdj[t]) if(vis[x] && !vis2[x] && dep[x] == dep[t]-c)
+		for(const auto &[x, c] : bdj[t]) if(dep[x] == r-c && !vis2[x])
 			djk.push({r-c, x}), ++rem[x], ++over;
 	}
  
