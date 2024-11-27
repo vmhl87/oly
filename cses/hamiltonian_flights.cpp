@@ -2,40 +2,44 @@
 #include <iostream>
 
 using ll = long long;
-constexpr int MOD = 1e9 + 7;
+constexpr int N = 1e9 + 7;
 
+int order[1<<19];
+ll dp[1<<19][19];
 int adj[20][20];
-ll way[1<<20][20];
-int n;
 
-int order[1<<20];
-
-bool cmp(int i, int j){
-	return __builtin_popcount(i) < __builtin_popcount(j);
+bool cmp(int a, int b){
+	return __builtin_popcount(a) < __builtin_popcount(b);
 }
 
 int main(){
-	int m; std::cin >> n >> m;
+	int n, m; std::cin >> n >> m;
+	
 	while(m--){
 		int a, b; std::cin >> a >> b;
 		++adj[a-1][b-1];
 	}
 
-	for(int i=0; i<1<<n; ++i) order[i] = i;
-	std::sort(order, order+(1<<n), cmp);
+	for(int i=1; i<1<<(n-1); ++i)
+		order[i] = i;
 
-	way[1][0] = 1;
+	std::sort(order, order+(1<<(n-1)), cmp);
 
-	for(int i=1; i<1<<n; ++i){
+	dp[0][0] = 1;
+
+	for(int i=0; i<1<<(n-1); ++i){
 		int j = order[i];
-		for(int k=0; k<n; ++k) if(j&(1<<k)){
-			if(k==0 && j==1) continue;
-			ll res = 0;
-			for(int x=0; x<n; ++x) if(j&(1<<x))
-				res += adj[x][k]*way[j^(1<<k)][x];
-			way[j][k] = res % MOD;
+		for(int k=0; k<n-1; ++k) if(!(j&(1<<k))){
+			if(j == 0 && k == 0) continue;
+			for(int x=0; x<n-1; ++x) if(j&(1<<x))
+				dp[j][k] += adj[x][k] * dp[j^(1<<x)][x];
+			dp[j][k] %= N;
 		}
 	}
 
-	std::cout << way[(1<<n)-1][n-1] << '\n';
+	ll res = 0, all = (1<<(n-1))-1;
+	for(int j=0; j<n-1; ++j)
+		res += adj[j][n-1] * dp[all^(1<<j)][j];
+
+	std::cout << res % N << '\n';
 }
