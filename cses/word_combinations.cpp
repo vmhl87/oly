@@ -4,37 +4,52 @@
 using ll = long long;
 const int m = 1e9 + 7;
 
-std::string s, a[100000];
+struct trie{
+	trie *next[26];
+	int count;
+};
+
+trie root;
+
+std::string s;
 int n;
 
-bool match(int i, int j){
-	for(int x=0; x<a[j].length(); ++x)
-		if(i+x >= s.length() || s[i+x] != a[j][x])
-			return 0;
-	return 1;
-}
-
+bool v[5000];
 ll dp[5000];
 
-ll way(int i){
+ll f(int i){
 	if(i == s.length()) return 1;
 
-	if(dp[i]) return dp[i]-1;
+	if(v[i]) return dp[i];
+	v[i] = 1;
 
-	ll res = 0;
+	trie *p = &root;
+	for(int j=i; j<s.length(); ++j){
+		if(!p->next[s[j]-'a']) break;
+		p = p->next[s[j]-'a'];
+		
+		if(p->count)
+			dp[i] += p->count*f(j+1) % m;
+	}
 
-	for(int j=0; j<n; ++j)
-		if(match(i, j))
-			res = (res + way(i+a[j].length())) % m;
-
-	dp[i] = res+1;
-	return res;
+	return dp[i] %= m;
 }
 
 int main(){
-	std::cin >> s;
-	std::cin >> n;
-	for(int i=0; i<n; ++i) std::cin >> a[i];
+	std::cin >> s >> n;
 
-	std::cout << way(0) << '\n';
+	for(int i=0; i<n; ++i){
+		std::string a; std::cin >> a;
+		trie *p = &root;
+
+		for(char c : a){
+			int v = c-'a';
+			if(!p->next[v]) p->next[v] = new trie{};
+			p = p->next[v];
+		}
+
+		++(p->count);
+	}
+
+	std::cout << f(0) << '\n';
 }
