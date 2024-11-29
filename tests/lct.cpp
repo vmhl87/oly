@@ -22,6 +22,8 @@ namespace lct{
 	}
 }
 
+// oh this only works on trees rip
+
 #include <iostream>
 
 int main(){
