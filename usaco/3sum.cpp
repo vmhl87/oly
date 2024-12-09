@@ -28,6 +28,14 @@ const int MAX = 2'147'483'647;
 const ll MOD = 998'244'353;
 
 
+ll splitmix64(ll i){
+	uint64_t z = (i += (uint64_t) 0x9e3779b97f4a7c15);
+	z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
+	z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
+	return z ^ (z >> 31);
+}
+
+
 template <int S>
 struct not_hashmap{
 	ll k[1<<S] = {}, v[1<<S] = {};
@@ -39,7 +47,8 @@ struct not_hashmap{
 	}
 
 	inline int find(ll i){
-		int I = i & s;
+		//int I = i & s;
+		int I = splitmix64(i) & s;
 		while(u[I] & k[I] != i)
 			I = (I+1) & s;
 		return I;
