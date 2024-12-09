@@ -39,7 +39,8 @@ ll splitmix64(ll i){
 template <int S>
 struct not_hashmap{
 	ll k[1<<S] = {}, v[1<<S] = {};
-	bool u[1<<S] = {}, d[1<<S];
+	//bool u[1<<S] = {}, d[1<<S];
+	std::bitset<1<<S> u, d;
 	int s, c = 0;
 
 	not_hashmap(){

@@ -1,9 +1,10 @@
 #include <iostream>
+#include <bitset>
 
 template <int S>
 struct not_hashmap{
 	int k[1<<S] = {}, v[1<<S] = {};
-	bool u[1<<S] = {}, d[1<<S];
+	std::bitset<1<<S> u, d;
 	int s, c = 0;
 
 	uint64_t splitmix64(uint64_t i){
