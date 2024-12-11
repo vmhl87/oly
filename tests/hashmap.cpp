@@ -1,12 +1,19 @@
 #include <iostream>
 
 template <int S>
-struct map{
+struct hashmap{
 	int k[1<<S] = {}, v[1<<S] = {};
 	uint64_t U[1<<(S-6)] = {}, D[1<<(S-6)] = {};
 	int s, c = 0;
 
-	map(){
+	inline uint64_t splitmix64(uint64_t i){
+		uint64_t z = (i += (uint64_t) 0x9e3779b97f4a7c15);
+		z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
+		z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
+		return z ^ (z >> 31);
+	}
+
+	hashmap(){
 		s = (1<<S) - 1;
 	}
 
@@ -29,7 +36,7 @@ struct map{
 	}
 
 	inline int find(int i){
-		int I = i & s;
+		int I = splitmix64(i) & s;
 		while(u(I) & k[I] != i)
 			I = (I+1) & s;
 		return I;
@@ -63,7 +70,7 @@ struct map{
 };
 
 int main(){
-	map<7> m;
+	hashmap<7> m;
 
 	m.set(100, 2);
 	m.set(95, 8);
