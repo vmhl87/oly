@@ -1,0 +1,179 @@
+#include <iostream>
+#include <vector>
+#include <array>
+#include <queue>
+
+const int N = 1002;
+
+std::vector<int> h[N*N];
+bool f[N*N], v[N*N], v2[N*N];
+int root[N*N];
+
+int find(int i){
+	if(root[i] < 0) return i;
+	return root[i] = find(root[i]);
+}
+
+bool same(int i, int j){
+	return find(i) == find(j);
+}
+
+int res, t[N*N], T;
+
+void merge(int i, int j){
+	if(same(i, j)) return;
+	i = find(i), j = find(j);
+	if(root[j] < root[i]) std::swap(i, j);
+	if(f[j]){
+		res -= root[i], f[i] = 1;
+		for(int x : h[i]) t[x] = T;
+	}
+	if(f[i]){
+		res -= root[j];
+		for(int x : h[j]) t[x] = T;
+	}
+	root[i] += root[j];
+	for(int x : h[j]) h[i].push_back(x);
+	h[j].clear();
+	root[j] = i;
+}
+
+int b[N*N][2];
+char C[N*N];
+
+int neigh(int i){
+	return std::max(
+		std::max(
+			(v[i-1] || v2[i-1] ? t[i-1] : 0),
+			(v[i+1] || v2[i+1] ? t[i+1] : 0)
+		),
+		std::max(
+			(v[i-N] || v2[i-N] ? t[i-N] : 0),
+			(v[i+N] || v2[i+N] ? t[i+N] : 0)
+		)
+	);
+}
+
+int main(){
+	int n, q; std::cin >> n >> q;
+
+	for(int i=0; i<N*N; ++i)
+		root[i] = -1, t[i] = 1e6;
+
+	for(int i=1; i<=n; ++i)
+		for(int j=1; j<=n; ++j)
+			h[i*N+j].push_back(i*N+j);
+
+	while(q--){
+		int x, y; char c;
+		std::cin >> x >> y >> c;
+		b[T][0] = x, b[T][1] = y;
+		//t[x*N+y] = T;
+		v[x*N+y] = 1;
+		C[T] = c;
+
+		int i = x*N+y;
+
+		if(c == 'L') --y;
+		if(c == 'R') ++y;
+		if(c == 'U') --x;
+		if(c == 'D') ++x;
+
+		int j = x*N+y;
+
+		if(same(i, j)){
+			f[i = find(i)] = 1;
+			res -= root[i];
+			for(int x : h[i]) t[x] = T;
+		}else merge(i, j);
+
+		//std::cout << res << '\n';
+		++T;
+	}
+
+	q = T, T = 0;
+
+	for(int i=0; i<N; ++i) v[i] = 1;
+	for(int i=0; i<N; ++i) v[N*(n+1)+i] = 1;
+	for(int i=0; i<N; ++i) v[N*i] = 1;
+	for(int i=0; i<N; ++i) v[N*i+n+1] = 1;
+
+	std::priority_queue<std::array<int, 2>> Q;
+
+	for(int i=0; i<n+2; ++i)
+		for(int j=0; j<n+2; ++j)
+			if(!v[i*N+j])
+				Q.push({neigh(i*N+j), i*N+j});
+
+	while(Q.size()){
+		int i = Q.top()[1],
+			j = Q.top()[0];
+		Q.pop();
+
+		if(v2[i]) continue;
+		v2[i] = 1;
+		t[i] = j;
+
+		if(!v[i-1] && !v2[i-1]) Q.push({neigh(i-1), i-1});
+		if(!v[i+1] && !v2[i+1]) Q.push({neigh(i+1), i+1});
+		if(!v[i-N] && !v2[i-N]) Q.push({neigh(i-N), i-N});
+		if(!v[i+N] && !v2[i+N]) Q.push({neigh(i+N), i+N});
+	}
+
+	for(int i=0; i<n+2; ++i)
+		for(int j=0; j<n+2; ++j)
+			std::cout << "\033[" << v[i*N+j] << 'm' << t[i*N+j] << "\033[0m" << " \n"[j==n+1];
+
+	for(int i=0; i<N*N; ++i)
+		root[i] = -1, f[i] = 0;
+
+	res = 0;
+
+	for(int i=1; i<=n; ++i)
+		for(int j=1; j<=n; ++j) if(v2[i*N+j] && t[i*N+j] < 1e6){
+			int x = i*N+j,
+				y = neigh(x);
+			if(y == t[x-1]){
+				if(same(x, x-1)){
+					f[x = find(x)] = 1;
+					res -= root[x];
+				}else merge(x, x-1);
+			}else if(y == t[x+1]){
+				if(same(x, x+1)){
+					f[x = find(x)] = 1;
+					res -= root[x];
+				}else merge(x, x+1);
+			}else if(y == t[x-N]){
+				if(same(x, x-N)){
+					f[x = find(x)] = 1;
+					res -= root[x];
+				}else merge(x, x-N);
+			}else if(y == t[x+N]){
+				if(same(x, x+N)){
+					f[x = find(x)] = 1;
+					res -= root[x];
+				}else merge(x, x+N);
+			}
+		}
+
+	while(q--){
+		int x = b[T][0], y = b[T][1]; char c = C[T];
+
+		int i = x*N+y;
+
+		if(c == 'L') --y;
+		if(c == 'R') ++y;
+		if(c == 'U') --x;
+		if(c == 'D') ++x;
+
+		int j = x*N+y;
+
+		if(same(i, j)){
+			f[i = find(i)] = 1;
+			res -= root[i];
+		}else merge(i, j);
+
+		std::cout << res << '\n';
+		++T;
+	}
+}
