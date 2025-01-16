@@ -1,51 +1,40 @@
 #include <iostream>
-using namespace std;
 
-void test_case(){
-	long long x1,y1,x2,y2,x3,y3,x4,y4;
-	cin>>x1>>y1>>x2>>y2>>x3>>y3>>x4>>y4;
-	x2-=x1;x3-=x1;x4-=x1;x1=0;
-	y2-=y1;y3-=y1;y4-=y1;y1=0;
-	long long lx1,ly1,lx2,ly2;
-	lx1=y3*y2+x3*x2;
-	ly1=y3*x2-x3*y2;
-	lx2=y4*y2+x4*x2;
-	ly2=y4*x2-x4*y2;
-	x2=x2*x2+y2*y2;y2=0;
-	if((ly1>0&&ly2>0)||(ly1<0&&ly2<0)){
-		cout<<"NO\n";
-		return;
+using ll = long long;
+
+ll a[8];
+
+ll cycle(int i, int j, int k){
+	ll res =
+		a[i*2]*a[j*2+1] + a[j*2]*a[k*2+1] + a[k*2]*a[i*2+1] -
+		a[i*2+1]*a[j*2] - a[j*2+1]*a[k*2] - a[k*2+1]*a[i*2];
+	if(res > 0) return 1;
+	if(res < 0) return -1;
+	return 0;
+}
+
+void test(){
+	for(int i=0; i<8; ++i) std::cin >> a[i];
+
+	ll c[4] = {
+		cycle(0, 1, 2), cycle(0, 1, 3),
+		cycle(2, 3, 0), cycle(2, 3, 1)
+	};
+
+	if(c[0] == 0 && c[1] == 0 && c[2] == 0 && c[3] == 0){
+		if(std::max(a[0], a[2]) >= std::min(a[4], a[6]) &&
+		   std::max(a[4], a[6]) >= std::min(a[0], a[2]) &&
+		   std::max(a[1], a[3]) >= std::min(a[5], a[7]) &&
+		   std::max(a[5], a[7]) >= std::min(a[1], a[3]))
+			std::cout << "YES\n";
+		else std::cout << "NO\n";
+	}else{
+		if(c[0] == c[1] || c[2] == c[3]) std::cout << "NO\n";
+		else std::cout << "YES\n";
 	}
-	if(x2<0){
-		x2=-x2;
-		lx1=-lx1;
-		lx2=-lx2;
-	}
-	if(ly1==0){
-		if(lx1>=0&&lx1<=x2)cout<<"YES\n";
-		else cout<<"NO\n";
-		return;
-	}
-	if(ly2==0){
-		if(lx2>=0&&lx2<=x2)cout<<"YES\n";
-		else cout<<"NO\n";
-		return;
-	}
-	if(ly1<0)ly1=-ly1;
-	if(ly2<0)ly2=-ly2;
-	long long r=lx1*ly2+lx2*ly1;
-	if(r<0){
-		cout<<"NO\n";
-		return;
-	}
-	if(r>x2*(ly2+ly1)){
-		cout<<"NO\n";
-		return;
-	}
-	cout<<"YES\n";
 }
 
 int main(){
-	int t;cin>>t;
-	while(t--)test_case();
+	int t; std::cin >> t;
+	while(t--) test();
 }
