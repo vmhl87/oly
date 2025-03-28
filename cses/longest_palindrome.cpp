@@ -23,16 +23,6 @@ ll sect(ll *h, int l, int r){
 }
 
 bool equiv(int l1, int r1, int l2, int r2){
-	/*
-	std::cout << "equiv " << l1 << ' ' << r1 << ' ' << l2 << ' ' << r2 << " -> ";
-	for(int i=l1, j=r2-1; i<r1; ++i, --j)
-		if(s[i] != s[j]){
-			std::cout << "0\n";
-			return 0;
-		}
-	std::cout << 1 << '\n';
-	return 1;
-	*/
 	return sect(hf, l1, r1) * pow(n-r2) % m == sect(hr, r2, l2) * pow(l1) % m;
 }
 
