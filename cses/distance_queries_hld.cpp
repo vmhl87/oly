@@ -13,6 +13,7 @@ int dfs(int i, int p){
 		jmp[x] = i, dep[x] = dep[i]+1;
 		int part = dfs(x, i);
 		if(part > best) hld[i] = x, best = part;
+		sz += part;
 	}
 	if(best*2 < sz) hld[i] = -1;
 	return sz;
