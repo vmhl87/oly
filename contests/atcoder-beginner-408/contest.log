@@ -1,0 +1,33 @@
+Fri Jun 13 11:31:24 AM EDT 2025 contest start T-3:40
+Fri Jun 13 11:34:01 AM EDT 2025 contest start T-1:00
+Fri Jun 13 11:35:07 AM EDT 2025 contest start (probably start working on A)
+Fri Jun 13 11:37:43 AM EDT 2025 work on b
+Fri Jun 13 11:39:25 AM EDT 2025 finish writing b, wa on a?
+Fri Jun 13 11:40:13 AM EDT 2025 resubmit a, check b
+Fri Jun 13 11:40:23 AM EDT 2025 ac both
+Fri Jun 13 11:46:13 AM EDT 2025 briefly forgot to sort for c, submitting
+Fri Jun 13 11:46:51 AM EDT 2025 ac c
+Fri Jun 13 11:55:12 AM EDT 2025 d looks interesting: surely it is some sort of range maximization?
+Fri Jun 13 12:07:44 PM EDT 2025 submit d
+Fri Jun 13 12:08:01 PM EDT 2025 ac d
+Fri Jun 13 12:08:20 PM EDT 2025 timecheck: 1:06:46 remain
+Fri Jun 13 12:09:53 PM EDT 2025 work on e
+Fri Jun 13 12:23:27 PM EDT 2025 submit e
+Fri Jun 13 12:23:43 PM EDT 2025 ac e
+Fri Jun 13 12:24:10 PM EDT 2025 time check: 50:53 remaining
+Fri Jun 13 12:26:33 PM EDT 2025 feels like I can do f
+Fri Jun 13 12:33:42 PM EDT 2025 submit f
+Fri Jun 13 12:34:21 PM EDT 2025 wa
+Fri Jun 13 12:36:18 PM EDT 2025 resubmit f
+Fri Jun 13 12:36:33 PM EDT 2025 still wa
+Fri Jun 13 12:36:50 PM EDT 2025 possibly same source
+Fri Jun 13 12:37:21 PM EDT 2025 resubmit f again - found something that could contribute to the problem
+Fri Jun 13 12:37:43 PM EDT 2025 still wa
+Fri Jun 13 12:40:04 PM EDT 2025 pov i do not use the coordinate transformer when i insert into the segtree
+Fri Jun 13 12:40:14 PM EDT 2025 still wa somewhere oh
+Fri Jun 13 12:40:32 PM EDT 2025 single test case wa huh
+Fri Jun 13 12:41:42 PM EDT 2025 oh wait me when i forget how segtree range bounds work
+Fri Jun 13 12:41:58 PM EDT 2025 resubmit
+Fri Jun 13 12:42:20 PM EDT 2025 ac yay
+Fri Jun 13 12:53:26 PM EDT 2025 21 min left
+Fri Jun 13 12:53:28 PM EDT 2025 might call wraps
