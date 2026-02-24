@@ -1,11 +1,16 @@
+// Solves https://cses.fi/problemset/task/3163/ Range Interval Queries
+// by binary searching over the nodes of a merge sort tree, yielding
+// log^2 query performance. Aggressively constant optimized.
+
 #include <iostream>
 
 const int N = 2e5;
 
 int _arena[N*19], *arena = _arena;
-int *b[N*2], sz[N*2];
+int *b[N*2], sz[N*2]; // segtree nodes {values, size}
 
-int count2(int i, int l, int r){
+int count(int i, int l, int r){
+	// heuristically fallback to linear search
 	if(sz[i] < 20){
 		int res = 0;
 		for(int j=0; j<sz[i]; ++j)
@@ -15,6 +20,7 @@ int count2(int i, int l, int r){
 
 	int p1 = -1, p2 = -1;
 
+	// bitwise binary search carries
 	for(int s=1<<(std::__lg(sz[i])); s; s/=2){
 		if(p1+s < sz[i] && b[i][p1+s] < l) p1 += s;
 		if(p2+s < sz[i] && b[i][p2+s] <= r) p2 += s;
@@ -24,18 +30,14 @@ int count2(int i, int l, int r){
 }
 
 int main(){
-	// constant factor killer
+	// what constant factor?
 	std::cin.tie(0) -> sync_with_stdio(0);
 
 	int n, q; std::cin >> n >> q;
 	for(int i=0; i<n; ++i) std::cin >> arena[i];
 
-	for(int i=0; i<n; ++i){
-		b[i+n] = arena+i;
-		sz[i+n] = 1;
-	}
-
-	arena += n;
+	// build merge sort tree, allocate from arena for efficiency
+	for(int i=0; i<n; ++i) b[i+n] = arena++, sz[i+n] = 1;
 
 	for(int i=n-1; i; --i){
 		sz[i] = sz[i*2] + sz[i*2+1];
@@ -58,9 +60,10 @@ int main(){
 
 		int res = 0;
 
+		// segtree range query -> binary search in node
 		for(w+=n, x+=n; w<x; w/=2, x/=2){
-			if(w&1) res += count2(w++, y, z);
-			if(x&1) res += count2(--x, y, z);
+			if(w&1) res += count(w++, y, z);
+			if(x&1) res += count(--x, y, z);
 		}
 
 		std::cout << res << '\n';
