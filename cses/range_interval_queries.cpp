@@ -1,83 +1,68 @@
-#include <algorithm>
 #include <iostream>
-#include <array>
 
 const int N = 2e5;
 
-std::array<int, 2> a[N];
+int _arena[N*19], *arena = _arena;
+int *b[N*2], sz[N*2];
 
-int sz[N];
-std::array<std::array<int, 2>, 2> b[N];
-
-int l[N], r[N], ct;
-
-bool Z(std::array<int, 2> a, std::array<int, 2> b){
-	return a[1] < b[1];
-}
-
-int dfs(int lb, int rb, int s){
-	if(lb+1 == rb){
-		int i = ct++;
-
-		sz[i] = 1;
-
-		b[i] = (std::array<std::array<int, 2>, 2>){
-			(std::array<int, 2>){a[lb][0], a[lb][0]},
-			(std::array<int, 2>){a[lb][1], a[lb][1]}
-		};
-
-		return i;
+int count2(int i, int l, int r){
+	if(sz[i] < 20){
+		int res = 0;
+		for(int j=0; j<sz[i]; ++j)
+			if(b[i][j] >= l && b[i][j] <= r) ++res;
+		return res;
 	}
 
-	if(s) std::sort(a+lb, a+rb);
-	else std::sort(a+lb, a+rb, Z);
+	int p1 = -1, p2 = -1;
 
-	int m = (lb+rb)/2;
+	for(int s=1<<(std::__lg(sz[i])); s; s/=2){
+		if(p1+s < sz[i] && b[i][p1+s] < l) p1 += s;
+		if(p2+s < sz[i] && b[i][p2+s] <= r) p2 += s;
+	}
 
-	int i = ct++;
-
-	l[i] = dfs(lb, m, !s);
-	r[i] = dfs(m, rb, !s);
-
-	sz[i] = sz[l[i]] + sz[r[i]];
-
-	b[i] = {
-		(std::array<int, 2>){
-			std::min(b[l[i]][0][0], b[r[i]][0][0]),
-			std::max(b[l[i]][0][1], b[r[i]][0][1]),
-		},
-		(std::array<int, 2>){
-			std::min(b[l[i]][1][0], b[r[i]][1][0]),
-			std::max(b[l[i]][1][1], b[r[i]][1][1]),
-		},
-	};
-
-	return i;
-}
-
-bool in(std::array<std::array<int, 2>, 2> a, std::array<std::array<int, 2>, 2> b){
-	return b[0][0] >= a[0][0] && b[0][1] <= a[0][1] && b[1][0] >= a[1][0] && b[1][1] <= a[1][1];
-}
-
-bool on(std::array<std::array<int, 2>, 2> a, std::array<std::array<int, 2>, 2> b){
-	return b[0][1] >= a[0][0] && b[0][0] <= a[0][1] && b[1][1] >= a[1][0] && b[1][0] <= a[1][1];
-}
-
-int count(std::array<std::array<int, 2>, 2> q, int i){
-	if(!on(q, b[i])) return 0;
-	if(in(q, b[i])) return sz[i];
-
-	return count(q, l[i]) + count(q, r[i]);
+	return p2-p1;
 }
 
 int main(){
-	int n, q; std::cin >> n >> q;
-	for(int i=0; i<n; ++i) std::cin >> a[i][1], a[i][0] = i;
+	// constant factor killer
+	std::cin.tie(0) -> sync_with_stdio(0);
 
-	dfs(0, n, 0);
+	int n, q; std::cin >> n >> q;
+	for(int i=0; i<n; ++i) std::cin >> arena[i];
+
+	for(int i=0; i<n; ++i){
+		b[i+n] = arena+i;
+		sz[i+n] = 1;
+	}
+
+	arena += n;
+
+	for(int i=n-1; i; --i){
+		sz[i] = sz[i*2] + sz[i*2+1];
+
+		b[i] = arena, arena += sz[i];
+		
+		int p1 = 0, p2 = 0, p3 = 0;
+
+		while(p1 < sz[i*2] && p2 < sz[i*2+1]){
+			if(b[i*2][p1] < b[i*2+1][p2]) b[i][p3++] = b[i*2][p1++];
+			else b[i][p3++] = b[i*2+1][p2++];
+		}
+
+		while(p1 < sz[i*2]) b[i][p3++] = b[i*2][p1++];
+		while(p2 < sz[i*2+1]) b[i][p3++] = b[i*2+1][p2++];
+	}
 
 	while(q--){
-		int w, x, y, z; std::cin >> w >> x >> y >> z;
-		std::cout << count({std::array<int, 2>{w, x}, std::array<int, 2>{y, z}}, 0) << '\n';
+		int w, x, y, z; std::cin >> w >> x >> y >> z, --w;
+
+		int res = 0;
+
+		for(w+=n, x+=n; w<x; w/=2, x/=2){
+			if(w&1) res += count2(w++, y, z);
+			if(x&1) res += count2(--x, y, z);
+		}
+
+		std::cout << res << '\n';
 	}
 }
